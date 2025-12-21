@@ -5,7 +5,7 @@ import { prismjsPlugin } from '@vuepress/plugin-prismjs'
 
 const navbar = [
     {
-		text: '编程开发',
+		text: '💻 编程开发',
 		children: [
 			{
 			  text: '🔥 编程语言 · 核心文档',
@@ -33,7 +33,11 @@ export default defineUserConfig({
 		logo: '/logo.png',
 		navbar: navbar,
 		sidebarDepth: 3,
-		themePlugins: { 'prismjs': false},		
+		lastUpdated: true,
+		lastUpdatedText: '最近更新',
+		contributors: true,
+		contributorsText: '作者',
+		themePlugins: { 'prismjs': false},
 	}),	
 
 	/* 插件配置 */
