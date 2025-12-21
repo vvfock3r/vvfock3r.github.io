@@ -1,0 +1,13 @@
+:root {
+	/* 侧边栏宽度 */
+	--sidebar-width: 20rem;
+	--sidebar-width-mobile: calc(var(--sidebar-width) * 0.82);
+  
+	/* 内容区域宽度 */
+	--content-width: 85%;
+  
+	/* 消除[代码选项卡]左右上角的空隙 */
+	.vp-code-tabs .vp-code-tab {    
+		--code-border-radius: 0 0 6px 6px;
+	}
+}
