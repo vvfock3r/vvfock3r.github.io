@@ -2,47 +2,43 @@
 
 # Python
 
-已经编译好的包下载：[https://www.piwheels.org/](https://www.piwheels.org/)
+官网：[https://www.python.org](https://www.python.org)
+
+Python仓库：[https://pypi.org/](https://pypi.org/)
+
+专为树莓派提供预编译的 Python wheel（二进制安装包）：[https://www.piwheels.org/](https://www.piwheels.org/)
 
 <br />
 
-## 一、Python解释器
-
-官方文档：[https://docs.python.org/zh-cn/3.9/tutorial/interpreter.html](https://docs.python.org/zh-cn/3.9/tutorial/interpreter.html)
-
-
+## 一、Python环境介绍
 
 ### 解释器的多种实现
 
-官方文档：[https://docs.python.org/zh-cn/3.9/reference/introduction.html#implementations](https://docs.python.org/zh-cn/3.9/reference/introduction.html#implementations)
+官方文档：[https://docs.python.org/3.14/reference/introduction.html#implementations](https://docs.python.org/3.14/reference/introduction.html#implementations)
 
-
-
-CPython
+**CPython**
 
 这是最早出现并持续维护的 Python 实现，以 C 语言编写。新的语言特性通常在此率先添加。
 
 平常使用的就是CPython
 
-Jython
+**Jython**
 
 以 Java 语言编写的 Python 实现。此实现可以作为 Java 应用的一个脚本语言，或者可以用来创建需要 Java 类库支持的应用。想了解更多信息可访问 [Jython 网站](http://www.jython.org/)
 
-Python for .NET
+**Python for .NET**
 
 此实现实际上使用了 CPython 实现，但是属于 .NET 托管应用并且可以引入 .NET 类库。它的创造者是 Brian Lloyd。想了解详情可访问 [Python for .NET 主页](https://pythonnet.github.io/)
 
-IronPython
+**IronPython**
 
 另一个 .NET 的 Python 实现，与 Python.NET 不同点在于它是生成 IL 的完全 Python 实现，并且将 Python 代码直接编译为 .NET 程序集。它的创造者就是当初创造 Jython 的 Jim Hugunin。想了解详情可访问 [IronPython 网站](http://ironpython.net/)
 
-PyPy
+**PyPy**
 
 完全使用 Python 语言编写的 Python 实现。它支持多个其他实现所没有的高级特性，例如非栈式支持和 JIT 编译器等。此项目的目标之一是通过允许方便地修改解释器 (因为它是用 Python 编写的)，鼓励该对语言本身进行试验。想了解详情可访问 [PyPy 项目主页](http://pypy.org/)
 
-
-
-总结
+总结一下
 
 | 实现语言 | 解释器名称                  | 官网                                                         | 备注                             |
 | -------- | --------------------------- | ------------------------------------------------------------ | -------------------------------- |
@@ -53,83 +49,42 @@ PyPy
 
 ### 增强版交互式解释器（REPL）
 
-#### IPython
+IPython：[https://ipython.org/](https://ipython.org/)
 
-官网地址：[https://ipython.org/](https://ipython.org/)
+Jupyter Notebook：[https://jupyter.org/](https://jupyter.org/)
 
-```bash
-# 安装
-pip install ipython
+<br />
 
-# 启动
-ipython
-```
+### 版本管理工具 Pyenv
 
+用于方便不同Python版本之间的切换
 
-
-#### Jupyter Notebook
-
-官网地址：[https://jupyter.org/](https://jupyter.org/)
-
-安装
-
-```bash
-# 安装 
-pip install jupyter
-
-# 设置密码(可选)
-jupyter notebook password
-
-# 启动
-# 注意：--notebook-dir 指定文件目录，需提前创建；--allow-root 允许root用户运行此命令，默认不允许
-jupyter notebook --ip=127.0.0.1 --port 8888 --notebook-dir=%USERPROFILE%/Desktop/jupyter  --allow-root
-```
-
-快捷键 
-
-| 快捷键        | 说明                             |
-| ------------- | -------------------------------- |
-| Enter         | 进入编辑模式                     |
-| Ctrl + Enter  | 执行语句，并保持在当前Cell（行） |
-| Shift + Enter | 执行语句，并进入下一个Cell（行） |
-| ↑↓            | 上/下一个Cell（行）              |
-
-
-
-### 版本管理
-
-主要用来再不改动代码的情况下，方便不同Python版本之间的切换
-
-####　Pyenv
-
-Pyenv（非Windows版本）项目地址：[https://github.com/pyenv/pyenv](https://github.com/pyenv/pyenv)
+Pyenv（不支持Windows）项目地址：[https://github.com/pyenv/pyenv](https://github.com/pyenv/pyenv)
 
 Pyenv-Win(Windows版本) 项目地址：[https://github.com/pyenv-win/pyenv-win](https://github.com/pyenv-win/pyenv-win)
 
+::: details Windows CMD安装 Pyenv
 
+```shell
+# 1.%USERPROFILE%为用户配置文件目录，一般情况下和用户家目录相同
+C:\Users\VVFock3r> pip install pyenv-win --target %USERPROFILE%\.pyenv
 
-Pyenv安装
+# 2.修改系统环境变量, CMD下执行如下命令
+setx PATH "%PATH%;%USERPROFILE%\.pyenv\pyenv-win\bin"
+setx PYENV "%USERPROFILE%\.pyenv"
+setx PYENV_ROOT "%USERPROFILE%\.pyenv"
+setx PYENV_HOME "%USERPROFILE%\.pyenv"
 
-```bash
-# windows cmd命令行安装
-1.cmd执行
-pip install pyenv-win --target %USERPROFILE%\.pyenv  # %USERPROFILE%为用户配置文件目录，一般情况下和用户家目录相同
+# 3.重新打开CMD, 检查是否安装成功
+C:\Users\VVFock3r> pyenv --version
+pyenv 3.1.1
 
-2.PowerShell执行
-[System.Environment]::SetEnvironmentVariable('PYENV',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
-[System.Environment]::SetEnvironmentVariable('PYENV_HOME',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
-
-3.PowerShell执行
-[System.Environment]::SetEnvironmentVariable('path', $HOME + "\.pyenv\pyenv-win\bin;" + $HOME + "\.pyenv\pyenv-win\shims;" + $env:Path,"User")
-
-4.检查是否安装成功
-C:\Users\VVFock3r>pyenv --version
-pyenv 2.64.3
+# 备注：我们只为当前用户安装了Pyenv
 ```
 
+:::
 
-
-Pyenv命令
+::: details Pyenv命令
 
 ```bash
 # 查看所有可安装版本
@@ -170,11 +125,13 @@ pyenv versions
 pyenv uninstall 3.9.0a4
 ```
 
+:::
 
+<br />
 
-### 全局解释器锁GIL
+### 全局解释器锁 GIL
 
-#### GIL是什么？
+**GIL是什么？**
 
 GIL，全称为Global Interpreter Lock，中文翻译为全局解释器锁，属于互斥锁，
 
@@ -182,9 +139,9 @@ GIL，全称为Global Interpreter Lock，中文翻译为全局解释器锁，属
 
 这就导致Python的多线程并非是真正的多线程
 
+<br />
 
-
-#### GIL的优点
+**GIL的优点**
 
 CPython使用引用计数作为垃圾回收器的内存管理技术，工作原理如下：
 
@@ -204,15 +161,15 @@ CPython使用引用计数作为垃圾回收器的内存管理技术，工作原�
 
 （2）添加全局解释器锁，只有一把锁，管理简单，且开销较小
 
+<br />
 
-
-#### GIL的缺点
+**GIL的缺点**
 
 GIL导致Python无法真正的使用多核CPU资源，无法真正并行
 
+<br />
 
-
-总结
+**总结**
 
 CPU密集型任务不适合多线程，相比单线程反而会降低效率，此时可以使用多进程代替
 
@@ -224,22 +181,24 @@ IO密集型任务可以使用多线程
 
 官方Wiki：[https://wiki.python.org/moin/GlobalInterpreterLock](https://wiki.python.org/moin/GlobalInterpreterLock)
 
-
+<br />
 
 ### 常用选项及环境变量
 
-官方文档：[https://docs.python.org/zh-cn/3.9/using/cmdline.html#using-on-general](https://docs.python.org/zh-cn/3.9/using/cmdline.html#using-on-general)
+官方文档：[https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options](https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options)
 
 
 
-#### -c	&lt;command&gt;	执行Python代码
+::: details -c &lt;command&gt;	执行Python代码
 
 ```bash
 python -c "import sys;print('.'.join([str(x) for x in sys.version_info[:3]]))"
-3.9.2
+3.13.7
 ```
 
-#### -m &lt;module-name&gt;	执行模块代码	
+:::
+
+::: details -m &lt;module-name&gt;	执行模块代码	
 
 执行模块中`if __name__ == '__main__':`下面的内容
 
@@ -248,14 +207,26 @@ python -c "import sys;print('.'.join([str(x) for x in sys.version_info[:3]]))"
 python -m http.server 80
 Serving HTTP on :: port 80 (http://[::]:80/) ...
 
+# -------------------------------------------------------------
+
 # 示例2 - 格式化JSON串，非JSON格式会报错
+
+# Linux
 echo '{"name":"bob"}' | python -m json.tool
+{
+    "name": "bob"
+}
+
+# Windows CMD
+C:\Users\VVFock3r>echo {"name":"bob"} | python -m json.tool
 {
     "name": "bob"
 }
 ```
 
-#### -B  在导入模块时不生成.pyc文件
+:::
+
+::: details -B  在导入模块时不生成.pyc文件
 
 ```python
 # pyc_test.py
@@ -270,11 +241,13 @@ python    test.py	# 默认会生成__pycache__/pyc_test.cpython-39.pyc文件
 python -B test.py	# 不会生成pyc_test.pyc文件
 
 # 环境变量参考
-PYTHONDONTWRITEBYTECODE
-此变量如果被设为一个非空字符串，Python 将不会尝试在导入源模块时写入 .pyc 文件。 这相当于指定 -B 选项。
+# PYTHONDONTWRITEBYTECODE
+# 此变量如果被设为一个非空字符串，Python 将不会尝试在导入源模块时写入 .pyc 文件。 这相当于指定 -B 选项。
 ```
 
-#### -u 禁用缓冲区
+:::
+
+::: details -u 禁用缓冲区
 
 ```python
 # test.py
@@ -289,16 +262,16 @@ python    test.py	# 这将一次性输出内容:0123456789
 python -u test.py	# 这将实时输出0123456789
 
 # 环境变量参考
-PYTHONUNBUFFERED
-此变量如果被设为一个非空字符串，它就相当于指定 -u 选项。
+# PYTHONUNBUFFERED
+# 此变量如果被设为一个非空字符串，它就相当于指定 -u 选项。
 
 # 总结
-命令行中一般为行缓冲区，Jenkins中经过测试为全缓冲区，要达到实时输出，都可以使用python -u参数来达到效果
+# 命令行中一般为行缓冲区，可以使用python -u参数来达到实时输出效果
 ```
 
+:::
 
-
-#### -w args 警告控制
+::: details -w args 警告控制
 
 ```bash
 # warn_test.py
@@ -310,15 +283,16 @@ python warn_test.py				# 这会输出警告信息
 python -Wignore warn_test.py	# 不输出warn信息
 
 # 环境变量参考 
-PYTHONWARNINGS
-此变量等价于 -W 选项。 如果被设为一个以逗号分隔的字符串，它就相当于多次指定 -W，列表中后出现的过滤器优先级会高于列表中先出现的。
+# PYTHONWARNINGS
+# 此变量等价于 -W 选项。 如果被设为一个以逗号分隔的字符串，它就相当于多次指定 -W，列表中后出现的过滤器优先级会高于列表中先出现的。
 
 # 还可以在代码中设置 warnings.filterwarnings("ignore")来关闭警告
-
-更细致的控制请参考官方文档
+# 更细致的控制请参考官方文档
 ```
 
-#### -x 跳过第一行内容
+:::
+
+::: details -x 跳过第一行内容
 
 ```python
 # test.py
@@ -330,18 +304,26 @@ python    test.py	# 这会报错
 python -x test.py	# 因为跳过第一行了，不会报错
 ```
 
-#### -E 忽略所有 `PYTHON*` 环境变量
+:::
 
-#### -q 在交互模式下也不显示版权和版本信息
+::: details -E 忽略所有 `PYTHON*` 环境变量
+
+略
+
+:::
+
+::: details -q 在交互模式下也不显示版权和版本信息
 
 ```bash
 C:\Users\VVFock3r>python -q
 >>> exit()
 ```
 
-## 
+:::
 
-### 脚本加载虚拟环境并执行代码
+<br />
+
+### Shell脚本加载虚拟环境并执行代码
 
 ::: details Windows .bat脚本
 
@@ -349,7 +331,7 @@ C:\Users\VVFock3r>python -q
 @echo off
 
 :: 进入项目根目录
-cd /D D:\person\xxx
+cd /D D:\person\project
 
 :: 激活虚拟环境
 call .venv\Scripts\activate.bat
