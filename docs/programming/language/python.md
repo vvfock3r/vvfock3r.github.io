@@ -391,7 +391,7 @@ cp uv-x86_64-unknown-linux-gnu/* /usr/local/bin/
 
 :::
 
-::: details uv使用方法
+::: details uv安装和卸载Python版本
 
 ```bash
 # 查看可用的 Python 版本
@@ -400,15 +400,35 @@ uv python list
 # 安装指定版本
 uv python install 3.14
 
-# 给“当前项目”固定一个 Python 版本，类似于 pyenv local, 一般是进入项目根目录后执行此命令
+# 卸载指定版本
+uv python uninstall 3.14
+```
+
+:::
+
+::: details uv 使用方法
+
+::: tip 
+
+**配置文件**
+
+* pyproject.toml：整个 Python 生态的"标准配置文件"，优先级最高，不是必须要有
+
+* .python-version：指定 Python 版本，当 `pyproject.toml` 存在时，它会被忽略
+* uv.lock：精确锁定所有依赖版本，自动生成，不要手写，必须和 `pyproject.toml` 配套
+
+:::
+
+```bash
+# 给"当前项目"固定一个 Python 版本，类似于 pyenv local, 一般是进入项目根目录后执行此命令, 会将pin住的版本写入 .python-version
 uv python pin 3.14
+
+# 建立虚拟环境, 相当于普通的 python -m venv .venv
+uv venv
 
 # 执行python命令
 uv run python
 uv run python --version
-
-# 建立虚拟环境, 相当于普通的 python -m venv .venv
-uv venv
 
 # 执行pip命令
 uv pip install flask
@@ -416,8 +436,8 @@ uv pip install flask
 # 把当前项目的 Python 环境同步到声明状态
 uv sync
 
-# 卸载指定版本
-uv python uninstall 3.14
+# 创建一个新项目
+uv init
 ```
 
 :::
