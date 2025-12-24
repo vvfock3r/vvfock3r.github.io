@@ -385,17 +385,19 @@ Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
 **配置文件说明**
 
-* pyproject.toml：Python 生态的**标准项目配置文件**，用于定义项目元数据、依赖以及工具配置（包括 uv），**优先级最高**，但并非必须存在
+* **pyproject.toml**：Python 生态的**标准项目配置文件**，用于定义项目元数据、依赖以及工具配置（包括 uv），**优先级最高**，但并非必须存在
 
-* .python-version：用于指定项目所使用的 Python 版本，`uv python pin 3.14` 时会修改当前目录的`.python-version`，也可以手动修改。
+* **.python-version**：用于指定项目所使用的 Python 版本，`uv python pin 3.14` 时会修改当前目录的`.python-version`，也可以手动修改。
+
   当 `pyproject.toml` 中已声明 Python 版本时，该文件会被忽略
-* uv.lock：用于**精确锁定所有依赖版本**的锁文件，由 uv **自动生成和维护**，不应手动编辑，必须与 `pyproject.toml` 搭配使用
+
+* **uv.lock**：用于**精确锁定所有依赖版本**的锁文件，由 uv **自动生成和维护**，不应手动编辑，必须与 `pyproject.toml` 搭配使用
 
 :::
 
 
 
-::: details 安装uv和uvx
+::: details 安装 uv 和 uvx
 
 ```bash
 wget -c https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-unknown-linux-gnu.tar.gz
@@ -405,7 +407,7 @@ cp uv-x86_64-unknown-linux-gnu/* /usr/local/bin/
 
 :::
 
-::: details uv安装和卸载Python版本
+::: details uv 安装和卸载 Python
 
 ```bash
 # 查看可用的 Python 版本
@@ -429,11 +431,11 @@ uv python pin 3.14
 
 # 建立虚拟环境, 相当于普通的 python -m venv .venv
 uv venv                             # 建立虚拟环境 .venv
-uv venv venv                        # 建立虚拟环境 venv。 注意：推荐使用 .venv 而不是 venv
+uv venv venv                        # 建立虚拟环境 venv。 注意：推荐使用 .venv 而不是 venv, 下面有原因
 uv venv venv --python 3.12          # 建立虚拟环境 venv, 并指定Python版本
 uv venv venv --python 3.12 --clear  # --clear用于 如果venv虚拟环境已存在, 那么就删掉再重新建立虚拟环境
 
-# 执行python命令
+# 执行Python命令
 uv run python
 uv run python --version
 uv run python -c "import sys; print(sys.version)"
@@ -448,9 +450,26 @@ VIRTUAL_ENV=./venv uv pip install flask  # 告诉uv虚拟环境目录, 再执行
 ::: details uv 用于Python项目管理时的用法
 
 ```bash
-uv init
-uv add
-uv remove
+# 初始化项目
+# 会在当前项目目录下创建以下文件
+# 	.gitignore
+# 	main.py
+# 	pyproject.toml
+# 	.python-version
+# 	README.md
+# 强烈建议在一个干净的目录下执行此命令
+uv init                # 默认用~/.python-verion 或 本地安装的最新版本
+uv init --python 3.14  # 指定版本
+
+# 创建虚拟环境
+uv venv
+
+# 安装和移除依赖，不同于 uv pip install flask, 它还会额外修改 pyproject.toml 和 uv.lock
+uv add flask
+uv remove flask
+
+# 严格按照项目声明的依赖，把当前环境同步成应有的样子
+uv sync
 ```
 
 :::
