@@ -375,11 +375,25 @@ pyenv uninstall 3.9.0a4
 
 ### 版本管理工具 uv
 
-官网：[https://astral.sh/uv/](https://astral.sh/uv/)
+官网：[https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
 
 Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
-开发语言：Rust
+开发语言：**Rust**
+
+::: tip 
+
+**配置文件说明**
+
+* pyproject.toml：Python 生态的**标准项目配置文件**，用于定义项目元数据、依赖以及工具配置（包括 uv），**优先级最高**，但并非必须存在
+
+* .python-version：用于指定项目所使用的 Python 版本，`uv python pin 3.14` 时会修改当前目录的`.python-version`，也可以手动修改。
+  当 `pyproject.toml` 中已声明 Python 版本时，该文件会被忽略
+* uv.lock：用于**精确锁定所有依赖版本**的锁文件，由 uv **自动生成和维护**，不应手动编辑，必须与 `pyproject.toml` 搭配使用
+
+:::
+
+
 
 ::: details 安装uv和uvx
 
@@ -406,38 +420,37 @@ uv python uninstall 3.14
 
 :::
 
-::: details uv 使用方法
-
-::: tip 
-
-**配置文件**
-
-* pyproject.toml：整个 Python 生态的"标准配置文件"，优先级最高，不是必须要有
-
-* .python-version：指定 Python 版本，当 `pyproject.toml` 存在时，它会被忽略
-* uv.lock：精确锁定所有依赖版本，自动生成，不要手写，必须和 `pyproject.toml` 配套
-
-:::
+::: details uv 只用于Python版本和虚拟环境管理时的简单用法
 
 ```bash
-# 给"当前项目"固定一个 Python 版本，类似于 pyenv local, 一般是进入项目根目录后执行此命令, 会将pin住的版本写入 .python-version
+# 给"当前项目"固定一个 Python 版本，类似于 pyenv local, 一般是进入项目根目录后执行此命令
+# 会将指定的Python版本写入 .python-version
 uv python pin 3.14
 
 # 建立虚拟环境, 相当于普通的 python -m venv .venv
-uv venv
+uv venv                             # 建立虚拟环境 .venv
+uv venv venv                        # 建立虚拟环境 venv。 注意：推荐使用 .venv 而不是 venv
+uv venv venv --python 3.12          # 建立虚拟环境 venv, 并指定Python版本
+uv venv venv --python 3.12 --clear  # --clear用于 如果venv虚拟环境已存在, 那么就删掉再重新建立虚拟环境
 
 # 执行python命令
 uv run python
 uv run python --version
+uv run python -c "import sys; print(sys.version)"
 
-# 执行pip命令
-uv pip install flask
+# 执行pip命令 
+uv pip install flask                     # 虚拟环境是 .venv 时, 可以直接这样执行
+VIRTUAL_ENV=./venv uv pip install flask  # 告诉uv虚拟环境目录, 再执行 uv pip xxx
+```
 
-# 把当前项目的 Python 环境同步到声明状态
-uv sync
+:::
 
-# 创建一个新项目
+::: details uv 用于Python项目管理时的用法
+
+```bash
 uv init
+uv add
+uv remove
 ```
 
 :::
