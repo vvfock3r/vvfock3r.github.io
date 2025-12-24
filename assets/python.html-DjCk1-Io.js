@@ -1,54 +1,4 @@
-import{_ as s,c as a,a as p,o as t}from"./app-55Uvt2E1.js";const e={};function o(c,n){return t(),a("div",null,[...n[0]||(n[0]=[p(`<h1 id="python" tabindex="-1"><a class="header-anchor" href="#python"><span>Python</span></a></h1><p>官网：<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">https://www.python.org</a></p><p>Python仓库：<a href="https://pypi.org/" target="_blank" rel="noopener noreferrer">https://pypi.org/</a></p><p>专为树莓派提供预编译的 Python wheel（二进制安装包）：<a href="https://www.piwheels.org/" target="_blank" rel="noopener noreferrer">https://www.piwheels.org/</a></p><br><h2 id="一、python环境介绍" tabindex="-1"><a class="header-anchor" href="#一、python环境介绍"><span>一、Python环境介绍</span></a></h2><h3 id="解释器的多种实现" tabindex="-1"><a class="header-anchor" href="#解释器的多种实现"><span>解释器的多种实现</span></a></h3><p>官方文档：<a href="https://docs.python.org/3.14/reference/introduction.html#implementations" target="_blank" rel="noopener noreferrer">https://docs.python.org/3.14/reference/introduction.html#implementations</a></p><p><strong>CPython</strong></p><p>这是最早出现并持续维护的 Python 实现，以 C 语言编写。新的语言特性通常在此率先添加。</p><p>平常使用的就是CPython</p><p><strong>Jython</strong></p><p>以 Java 语言编写的 Python 实现。此实现可以作为 Java 应用的一个脚本语言，或者可以用来创建需要 Java 类库支持的应用。想了解更多信息可访问 <a href="http://www.jython.org/" target="_blank" rel="noopener noreferrer">Jython 网站</a></p><p><strong>Python for .NET</strong></p><p>此实现实际上使用了 CPython 实现，但是属于 .NET 托管应用并且可以引入 .NET 类库。它的创造者是 Brian Lloyd。想了解详情可访问 <a href="https://pythonnet.github.io/" target="_blank" rel="noopener noreferrer">Python for .NET 主页</a></p><p><strong>IronPython</strong></p><p>另一个 .NET 的 Python 实现，与 Python.NET 不同点在于它是生成 IL 的完全 Python 实现，并且将 Python 代码直接编译为 .NET 程序集。它的创造者就是当初创造 Jython 的 Jim Hugunin。想了解详情可访问 <a href="http://ironpython.net/" target="_blank" rel="noopener noreferrer">IronPython 网站</a></p><p><strong>PyPy</strong></p><p>完全使用 Python 语言编写的 Python 实现。它支持多个其他实现所没有的高级特性，例如非栈式支持和 JIT 编译器等。此项目的目标之一是通过允许方便地修改解释器 (因为它是用 Python 编写的)，鼓励该对语言本身进行试验。想了解详情可访问 <a href="http://pypy.org/" target="_blank" rel="noopener noreferrer">PyPy 项目主页</a></p><p>总结一下</p><table><thead><tr><th>实现语言</th><th>解释器名称</th><th>官网</th><th>备注</th></tr></thead><tbody><tr><td>C</td><td>CPython</td><td><a href="https://www.python.org/" target="_blank" rel="noopener noreferrer">https://www.python.org/</a></td><td>官方实现</td></tr><tr><td>Python</td><td>PyPy</td><td><a href="https://www.pypy.org/" target="_blank" rel="noopener noreferrer">https://www.pypy.org/</a></td><td>Python实现</td></tr><tr><td>Java</td><td>Jython</td><td><a href="https://www.jython.org/" target="_blank" rel="noopener noreferrer">https://www.jython.org/</a></td><td>Java实现</td></tr><tr><td>.Net</td><td>Python for .NET和IronPython</td><td><a href="https://pythonnet.github.io/" target="_blank" rel="noopener noreferrer">https://pythonnet.github.io/</a><br><a href="https://ironpython.net/" target="_blank" rel="noopener noreferrer">https://ironpython.net/</a></td><td>.Net相关，但是并非完全由.Net实现</td></tr></tbody></table><h3 id="增强版交互式解释器-repl" tabindex="-1"><a class="header-anchor" href="#增强版交互式解释器-repl"><span>增强版交互式解释器（REPL）</span></a></h3><p>IPython：<a href="https://ipython.org/" target="_blank" rel="noopener noreferrer">https://ipython.org/</a></p><p>Jupyter Notebook：<a href="https://jupyter.org/" target="_blank" rel="noopener noreferrer">https://jupyter.org/</a></p><br><h3 id="版本管理工具-pyenv" tabindex="-1"><a class="header-anchor" href="#版本管理工具-pyenv"><span>版本管理工具 Pyenv</span></a></h3><p>用于方便不同Python版本之间的切换</p><p>Pyenv（不支持Windows）项目地址：<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener noreferrer">https://github.com/pyenv/pyenv</a></p><p>Pyenv-Win(Windows版本) 项目地址：<a href="https://github.com/pyenv-win/pyenv-win" target="_blank" rel="noopener noreferrer">https://github.com/pyenv-win/pyenv-win</a></p><details class="hint-container details"><summary>Windows CMD安装 Pyenv</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 1.%USERPROFILE%为用户配置文件目录，一般情况下和用户家目录相同</span></span>
-<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span> pip <span class="token function">install</span> pyenv-win <span class="token parameter variable">--target</span> %USERPROFILE%<span class="token punctuation">\\</span>.pyenv</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 2.修改系统环境变量, CMD下执行如下命令</span></span>
-<span class="line">setx <span class="token environment constant">PATH</span> <span class="token string">&quot;%PATH%;%USERPROFILE%\\.pyenv\\pyenv-win<span class="token entity" title="\\b">\\b</span>in&quot;</span></span>
-<span class="line">setx PYENV <span class="token string">&quot;%USERPROFILE%\\.pyenv&quot;</span></span>
-<span class="line">setx PYENV_ROOT <span class="token string">&quot;%USERPROFILE%\\.pyenv&quot;</span></span>
-<span class="line">setx PYENV_HOME <span class="token string">&quot;%USERPROFILE%\\.pyenv&quot;</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 3.重新打开CMD, 检查是否安装成功</span></span>
-<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span> pyenv <span class="token parameter variable">--version</span></span>
-<span class="line">pyenv <span class="token number">3.1</span>.1</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 备注：我们只为当前用户安装了Pyenv</span></span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>Pyenv命令</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 查看所有可安装版本</span></span>
-<span class="line">pyenv <span class="token function">install</span> <span class="token parameter variable">--list</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 查看当前版本 </span></span>
-<span class="line"><span class="token comment"># 注：</span></span>
-<span class="line"><span class="token comment"># 	linux这里会显示system，方便以后我们切了版本之后想要再切回来</span></span>
-<span class="line"><span class="token comment">#	windows不知道是不是bug，这里什么也不显示，这样当我们以后想切回系统版本就很不好弄了</span></span>
-<span class="line"><span class="token comment">#	临时解决办法就是：用完了就卸载指定版本</span></span>
-<span class="line">pyenv version</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 安装指定版本</span></span>
-<span class="line"><span class="token comment"># 注：</span></span>
-<span class="line"><span class="token comment">#	(1) 带-win32的为32位版本，不带的为64位版本 </span></span>
-<span class="line"><span class="token comment">#	(2) 如果下载慢，用迅雷下载，然后放到指定目录，安装时各目录都有说明</span></span>
-<span class="line"><span class="token comment">#	(3) 安装过程较慢，请耐心等待</span></span>
-<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span>pyenv <span class="token function">install</span> <span class="token number">3.9</span>.0a4</span>
-<span class="line">:: <span class="token punctuation">[</span>Info<span class="token punctuation">]</span> ::  Mirror: https://www.python.org/ftp/python</span>
-<span class="line">:: <span class="token punctuation">[</span>Downloading<span class="token punctuation">]</span> ::  <span class="token number">3.9</span>.0a4 <span class="token punctuation">..</span>.</span>
-<span class="line">:: <span class="token punctuation">[</span>Downloading<span class="token punctuation">]</span> ::  From https://www.python.org/ftp/python/3.9.0/python-3.9.0a4-amd64-webinstall.exe</span>
-<span class="line">:: <span class="token punctuation">[</span>Downloading<span class="token punctuation">]</span> ::  To   C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token punctuation">\\</span>.pyenv<span class="token punctuation">\\</span>pyenv-win<span class="token punctuation">\\</span>install_cache<span class="token punctuation">\\</span>python-3.9.0a4-amd64-webinstall.exe</span>
-<span class="line">^CTerminate batch job <span class="token punctuation">(</span>Y/N<span class="token punctuation">)</span>? y</span>
-<span class="line"></span>
-<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span>pyenv <span class="token function">install</span> <span class="token number">3.9</span>.0a4</span>
-<span class="line">:: <span class="token punctuation">[</span>Info<span class="token punctuation">]</span> ::  Mirror: https://www.python.org/ftp/python</span>
-<span class="line">:: <span class="token punctuation">[</span>Installing<span class="token punctuation">]</span> ::  <span class="token number">3.9</span>.0a4 <span class="token punctuation">..</span>.</span>
-<span class="line"></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 切换到指定版本</span></span>
-<span class="line">pyenv global <span class="token number">3.9</span>.0a4	<span class="token comment"># 全局python解释器切换</span></span>
-<span class="line">pyenv <span class="token builtin class-name">local</span>  <span class="token number">3.9</span>.0a4	<span class="token comment"># 当前目录及子目录下的python解释器切换</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 查看所有已安装版本</span></span>
-<span class="line">pyenv versions</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 卸载指定版本 </span></span>
-<span class="line">pyenv uninstall <span class="token number">3.9</span>.0a4</span>
-<span class="line"></span></code></pre></div></details><br><h3 id="全局解释器锁-gil" tabindex="-1"><a class="header-anchor" href="#全局解释器锁-gil"><span>全局解释器锁 GIL</span></a></h3><p><strong>GIL是什么？</strong></p><p>GIL，全称为Global Interpreter Lock，中文翻译为全局解释器锁，属于互斥锁，</p><p>简单来说就是给Python解释器上了一把锁，同一时刻只允许同时一个线程执行代码，同一时刻只能利用单核CPU，</p><p>这就导致Python的多线程并非是真正的多线程</p><br><p><strong>GIL的优点</strong></p><p>CPython使用引用计数作为垃圾回收器的内存管理技术，工作原理如下：</p><p>1.每个对象都有一个引用计数，</p><p>2.当对象被赋给一个新的变量名或被添加到一个容器(如元组、列表等)时，引用计数会增加，</p><p>​ 同样，当引用超出范围或调用del语句时，引用计数也会减少</p><p>3.当一个对象的引用计数达到0时，它将被垃圾回收，分配的内存将被释放</p><p>在多线程下引用计数变量需要被保护（因为赋值等操作是非原子的），此时有两种解决办法：</p><p>（1）给每个对象添加一个锁，这可能 增加死锁的可能性，并且性能开销较大</p><p>（2）添加全局解释器锁，只有一把锁，管理简单，且开销较小</p><br><p><strong>GIL的缺点</strong></p><p>GIL导致Python无法真正的使用多核CPU资源，无法真正并行</p><br><p><strong>总结</strong></p><p>CPU密集型任务不适合多线程，相比单线程反而会降低效率，此时可以使用多进程代替</p><p>IO密集型任务可以使用多线程</p><p>参考资料</p><p>官方Wiki：<a href="https://wiki.python.org/moin/GlobalInterpreterLock" target="_blank" rel="noopener noreferrer">https://wiki.python.org/moin/GlobalInterpreterLock</a></p><br><h3 id="常用选项及环境变量" tabindex="-1"><a class="header-anchor" href="#常用选项及环境变量"><span>常用选项及环境变量</span></a></h3><p>官方文档：<a href="https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options" target="_blank" rel="noopener noreferrer">https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options</a></p><details class="hint-container details"><summary>-c &lt;command&gt; 执行Python代码</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">python <span class="token parameter variable">-c</span> <span class="token string">&quot;import sys;print(&#39;.&#39;.join([str(x) for x in sys.version_info[:3]]))&quot;</span></span>
+import{_ as s,c as a,a as p,o as t}from"./app-D02pHBXU.js";const e={};function o(c,n){return t(),a("div",null,[...n[0]||(n[0]=[p(`<h1 id="python" tabindex="-1"><a class="header-anchor" href="#python"><span>Python</span></a></h1><p>官网：<a href="https://www.python.org" target="_blank" rel="noopener noreferrer">https://www.python.org</a></p><p>Python仓库：<a href="https://pypi.org/" target="_blank" rel="noopener noreferrer">https://pypi.org/</a></p><p>专为树莓派提供预编译的 Python wheel（二进制安装包）：<a href="https://www.piwheels.org/" target="_blank" rel="noopener noreferrer">https://www.piwheels.org/</a></p><br><h2 id="一、python环境介绍" tabindex="-1"><a class="header-anchor" href="#一、python环境介绍"><span>一、Python环境介绍</span></a></h2><h3 id="解释器的多种实现" tabindex="-1"><a class="header-anchor" href="#解释器的多种实现"><span>解释器的多种实现</span></a></h3><p>官方文档：<a href="https://docs.python.org/3.14/reference/introduction.html#implementations" target="_blank" rel="noopener noreferrer">https://docs.python.org/3.14/reference/introduction.html#implementations</a></p><p><strong>CPython</strong></p><p>这是最早出现并持续维护的 Python 实现，以 C 语言编写。新的语言特性通常在此率先添加。</p><p>平常使用的就是CPython</p><p><strong>Jython</strong></p><p>以 Java 语言编写的 Python 实现。此实现可以作为 Java 应用的一个脚本语言，或者可以用来创建需要 Java 类库支持的应用。想了解更多信息可访问 <a href="http://www.jython.org/" target="_blank" rel="noopener noreferrer">Jython 网站</a></p><p><strong>Python for .NET</strong></p><p>此实现实际上使用了 CPython 实现，但是属于 .NET 托管应用并且可以引入 .NET 类库。它的创造者是 Brian Lloyd。想了解详情可访问 <a href="https://pythonnet.github.io/" target="_blank" rel="noopener noreferrer">Python for .NET 主页</a></p><p><strong>IronPython</strong></p><p>另一个 .NET 的 Python 实现，与 Python.NET 不同点在于它是生成 IL 的完全 Python 实现，并且将 Python 代码直接编译为 .NET 程序集。它的创造者就是当初创造 Jython 的 Jim Hugunin。想了解详情可访问 <a href="http://ironpython.net/" target="_blank" rel="noopener noreferrer">IronPython 网站</a></p><p><strong>PyPy</strong></p><p>完全使用 Python 语言编写的 Python 实现。它支持多个其他实现所没有的高级特性，例如非栈式支持和 JIT 编译器等。此项目的目标之一是通过允许方便地修改解释器 (因为它是用 Python 编写的)，鼓励该对语言本身进行试验。想了解详情可访问 <a href="http://pypy.org/" target="_blank" rel="noopener noreferrer">PyPy 项目主页</a></p><p>总结一下</p><table><thead><tr><th>实现语言</th><th>解释器名称</th><th>官网</th><th>备注</th></tr></thead><tbody><tr><td>C</td><td>CPython</td><td><a href="https://www.python.org/" target="_blank" rel="noopener noreferrer">https://www.python.org/</a></td><td>官方实现</td></tr><tr><td>Python</td><td>PyPy</td><td><a href="https://www.pypy.org/" target="_blank" rel="noopener noreferrer">https://www.pypy.org/</a></td><td>Python实现</td></tr><tr><td>Java</td><td>Jython</td><td><a href="https://www.jython.org/" target="_blank" rel="noopener noreferrer">https://www.jython.org/</a></td><td>Java实现</td></tr><tr><td>.Net</td><td>Python for .NET和IronPython</td><td><a href="https://pythonnet.github.io/" target="_blank" rel="noopener noreferrer">https://pythonnet.github.io/</a><br><a href="https://ironpython.net/" target="_blank" rel="noopener noreferrer">https://ironpython.net/</a></td><td>.Net相关，但是并非完全由.Net实现</td></tr></tbody></table><h3 id="增强版交互式解释器-repl" tabindex="-1"><a class="header-anchor" href="#增强版交互式解释器-repl"><span>增强版交互式解释器（REPL）</span></a></h3><p>IPython：<a href="https://ipython.org/" target="_blank" rel="noopener noreferrer">https://ipython.org/</a></p><p>Jupyter Notebook：<a href="https://jupyter.org/" target="_blank" rel="noopener noreferrer">https://jupyter.org/</a></p><br><h3 id="全局解释器锁-gil" tabindex="-1"><a class="header-anchor" href="#全局解释器锁-gil"><span>全局解释器锁 GIL</span></a></h3><p><strong>GIL是什么？</strong></p><p>GIL，全称为Global Interpreter Lock，中文翻译为全局解释器锁，属于互斥锁，</p><p>简单来说就是给Python解释器上了一把锁，同一时刻只允许同时一个线程执行代码，同一时刻只能利用单核CPU，</p><p>这就导致Python的多线程并非是真正的多线程</p><br><p><strong>GIL的优点</strong></p><p>CPython使用引用计数作为垃圾回收器的内存管理技术，工作原理如下：</p><p>1.每个对象都有一个引用计数，</p><p>2.当对象被赋给一个新的变量名或被添加到一个容器(如元组、列表等)时，引用计数会增加，</p><p>​ 同样，当引用超出范围或调用del语句时，引用计数也会减少</p><p>3.当一个对象的引用计数达到0时，它将被垃圾回收，分配的内存将被释放</p><p>在多线程下引用计数变量需要被保护（因为赋值等操作是非原子的），此时有两种解决办法：</p><p>（1）给每个对象添加一个锁，这可能 增加死锁的可能性，并且性能开销较大</p><p>（2）添加全局解释器锁，只有一把锁，管理简单，且开销较小</p><br><p><strong>GIL的缺点</strong></p><p>GIL导致Python无法真正的使用多核CPU资源，无法真正并行</p><br><p><strong>总结</strong></p><p>CPU密集型任务不适合多线程，相比单线程反而会降低效率，此时可以使用多进程代替</p><p>IO密集型任务可以使用多线程</p><p>参考资料</p><p>官方Wiki：<a href="https://wiki.python.org/moin/GlobalInterpreterLock" target="_blank" rel="noopener noreferrer">https://wiki.python.org/moin/GlobalInterpreterLock</a></p><br><h3 id="常用选项及环境变量" tabindex="-1"><a class="header-anchor" href="#常用选项及环境变量"><span>常用选项及环境变量</span></a></h3><p>官方文档：<a href="https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options" target="_blank" rel="noopener noreferrer">https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options</a></p><details class="hint-container details"><summary>-c &lt;command&gt; 执行Python代码</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">python <span class="token parameter variable">-c</span> <span class="token string">&quot;import sys;print(&#39;.&#39;.join([str(x) for x in sys.version_info[:3]]))&quot;</span></span>
 <span class="line"><span class="token number">3.13</span>.7</span>
 <span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>-m &lt;module-name&gt; 执行模块代码</summary><p>执行模块中<code>if __name__ == &#39;__main__&#39;:</code>下面的内容</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 示例1 - 开启http server</span></span>
 <span class="line">python <span class="token parameter variable">-m</span> http.server <span class="token number">80</span></span>
@@ -123,7 +73,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-55Uvt2E1.js";const e={};function o
 <span class="line">python <span class="token operator">-</span>x test<span class="token punctuation">.</span>py	<span class="token comment"># 因为跳过第一行了，不会报错</span></span>
 <span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>-E 忽略所有 <code>PYTHON*</code> 环境变量</summary><p>略</p></details><details class="hint-container details"><summary>-q 在交互模式下也不显示版权和版本信息</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span>python <span class="token parameter variable">-q</span></span>
 <span class="line"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> exit<span class="token punctuation">(</span><span class="token punctuation">)</span></span>
-<span class="line"></span></code></pre></div></details><br><h3 id="shell脚本加载虚拟环境并执行代码" tabindex="-1"><a class="header-anchor" href="#shell脚本加载虚拟环境并执行代码"><span>Shell脚本加载虚拟环境并执行代码</span></a></h3><details class="hint-container details"><summary>Windows .bat脚本</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">@echo off</span>
+<span class="line"></span></code></pre></div></details><br><h3 id="执行虚拟环境中的代码" tabindex="-1"><a class="header-anchor" href="#执行虚拟环境中的代码"><span>执行虚拟环境中的代码</span></a></h3><details class="hint-container details"><summary>Windows .bat脚本</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">@echo off</span>
 <span class="line"></span>
 <span class="line">:: 进入项目根目录</span>
 <span class="line"><span class="token builtin class-name">cd</span> /D D:<span class="token punctuation">\\</span>person<span class="token punctuation">\\</span>project</span>
@@ -139,6 +89,99 @@ import{_ as s,c as a,a as p,o as t}from"./app-55Uvt2E1.js";const e={};function o
 <span class="line"></span>
 <span class="line">:: 暂停</span>
 <span class="line">pause</span>
+<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>Linux .sh脚本，可以通过退出码判断是否执行成功</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token shebang important">#!/usr/bin/env bash</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 遇到错误立即退出(可选，但推荐)</span></span>
+<span class="line"><span class="token builtin class-name">set</span> <span class="token parameter variable">-e</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 进入项目根目录</span></span>
+<span class="line"><span class="token builtin class-name">cd</span> /opt/project <span class="token operator">||</span> <span class="token builtin class-name">exit</span> <span class="token number">1</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 激活虚拟环境</span></span>
+<span class="line"><span class="token builtin class-name">source</span> .venv/bin/activate</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 执行脚本</span></span>
+<span class="line">python main.py</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 退出虚拟环境</span></span>
+<span class="line">deactivate</span>
+<span class="line"></span></code></pre></div></details><br><h3 id="版本管理工具-pyenv" tabindex="-1"><a class="header-anchor" href="#版本管理工具-pyenv"><span>版本管理工具 Pyenv</span></a></h3><p>用于方便不同Python版本之间的切换</p><p>Pyenv（不支持Windows）项目地址：<a href="https://github.com/pyenv/pyenv" target="_blank" rel="noopener noreferrer">https://github.com/pyenv/pyenv</a></p><p>Pyenv-Win(Windows版本) 项目地址：<a href="https://github.com/pyenv-win/pyenv-win" target="_blank" rel="noopener noreferrer">https://github.com/pyenv-win/pyenv-win</a></p><details class="hint-container details"><summary>Windows CMD安装 Pyenv</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 1.%USERPROFILE%为用户配置文件目录，一般情况下和用户家目录相同</span></span>
+<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span> pip <span class="token function">install</span> pyenv-win <span class="token parameter variable">--target</span> %USERPROFILE%<span class="token punctuation">\\</span>.pyenv</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 2.修改系统环境变量, CMD下执行如下命令</span></span>
+<span class="line">setx <span class="token environment constant">PATH</span> <span class="token string">&quot;%PATH%;%USERPROFILE%\\.pyenv\\pyenv-win<span class="token entity" title="\\b">\\b</span>in&quot;</span></span>
+<span class="line">setx PYENV <span class="token string">&quot;%USERPROFILE%\\.pyenv&quot;</span></span>
+<span class="line">setx PYENV_ROOT <span class="token string">&quot;%USERPROFILE%\\.pyenv&quot;</span></span>
+<span class="line">setx PYENV_HOME <span class="token string">&quot;%USERPROFILE%\\.pyenv&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 3.重新打开CMD, 检查是否安装成功</span></span>
+<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span> pyenv <span class="token parameter variable">--version</span></span>
+<span class="line">pyenv <span class="token number">3.1</span>.1</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 备注：我们只为当前用户安装了Pyenv</span></span>
+<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>Pyenv命令</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 查看所有可安装版本</span></span>
+<span class="line">pyenv <span class="token function">install</span> <span class="token parameter variable">--list</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 查看当前版本 </span></span>
+<span class="line"><span class="token comment"># 注：</span></span>
+<span class="line"><span class="token comment"># 	linux这里会显示system，方便以后我们切了版本之后想要再切回来</span></span>
+<span class="line"><span class="token comment">#	windows不知道是不是bug，这里什么也不显示，这样当我们以后想切回系统版本就很不好弄了</span></span>
+<span class="line"><span class="token comment">#	临时解决办法就是：用完了就卸载指定版本</span></span>
+<span class="line">pyenv version</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 安装指定版本</span></span>
+<span class="line"><span class="token comment"># 注：</span></span>
+<span class="line"><span class="token comment">#	(1) 带-win32的为32位版本，不带的为64位版本 </span></span>
+<span class="line"><span class="token comment">#	(2) 如果下载慢，用迅雷下载，然后放到指定目录，安装时各目录都有说明</span></span>
+<span class="line"><span class="token comment">#	(3) 安装过程较慢，请耐心等待</span></span>
+<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span>pyenv <span class="token function">install</span> <span class="token number">3.9</span>.0a4</span>
+<span class="line">:: <span class="token punctuation">[</span>Info<span class="token punctuation">]</span> ::  Mirror: https://www.python.org/ftp/python</span>
+<span class="line">:: <span class="token punctuation">[</span>Downloading<span class="token punctuation">]</span> ::  <span class="token number">3.9</span>.0a4 <span class="token punctuation">..</span>.</span>
+<span class="line">:: <span class="token punctuation">[</span>Downloading<span class="token punctuation">]</span> ::  From https://www.python.org/ftp/python/3.9.0/python-3.9.0a4-amd64-webinstall.exe</span>
+<span class="line">:: <span class="token punctuation">[</span>Downloading<span class="token punctuation">]</span> ::  To   C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token punctuation">\\</span>.pyenv<span class="token punctuation">\\</span>pyenv-win<span class="token punctuation">\\</span>install_cache<span class="token punctuation">\\</span>python-3.9.0a4-amd64-webinstall.exe</span>
+<span class="line">^CTerminate batch job <span class="token punctuation">(</span>Y/N<span class="token punctuation">)</span>? y</span>
+<span class="line"></span>
+<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>VVFock3r<span class="token operator">&gt;</span>pyenv <span class="token function">install</span> <span class="token number">3.9</span>.0a4</span>
+<span class="line">:: <span class="token punctuation">[</span>Info<span class="token punctuation">]</span> ::  Mirror: https://www.python.org/ftp/python</span>
+<span class="line">:: <span class="token punctuation">[</span>Installing<span class="token punctuation">]</span> ::  <span class="token number">3.9</span>.0a4 <span class="token punctuation">..</span>.</span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 切换到指定版本</span></span>
+<span class="line">pyenv global <span class="token number">3.9</span>.0a4	<span class="token comment"># 全局python解释器切换</span></span>
+<span class="line">pyenv <span class="token builtin class-name">local</span>  <span class="token number">3.9</span>.0a4	<span class="token comment"># 当前目录及子目录下的python解释器切换</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 查看所有已安装版本</span></span>
+<span class="line">pyenv versions</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 卸载指定版本 </span></span>
+<span class="line">pyenv uninstall <span class="token number">3.9</span>.0a4</span>
+<span class="line"></span></code></pre></div></details><br><h3 id="版本管理工具-uv" tabindex="-1"><a class="header-anchor" href="#版本管理工具-uv"><span>版本管理工具 uv</span></a></h3><p>官网：<a href="https://astral.sh/uv/" target="_blank" rel="noopener noreferrer">https://astral.sh/uv/</a></p><p>Github：<a href="https://github.com/astral-sh/uv" target="_blank" rel="noopener noreferrer">https://github.com/astral-sh/uv</a></p><p>开发语言：Rust</p><details class="hint-container details"><summary>安装uv和uvx</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token function">wget</span> <span class="token parameter variable">-c</span> https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-unknown-linux-gnu.tar.gz</span>
+<span class="line"><span class="token function">tar</span> <span class="token parameter variable">-zxf</span> uv-x86_64-unknown-linux-gnu.tar.gz</span>
+<span class="line"><span class="token function">cp</span> uv-x86_64-unknown-linux-gnu/* /usr/local/bin/</span>
+<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>uv使用方法</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 查看可用的 Python 版本</span></span>
+<span class="line">uv python list</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 安装指定版本</span></span>
+<span class="line">uv python <span class="token function">install</span> <span class="token number">3.14</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 给“当前项目”固定一个 Python 版本，类似于 pyenv local, 一般是进入项目根目录后执行此命令</span></span>
+<span class="line">uv python pin <span class="token number">3.14</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 执行python命令</span></span>
+<span class="line">uv run python</span>
+<span class="line">uv run python <span class="token parameter variable">--version</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 建立虚拟环境, 相当于普通的 python -m venv .venv</span></span>
+<span class="line">uv venv</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 执行pip命令</span></span>
+<span class="line">uv pip <span class="token function">install</span> flask</span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 把当前项目的 Python 环境同步到声明状态</span></span>
+<span class="line">uv <span class="token function">sync</span></span>
+<span class="line"></span>
+<span class="line"><span class="token comment"># 卸载指定版本</span></span>
+<span class="line">uv python uninstall <span class="token number">3.14</span></span>
 <span class="line"></span></code></pre></div></details><br><h2 id="二、变量和数据结构" tabindex="-1"><a class="header-anchor" href="#二、变量和数据结构"><span>二、变量和数据结构</span></a></h2><h3 id="查看变量" tabindex="-1"><a class="header-anchor" href="#查看变量"><span>查看变量</span></a></h3><table><thead><tr><th>内置函数</th><th>说明</th></tr></thead><tbody><tr><td>globals()</td><td>返回全局变量组成的字典</td></tr><tr><td>locals()</td><td>返回当前作用域内变量组成的字典，如果当前在全局则返回全局变量组成的字典</td></tr><tr><td>vars(obj)</td><td>返回obj对象作用域内变量组成的字典，<br>（1）如果不传参数，vars和locals作用一样<br>（2）如果传1个参数，等同于<code>obj.__dict__</code></td></tr></tbody></table><p>代码示例</p><details class="hint-container details"><summary>点击查看完整代码</summary><div class="language-python" data-highlighter="prismjs" data-ext="py"><pre><code class="language-python"><span class="line"><span class="token comment">#!/usr/bin/env python</span></span>
 <span class="line"><span class="token comment"># -*- coding:utf-8 -*-</span></span>
 <span class="line"></span>
@@ -3416,4 +3459,4 @@ import{_ as s,c as a,a as p,o as t}from"./app-55Uvt2E1.js";const e={};function o
 <span class="line">foo2<span class="token punctuation">(</span><span class="token punctuation">)</span></span>
 <span class="line">foo2<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span></span>
 <span class="line">foo2<span class="token punctuation">(</span><span class="token string">&quot;a&quot;</span><span class="token punctuation">)</span></span>
-<span class="line"></span></code></pre></div></details><h4 id="typing-callable" tabindex="-1"><a class="header-anchor" href="#typing-callable"><span><code>typing.Callable</code></span></a></h4><p>可调用类型，<code>Callable[[int], str]</code> 是把（int）转为 str 的函数</p>`,733)])])}const i=s(e,[["render",o]]),u=JSON.parse('{"path":"/programming/language/python.html","title":"Python","lang":"zh-CN","frontmatter":{},"git":{"updatedTime":1766412190000,"contributors":[{"name":"VVFock3r","username":"VVFock3r","email":"vvfock3r@gmail.com","commits":1,"url":"https://github.com/VVFock3r"}],"changelog":[{"hash":"886198080ae252b1abac8af515306f3d505e1087","time":1766412190000,"email":"vvfock3r@gmail.com","author":"VVFock3r","message":"auto commit"}]},"filePathRelative":"programming/language/python.md"}');export{i as comp,u as data};
+<span class="line"></span></code></pre></div></details><h4 id="typing-callable" tabindex="-1"><a class="header-anchor" href="#typing-callable"><span><code>typing.Callable</code></span></a></h4><p>可调用类型，<code>Callable[[int], str]</code> 是把（int）转为 str 的函数</p>`,741)])])}const i=s(e,[["render",o]]),u=JSON.parse('{"path":"/programming/language/python.html","title":"Python","lang":"zh-CN","frontmatter":{},"git":{"updatedTime":1766582242000,"contributors":[{"name":"VVFock3r","username":"VVFock3r","email":"vvfock3r@gmail.com","commits":1,"url":"https://github.com/VVFock3r"}],"changelog":[{"hash":"5f41c30e46cbe22b23ef5900d0329197fe9f9c7b","time":1766582242000,"email":"vvfock3r@gmail.com","author":"VVFock3r","message":"auto commit"}]},"filePathRelative":"programming/language/python.md"}');export{i as comp,u as data};
