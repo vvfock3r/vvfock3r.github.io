@@ -55,80 +55,6 @@ Jupyter Notebook：[https://jupyter.org/](https://jupyter.org/)
 
 <br />
 
-### 版本管理工具 Pyenv
-
-用于方便不同Python版本之间的切换
-
-Pyenv（不支持Windows）项目地址：[https://github.com/pyenv/pyenv](https://github.com/pyenv/pyenv)
-
-Pyenv-Win(Windows版本) 项目地址：[https://github.com/pyenv-win/pyenv-win](https://github.com/pyenv-win/pyenv-win)
-
-::: details Windows CMD安装 Pyenv
-
-```shell
-# 1.%USERPROFILE%为用户配置文件目录，一般情况下和用户家目录相同
-C:\Users\VVFock3r> pip install pyenv-win --target %USERPROFILE%\.pyenv
-
-# 2.修改系统环境变量, CMD下执行如下命令
-setx PATH "%PATH%;%USERPROFILE%\.pyenv\pyenv-win\bin"
-setx PYENV "%USERPROFILE%\.pyenv"
-setx PYENV_ROOT "%USERPROFILE%\.pyenv"
-setx PYENV_HOME "%USERPROFILE%\.pyenv"
-
-# 3.重新打开CMD, 检查是否安装成功
-C:\Users\VVFock3r> pyenv --version
-pyenv 3.1.1
-
-# 备注：我们只为当前用户安装了Pyenv
-```
-
-:::
-
-::: details Pyenv命令
-
-```bash
-# 查看所有可安装版本
-pyenv install --list
-
-# 查看当前版本 
-# 注：
-# 	linux这里会显示system，方便以后我们切了版本之后想要再切回来
-#	windows不知道是不是bug，这里什么也不显示，这样当我们以后想切回系统版本就很不好弄了
-#	临时解决办法就是：用完了就卸载指定版本
-pyenv version
-
-# 安装指定版本
-# 注：
-#	(1) 带-win32的为32位版本，不带的为64位版本 
-#	(2) 如果下载慢，用迅雷下载，然后放到指定目录，安装时各目录都有说明
-#	(3) 安装过程较慢，请耐心等待
-C:\Users\VVFock3r>pyenv install 3.9.0a4
-:: [Info] ::  Mirror: https://www.python.org/ftp/python
-:: [Downloading] ::  3.9.0a4 ...
-:: [Downloading] ::  From https://www.python.org/ftp/python/3.9.0/python-3.9.0a4-amd64-webinstall.exe
-:: [Downloading] ::  To   C:\Users\VVFock3r\.pyenv\pyenv-win\install_cache\python-3.9.0a4-amd64-webinstall.exe
-^CTerminate batch job (Y/N)? y
-
-C:\Users\VVFock3r>pyenv install 3.9.0a4
-:: [Info] ::  Mirror: https://www.python.org/ftp/python
-:: [Installing] ::  3.9.0a4 ...
-
-
-# 切换到指定版本
-pyenv global 3.9.0a4	# 全局python解释器切换
-pyenv local  3.9.0a4	# 当前目录及子目录下的python解释器切换
-
-# 查看所有已安装版本
-pyenv versions
-
-# 卸载指定版本 
-pyenv uninstall 3.9.0a4
-```
-
-:::
-
-<br />
-
 ### 全局解释器锁 GIL
 
 **GIL是什么？**
@@ -323,7 +249,7 @@ C:\Users\VVFock3r>python -q
 
 <br />
 
-### Shell脚本加载虚拟环境并执行代码
+### 执行虚拟环境中的代码
 
 ::: details Windows .bat脚本
 
@@ -344,6 +270,154 @@ call .venv\Scripts\deactivate.bat
 
 :: 暂停
 pause
+```
+
+:::
+
+::: details Linux .sh脚本，可以通过退出码判断是否执行成功
+
+```bash
+#!/usr/bin/env bash
+
+# 遇到错误立即退出(可选，但推荐)
+set -e
+
+# 进入项目根目录
+cd /opt/project || exit 1
+
+# 激活虚拟环境
+source .venv/bin/activate
+
+# 执行脚本
+python main.py
+
+# 退出虚拟环境
+deactivate
+```
+
+:::
+
+<br />
+
+### 版本管理工具 Pyenv
+
+用于方便不同Python版本之间的切换
+
+Pyenv（不支持Windows）项目地址：[https://github.com/pyenv/pyenv](https://github.com/pyenv/pyenv)
+
+Pyenv-Win(Windows版本) 项目地址：[https://github.com/pyenv-win/pyenv-win](https://github.com/pyenv-win/pyenv-win)
+
+::: details Windows CMD安装 Pyenv
+
+```shell
+# 1.%USERPROFILE%为用户配置文件目录，一般情况下和用户家目录相同
+C:\Users\VVFock3r> pip install pyenv-win --target %USERPROFILE%\.pyenv
+
+# 2.修改系统环境变量, CMD下执行如下命令
+setx PATH "%PATH%;%USERPROFILE%\.pyenv\pyenv-win\bin"
+setx PYENV "%USERPROFILE%\.pyenv"
+setx PYENV_ROOT "%USERPROFILE%\.pyenv"
+setx PYENV_HOME "%USERPROFILE%\.pyenv"
+
+# 3.重新打开CMD, 检查是否安装成功
+C:\Users\VVFock3r> pyenv --version
+pyenv 3.1.1
+
+# 备注：我们只为当前用户安装了Pyenv
+```
+
+:::
+
+::: details Pyenv命令
+
+```bash
+# 查看所有可安装版本
+pyenv install --list
+
+# 查看当前版本 
+# 注：
+# 	linux这里会显示system，方便以后我们切了版本之后想要再切回来
+#	windows不知道是不是bug，这里什么也不显示，这样当我们以后想切回系统版本就很不好弄了
+#	临时解决办法就是：用完了就卸载指定版本
+pyenv version
+
+# 安装指定版本
+# 注：
+#	(1) 带-win32的为32位版本，不带的为64位版本 
+#	(2) 如果下载慢，用迅雷下载，然后放到指定目录，安装时各目录都有说明
+#	(3) 安装过程较慢，请耐心等待
+C:\Users\VVFock3r>pyenv install 3.9.0a4
+:: [Info] ::  Mirror: https://www.python.org/ftp/python
+:: [Downloading] ::  3.9.0a4 ...
+:: [Downloading] ::  From https://www.python.org/ftp/python/3.9.0/python-3.9.0a4-amd64-webinstall.exe
+:: [Downloading] ::  To   C:\Users\VVFock3r\.pyenv\pyenv-win\install_cache\python-3.9.0a4-amd64-webinstall.exe
+^CTerminate batch job (Y/N)? y
+
+C:\Users\VVFock3r>pyenv install 3.9.0a4
+:: [Info] ::  Mirror: https://www.python.org/ftp/python
+:: [Installing] ::  3.9.0a4 ...
+
+
+# 切换到指定版本
+pyenv global 3.9.0a4	# 全局python解释器切换
+pyenv local  3.9.0a4	# 当前目录及子目录下的python解释器切换
+
+# 查看所有已安装版本
+pyenv versions
+
+# 卸载指定版本 
+pyenv uninstall 3.9.0a4
+```
+
+:::
+
+<br />
+
+### 版本管理工具 uv
+
+官网：[https://astral.sh/uv/](https://astral.sh/uv/)
+
+Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
+
+开发语言：Rust
+
+::: details 安装uv和uvx
+
+```bash
+wget -c https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-unknown-linux-gnu.tar.gz
+tar -zxf uv-x86_64-unknown-linux-gnu.tar.gz
+cp uv-x86_64-unknown-linux-gnu/* /usr/local/bin/
+```
+
+:::
+
+::: details uv使用方法
+
+```bash
+# 查看可用的 Python 版本
+uv python list
+
+# 安装指定版本
+uv python install 3.14
+
+# 给“当前项目”固定一个 Python 版本，类似于 pyenv local, 一般是进入项目根目录后执行此命令
+uv python pin 3.14
+
+# 执行python命令
+uv run python
+uv run python --version
+
+# 建立虚拟环境, 相当于普通的 python -m venv .venv
+uv venv
+
+# 执行pip命令
+uv pip install flask
+
+# 把当前项目的 Python 环境同步到声明状态
+uv sync
+
+# 卸载指定版本
+uv python uninstall 3.14
 ```
 
 :::
