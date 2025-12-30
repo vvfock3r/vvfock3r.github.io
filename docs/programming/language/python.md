@@ -14,7 +14,7 @@ Python仓库：[https://pypi.org/](https://pypi.org/)
 
 ### 解释器的多种实现
 
-官方文档：[https://docs.python.org/3.14/reference/introduction.html#implementations](https://docs.python.org/3.14/reference/introduction.html#implementations)
+官方文档：[https://docs.python.org/3/reference/introduction.html#implementations](https://docs.python.org/3/reference/introduction.html#implementations)
 
 **CPython**
 
@@ -55,7 +55,7 @@ Jupyter Notebook：[https://jupyter.org/](https://jupyter.org/)
 
 <br />
 
-### 全局解释器锁 GIL
+### 全局解释器锁（GIL）
 
 **GIL是什么？**
 
@@ -111,7 +111,7 @@ IO密集型任务可以使用多线程
 
 ### 常用选项及环境变量
 
-官方文档：[https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options](https://docs.python.org/zh-cn/3.14/using/cmdline.html#interface-options)
+官方文档：[https://docs.python.org/zh-cn/3/using/cmdline.html#interface-options](https://docs.python.org/zh-cn/3/using/cmdline.html#interface-options)
 
 
 
@@ -279,11 +279,12 @@ pause
 ```bash
 #!/usr/bin/env bash
 
-# 遇到错误立即退出(可选，但推荐)
-set -e
+# 遇到错误立即退出
+set -Eeuo pipefail
+trap 'echo "exit 1' ERR
 
 # 进入项目根目录
-cd /opt/project || exit 1
+cd /opt/project
 
 # 激活虚拟环境
 source .venv/bin/activate
@@ -299,81 +300,7 @@ deactivate
 
 <br />
 
-### 版本管理工具 Pyenv
-
-用于方便不同Python版本之间的切换
-
-Pyenv（不支持Windows）项目地址：[https://github.com/pyenv/pyenv](https://github.com/pyenv/pyenv)
-
-Pyenv-Win(Windows版本) 项目地址：[https://github.com/pyenv-win/pyenv-win](https://github.com/pyenv-win/pyenv-win)
-
-::: details Windows CMD安装 Pyenv
-
-```shell
-# 1.%USERPROFILE%为用户配置文件目录，一般情况下和用户家目录相同
-C:\Users\VVFock3r> pip install pyenv-win --target %USERPROFILE%\.pyenv
-
-# 2.修改系统环境变量, CMD下执行如下命令
-setx PATH "%PATH%;%USERPROFILE%\.pyenv\pyenv-win\bin"
-setx PYENV "%USERPROFILE%\.pyenv"
-setx PYENV_ROOT "%USERPROFILE%\.pyenv"
-setx PYENV_HOME "%USERPROFILE%\.pyenv"
-
-# 3.重新打开CMD, 检查是否安装成功
-C:\Users\VVFock3r> pyenv --version
-pyenv 3.1.1
-
-# 备注：我们只为当前用户安装了Pyenv
-```
-
-:::
-
-::: details Pyenv命令
-
-```bash
-# 查看所有可安装版本
-pyenv install --list
-
-# 查看当前版本 
-# 注：
-# 	linux这里会显示system，方便以后我们切了版本之后想要再切回来
-#	windows不知道是不是bug，这里什么也不显示，这样当我们以后想切回系统版本就很不好弄了
-#	临时解决办法就是：用完了就卸载指定版本
-pyenv version
-
-# 安装指定版本
-# 注：
-#	(1) 带-win32的为32位版本，不带的为64位版本 
-#	(2) 如果下载慢，用迅雷下载，然后放到指定目录，安装时各目录都有说明
-#	(3) 安装过程较慢，请耐心等待
-C:\Users\VVFock3r>pyenv install 3.9.0a4
-:: [Info] ::  Mirror: https://www.python.org/ftp/python
-:: [Downloading] ::  3.9.0a4 ...
-:: [Downloading] ::  From https://www.python.org/ftp/python/3.9.0/python-3.9.0a4-amd64-webinstall.exe
-:: [Downloading] ::  To   C:\Users\VVFock3r\.pyenv\pyenv-win\install_cache\python-3.9.0a4-amd64-webinstall.exe
-^CTerminate batch job (Y/N)? y
-
-C:\Users\VVFock3r>pyenv install 3.9.0a4
-:: [Info] ::  Mirror: https://www.python.org/ftp/python
-:: [Installing] ::  3.9.0a4 ...
-
-
-# 切换到指定版本
-pyenv global 3.9.0a4	# 全局python解释器切换
-pyenv local  3.9.0a4	# 当前目录及子目录下的python解释器切换
-
-# 查看所有已安装版本
-pyenv versions
-
-# 卸载指定版本 
-pyenv uninstall 3.9.0a4
-```
-
-:::
-
-<br />
-
-### 版本管理工具 uv
+### 版本和依赖包管理工具 uv
 
 官网：[https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
 
@@ -383,7 +310,7 @@ Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
 ::: tip 
 
-**配置文件说明**
+**配置文件**
 
 * **pyproject.toml**：Python 生态的**标准项目配置文件**，用于定义项目元数据、依赖以及工具配置（包括 uv），**优先级最高**，但并非必须存在
 
@@ -393,9 +320,12 @@ Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
 * **uv.lock**：用于**精确锁定所有依赖版本**的锁文件，由 uv **自动生成和维护**，不应手动编辑，必须与 `pyproject.toml` 搭配使用
 
+**注意事项**
+
+* uv安装后的Python解释器可以直接调用，可以不经过uv，但并不易于使用
+* uv 管理的 Python 是"只读解释器"，不能做一些修改操作，比如用 `pip install` 往里面装包
+
 :::
-
-
 
 ::: details 安装 uv 和 uvx
 
@@ -450,14 +380,13 @@ VIRTUAL_ENV=./venv uv pip install flask  # 告诉uv虚拟环境目录, 再执行
 ::: details uv 用于Python项目管理时的用法
 
 ```bash
-# 初始化项目
-# 会在当前项目目录下创建以下文件
+# 初始化项目, 会在当前项目目录下创建以下文件（可以额外加参数做一些调整）
 # 	.gitignore
 # 	main.py
 # 	pyproject.toml
 # 	.python-version
 # 	README.md
-# 强烈建议在一个干净的目录下执行此命令
+# 注意：需要在干净的目录下执行此命令, 不能重复执行
 uv init                # 默认用~/.python-verion 或 本地安装的最新版本
 uv init --python 3.14  # 指定版本
 
@@ -477,70 +406,6 @@ uv sync
 <br />
 
 ## 二、变量和数据结构
-
-### 查看变量
-
-| 内置函数  | 说明                                                         |
-| --------- | ------------------------------------------------------------ |
-| globals() | 返回全局变量组成的字典                                       |
-| locals()  | 返回当前作用域内变量组成的字典，如果当前在全局则返回全局变量组成的字典 |
-| vars(obj) | 返回obj对象作用域内变量组成的字典，<br />（1）如果不传参数，vars和locals作用一样<br />（2）如果传1个参数，等同于`obj.__dict__` |
-
-代码示例
-
-::: details 点击查看完整代码
-
-```python
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-
-
-import logging
-
-# 初始化日志
-FORMAT = '%(asctime)-15s\t [%(threadName)s, %(thread)d] %(message)s'
-logging.basicConfig(format=FORMAT)
-
-# 定义全局变量
-x = 1
-
-# 测试1 - 全局作用域
-logging.warning("测试1: 在全局使用3个函数, 效果是一样的")
-logging.warning(globals() == locals() == vars())
-
-
-# 测试2 - 局部作用域(函数)
-def test2():
-    logging.warning("测试2: 在函数内部, locals()和vars()效果是一样的, 他俩和global()是不一样的")
-    y = 2
-    logging.warning(locals() == vars())
-    logging.warning(locals() == globals())
-
-
-# 测试3 - 局部作用域(对象)
-def test3():
-    class MyObj: pass
-
-    logging.warning("测试3: var(obj) == obj.__dict__")
-    logging.warning(vars(MyObj) == MyObj.__dict__)
-
-
-test2()
-test3()
-```
-
-:::
-
-输出结果
-
-```bash
-2022-04-05 10:53:24,984	 [MainThread, 291696] 测试1: 在全局使用3个函数, 效果是一样的
-2022-04-05 10:53:24,984	 [MainThread, 291696] True
-2022-04-05 10:53:24,984	 [MainThread, 291696] 测试2: 在函数内部, locals()和vars()效果是一样的, 他俩和global()是不一样的
-2022-04-05 10:53:24,984	 [MainThread, 291696] True
-2022-04-05 10:53:24,984	 [MainThread, 291696] False
-2022-04-05 10:53:24,984	 [MainThread, 291696] 测试3: var(obj) == obj.__dict__
-2022-04-05 10:53:24,984	 [MainThread, 291696] True
-```
 
 ### 列表(list)
 
@@ -1680,6 +1545,72 @@ b = lambda y, z=z: z + y
 z = 20
 print(b(0))  # 10
 ```
+
+### 内置变量函数
+
+| 内置函数  | 说明                                                         |
+| --------- | ------------------------------------------------------------ |
+| globals() | 返回全局变量组成的字典                                       |
+| locals()  | 返回当前作用域内变量组成的字典，如果当前在全局则返回全局变量组成的字典 |
+| vars(obj) | 返回obj对象作用域内变量组成的字典，<br />（1）如果不传参数，vars和locals作用一样<br />（2）如果传1个参数，等同于`obj.__dict__` |
+
+代码示例
+
+::: details 点击查看完整代码
+
+```python
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
+import logging
+
+# 初始化日志
+FORMAT = '%(asctime)-15s\t [%(threadName)s, %(thread)d] %(message)s'
+logging.basicConfig(format=FORMAT)
+
+# 定义全局变量
+x = 1
+
+# 测试1 - 全局作用域
+logging.warning("测试1: 在全局使用3个函数, 效果是一样的")
+logging.warning(globals() == locals() == vars())
+
+
+# 测试2 - 局部作用域(函数)
+def test2():
+    logging.warning("测试2: 在函数内部, locals()和vars()效果是一样的, 他俩和global()是不一样的")
+    y = 2
+    logging.warning(locals() == vars())
+    logging.warning(locals() == globals())
+
+
+# 测试3 - 局部作用域(对象)
+def test3():
+    class MyObj: pass
+
+    logging.warning("测试3: var(obj) == obj.__dict__")
+    logging.warning(vars(MyObj) == MyObj.__dict__)
+
+
+test2()
+test3()
+```
+
+:::
+
+输出结果
+
+```bash
+2022-04-05 10:53:24,984	 [MainThread, 291696] 测试1: 在全局使用3个函数, 效果是一样的
+2022-04-05 10:53:24,984	 [MainThread, 291696] True
+2022-04-05 10:53:24,984	 [MainThread, 291696] 测试2: 在函数内部, locals()和vars()效果是一样的, 他俩和global()是不一样的
+2022-04-05 10:53:24,984	 [MainThread, 291696] True
+2022-04-05 10:53:24,984	 [MainThread, 291696] False
+2022-04-05 10:53:24,984	 [MainThread, 291696] 测试3: var(obj) == obj.__dict__
+2022-04-05 10:53:24,984	 [MainThread, 291696] True
+```
+
+### 
 
 ### 内置函数
 
