@@ -974,9 +974,9 @@ print(dir(a))
 
 ![698051107556314373](https://tuchuang-1257805459.cos.accelerate.myqcloud.com/698051107556314373.png)
 
-代码示例
 
-::: details 点击查看完整代码和输出结果
+
+::: details （1）代码说明
 
 ```python
 #!/usr/bin/env python
@@ -1073,6 +1073,8 @@ print("-" * 100)
 
 :::
 
+::: details （2）关于数字缓存的细节
+
 💡 不同Python版本对于一些细节处理并不一致，了解即可
 
 ```python
@@ -1093,11 +1095,11 @@ print(a is b)  # b创建之前a尚未创建, 但是-5~256范围内的数字已�
 print('----------------------------------------------------------------------------------------------------')
 ```
 
-关于Python更多“神奇”的操作，可以参考   [https://github.com/robertparley/wtfpython-cn](https://github.com/robertparley/wtfpython-cn)
+关于Python更多"神奇"的操作，可以参考   [https://github.com/robertparley/wtfpython-cn](https://github.com/robertparley/wtfpython-cn)
 
+:::
 
-
-**嵌套问题**
+::: details （3）对象嵌套问题
 
 ```python
 #!/usr/bin/env python
@@ -1113,9 +1115,9 @@ print(hex(id(a)))  # 0x2d731accf48
 print(a)  # (1, 2, [3, 4])
 ```
 
+:::
 
-
-**关于哈希**
+::: details （4）是否可哈希
 
 * 可哈希 == 不可变对象
 * 不可哈希 == 可变对象 
@@ -1148,21 +1150,23 @@ s.add(5.1)
 print(s)  # {5.1, 5}
 ```
 
+:::
 
+::: details （5）深浅拷贝
 
-**深浅拷贝**
-
-浅拷贝
+**浅拷贝**
 
 说明：拷贝后仅仅是最顶层开辟了新的空间，里层的元素内存地址还是一样的
 
 方法：各类对象(list``/dict``)等的copy方法、对象[::]、copy.copy方法
 
-深拷贝
+**深拷贝**
 
 说明：除了顶层拷贝还对子元素也进行了拷贝（本质上递归浅拷贝），两个元素真正意义上的互不影响
 
 方法：copy.deepcopy()
+
+:::
 
 <br />
 
@@ -1199,9 +1203,11 @@ def add(x, y):
 print(add(1, 2))  # 3
 ```
 
-### 函数参数
+<br />
 
-#### 常见形式和坑
+### 函数参数详解
+
+::: details （1）常见形式和坑
 
 ```python
 #!/usr/bin/env python
@@ -1273,7 +1279,9 @@ print(add2()) # [100]
 # 让函数变得有状态也不是只有这一种形式，还可以利用闭包，后面会讲到
 ```
 
-#### 可变参数和不可变参数
+:::
+
+::: details （2）可变参数和不可变参数
 
 `*args`和`**kwargs`表示可变参数，在函数内部args是一个元祖，kwargs是一个字典
 
@@ -1294,7 +1302,9 @@ add(name="VVFock3r", language="Python")  # {'name': 'VVFock3r', 'language': 'Pyt
 add(**{"name": "VVFock3r", "language": "Python"})  # 同理，如果直接传递一个字段，使用**解构
 ```
 
-#### 仅限位置形参(positional-only)和仅限关键字形参(keyword-only)
+:::
+
+::: details （3）仅限位置形参(positional-only)和仅限关键字形参(keyword-only)
 
 仅限位置形参就是说只能使用`add(1,2)`这种形式来传递参数，
 
@@ -1304,7 +1314,7 @@ add(**{"name": "VVFock3r", "language": "Python"})  # 同理，如果直接传递
 #!/usr/bin/env python
 # --*-- coding:utf-8 --*--
 
-# 在/前面的都是仅限位置形参，positional-only
+# 在 / 前面的都是仅限位置形参，positional-only
 def add1(x, y, /):
     return x + y
 
@@ -1312,7 +1322,7 @@ print(add1(1, 2))  # 符合语法要求，输出3
 # print(add1(x=1, 2))  # 不符合语法要求，报错 SyntaxError: positional argument follows keyword argument
 
 
-# 在*后面的都是仅限关键字形参，keyword-only
+# 在 * 后面的都是仅限关键字形参，keyword-only
 def add2(*, x, y):
     return x + y
 
@@ -1320,7 +1330,9 @@ print(add2(x=1, y=2))  # 符合语法要求，输出3
 # print(add2(1, 2))  # 不符合语法要求，报错TypeError: add2() takes 0 positional arguments but 2 were given
 ```
 
-#### 看一个比较复杂的函数定义
+:::
+
+::: details （4）看一个比较"复杂"的函数定义
 
 ```python
 #!/usr/bin/env python
@@ -1338,9 +1350,11 @@ def login(host, user, password, /, *, ssl=False, **kwargs):
 login("127.0.0.1", "root", "123456", ssl=True, port=12345)
 ```
 
-### 函数作用域和`LEGB`
+:::
 
-#### 作用域
+<br />
+
+### 函数作用域和`LEGB`
 
 - 函数内部定义的变量为 局部变量，在函数外部不能直接使用
 
@@ -1354,6 +1368,8 @@ login("127.0.0.1", "root", "123456", ssl=True, port=12345)
   - `f2`要修改全局变量使用`global 变量名`
   - `f2`要修改`f1`变量要使用`nonlocal 变量名`
   - 如果`f2`中继续嵌套函数，那么规则与上述类似
+
+::: details （1）函数作用域代码说明
 
 ```python
 #!/usr/bin/env python
@@ -1421,9 +1437,9 @@ test()
 
 但是由于是先使用后定义，那就肯定会报错了，所以我们需要注意，如果函数内部要定义变量的话，一定要先定义再使用，当然了，函数外部也是先定义再使用
 
-#### 思考题-加深理解
+:::
 
-请思考这个是为什么？，如果不明白可以随时联系我
+::: details （2）思考题
 
 ```python
 #!/usr/bin/env python
@@ -1483,7 +1499,9 @@ fn2() # 函数已经调用过了
 fn2() # 函数已经调用过了
 ```
 
-#### 变量搜索顺序`LEGB`
+:::
+
+::: details （3）变量搜索顺序`LEGB`
 
 - `Local` 本地作用域
 - `Enclosing` 嵌套函数的外部函数的命名空间
@@ -1519,6 +1537,10 @@ fn1()
 '''
 ```
 
+:::
+
+<br />
+
 ### 类型注解
 
 类型注解，用来说明参数是何种类型的对象，这只是说明，目的是方便开发人员，并不是强制一定要传入指定类型的对象
@@ -1534,9 +1556,11 @@ print(add(1,2))     # 根据注解传入对应类型的参数，3
 print(add('1','2')) # 传入不同类型参数也是可以的，非强制，12
 ```
 
+<br />
+
 ### 函数签名
 
-函数签名，说白了就是描述函数参数的东西，除了写框架、调试器等，基本上我们也用不到
+函数签名，说白了就是描述函数参数的东西，除了写框架、调试器等，基本上用不到
 
 ```python
 #!/usr/bin/env python
@@ -1583,6 +1607,8 @@ for index, item in enumerate(sig.parameters.items()):
 '''    
 ```
 
+<br />
+
 ### 匿名函数
 
 匿名函数，顾名思义，就是没有名字的函数，使用`lambda`定义
@@ -1619,15 +1645,15 @@ z = 20
 print(b(0))  # 10
 ```
 
-### 内置变量函数
+<br />
+
+### 变量函数
 
 | 内置函数  | 说明                                                         |
 | --------- | ------------------------------------------------------------ |
 | globals() | 返回全局变量组成的字典                                       |
 | locals()  | 返回当前作用域内变量组成的字典，如果当前在全局则返回全局变量组成的字典 |
 | vars(obj) | 返回obj对象作用域内变量组成的字典，<br />（1）如果不传参数，vars和locals作用一样<br />（2）如果传1个参数，等同于`obj.__dict__` |
-
-代码示例
 
 ::: details 点击查看完整代码
 
@@ -1669,29 +1695,31 @@ test2()
 test3()
 ```
 
-:::
-
 输出结果
 
 ```bash
-2022-04-05 10:53:24,984	 [MainThread, 291696] 测试1: 在全局使用3个函数, 效果是一样的
-2022-04-05 10:53:24,984	 [MainThread, 291696] True
-2022-04-05 10:53:24,984	 [MainThread, 291696] 测试2: 在函数内部, locals()和vars()效果是一样的, 他俩和global()是不一样的
-2022-04-05 10:53:24,984	 [MainThread, 291696] True
-2022-04-05 10:53:24,984	 [MainThread, 291696] False
-2022-04-05 10:53:24,984	 [MainThread, 291696] 测试3: var(obj) == obj.__dict__
-2022-04-05 10:53:24,984	 [MainThread, 291696] True
+2026-01-02 16:10:53,375	 [MainThread, 1864] 测试1: 在全局使用3个函数, 效果是一样的
+2026-01-02 16:10:53,375	 [MainThread, 1864] True
+2026-01-02 16:10:53,375	 [MainThread, 1864] 测试2: 在函数内部, locals()和vars()效果是一样的, 他俩和global()是不一样的
+2026-01-02 16:10:53,375	 [MainThread, 1864] True
+2026-01-02 16:10:53,375	 [MainThread, 1864] False
+2026-01-02 16:10:53,375	 [MainThread, 1864] 测试3: var(obj) == obj.__dict__
+2026-01-02 16:10:53,375	 [MainThread, 1864] True
 ```
 
-### 
+:::
+
+<br />
 
 ### 内置函数
 
 参考 [https:`//docs`.python.org`/zh-cn/3/library/functions`.html](https://docs.python.org/zh-cn/3/library/functions.html)
 
+<br />
+
 ### 内置函数库 `functools`
 
-#### reduce
+::: details （1）reduce
 
 用传给 reduce 中的函数 function（有两个参数）先对集合中的第 1、2 个元素进行操作，
 
@@ -1709,7 +1737,9 @@ def add(x, y):
 print(reduce(add, [x for x in range(101)])) # 5050
 ```
 
-#### partial
+:::
+
+::: details （2）partial 和 partialmethod
 
 ```python
 #!/usr/bin/env python
@@ -1734,13 +1764,11 @@ print(new1(2))  # 3
 print(new2(y=2))  # 3
 ```
 
-#### partialmethod
+备注：partialmethod和partial类似，partial用于普通函数，`partialmethod`用于类方法
 
-和partial类似，partial用于普通函数，`partialmethod`用于类方法
+:::
 
-#### cached_property
-
-计算过后便被缓存
+::: details （3）cached_property：计算过后便被缓存
 
 ```python
 #!/usr/bin/env python
@@ -1764,7 +1792,9 @@ print(t.test)  # 0.0832563719467786
 print(t.test == t.test)  # True
 ```
 
-#### lru_cache
+:::
+
+::: details （4）lru_cache：最近最少使用缓存
 
 - lru是什么？LRU是Least Recently Used的缩写，即最近最少使用，是一种常用的页面置换算法
 - 函数签名：lru_cache(maxsize=128, typed=False)
@@ -1784,7 +1814,9 @@ def fib(n):
 print(fib(100))
 ```
 
-#### cmp_to_key
+:::
+
+::: details （5）cmp_to_key：比较函数
 
 比较函数，需传入两个值x，y，当x > y时返回1，等于时返回0，否则返回-1
 
@@ -1804,7 +1836,9 @@ print(new_nums2)
 # [3, 5, 9, 30, 34]
 ```
 
-#### total_ordering
+:::
+
+::: details （5）total_ordering
 
 类装饰器，实现其中一个： `__lt__()`, `__le__()`, `__gt__()`, `__ge__()`，自动实现剩余方法
 
@@ -1838,6 +1872,10 @@ print(b > c)  # True
 print(c == a)  # True
 ```
 
+:::
+
+<br />
+
 ### 递归函数
 
 - Python对递归深度做了限制，以保护解释器，超过限制抛出`RecursionError:maxinum recursion depth exceeded`
@@ -1867,6 +1905,8 @@ def fib(n, cache=None):
 
 print(fib(998))
 ```
+
+<br />
 
 ### 高阶函数
 
