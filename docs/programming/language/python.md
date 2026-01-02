@@ -2261,7 +2261,9 @@ def timer(start_time=3):
 
 ## 四、多线程
 
-### 并发和并行
+### 前置知识
+
+**1、并发和并行**
 
 并发（Concurrent）：在同一时间点，一颗CPU核心交替做两件或多件事
 
@@ -2277,11 +2279,11 @@ def timer(start_time=3):
 
 * 由于CPython特殊的GIL锁，导致CPython不能实现并行，解决办法可以使用多进程来实现并行，
 
-  也可以使用PyPy等移除掉GIL的第三方解释器来执行（这又是一个比较深的坑）
+  也可以使用PyPy等移除掉GIL的第三方解释器来执行
 
+<br />
 
-
-### 高并发解决方案
+**2、高并发解决方案**
 
 上面我们讲的都是在编程语言范围内的并发，而在一个项目中，高并发的本质问题往往在于数据库能够承载的并发是有限的。解决高并发的关键就在于降低单库的连接数。
 
@@ -2295,7 +2297,9 @@ def timer(start_time=3):
 
 > 实际情况中要根据项目的特性，是读多写少还是读少写多，综合不同的手段来达到高并发的目的
 
-### 线程说明
+<br />
+
+**3、线程说明**
 
 * 线程是CPU调度的最小单元
 * 每个可执行程序都会有一个主线程，主线程一般我们都用来做协调工作，由主线程来创建其他线程称为工作线程
@@ -2307,9 +2311,9 @@ def timer(start_time=3):
   * 终止(Teminated)：线程退出
 * 工作线程一旦启动，不可暂停和取消，除非代码运行完成或抛出异常而停止；工作线程崩溃不影响主线程正常运行
 
+<br />
 
-
-### CPython线程使用场景
+**4、CPython线程使用场景**
 
 线程是最出名的实现并发和并行的方式之一，但是在CPython中由于GIL的存在，线程只能实现并发，而不能实现并行。
 
@@ -2318,11 +2322,11 @@ def timer(start_time=3):
 * 对于CPU密集型的应用，由于线程会一直霸占CPU，除非线程执行完成或主动交出控制权，所以使用多线程一般会导致程序变慢（线程创建和销毁需要开销）
 * 对于IO密集型应用，遇到IO阻塞时系统会自动进行线程切换，所以可以极大的提高程序效率
 
-
+<br />
 
 ### 基本使用
 
-函数形式
+::: details （1）函数形式
 
 ```python
 #!/usr/bin/env python
@@ -2343,7 +2347,9 @@ for i in range(5):
     t.start()
 ```
 
-类形式
+:::
+
+::: details （2）类形式
 
 ```python
 #!/usr/bin/env python
@@ -2366,21 +2372,24 @@ for i in range(5):
     t.start()
 ```
 
+:::
+
+<br />
+
 ### 线程属性
 
-Thread类签名
+**Thread类签名**
 
 ```python
-def __init__(self, group=None, target=None, name=None,
-                 args=(), kwargs=None, *, daemon=None)
+def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None)
 
-targe	线程调度的函数
-name	线程名字
-args	线程函数参数，是一个元祖
-daemon	后面有讲解
+# targe		线程调度的函数
+# name		线程名字
+# args		线程函数参数，是一个元祖
+# daemon	后面有讲解
 ```
 
-Thread实例属性和方法
+**Thread实例属性和方法**
 
 | 属性/方法      | 说明                                                         |
 | -------------- | ------------------------------------------------------------ |
@@ -2391,7 +2400,7 @@ Thread实例属性和方法
 | ident          | 线程ID，非0整数，线程启动后才会有ID，否则为None。线程退出，此ID依旧可以访问。此ID可以重复使用 |
 | is_alive()     | 返回线程是否还活着，等同于.isAlive()                         |
 
-threading模块属性和方法
+**threading模块属性和方法**
 
 | 属性/方法        | 说明                                                 |
 | ---------------- | ---------------------------------------------------- |
@@ -2400,6 +2409,8 @@ threading模块属性和方法
 | main_thread()    | 返回主线程对象                                       |
 | active_count()   | 当前处于alive状态的线程个数                          |
 | enumerate()      | 返回所有的活着的线程列表，不包括未开始和已终止的线程 |
+
+<br />
 
 ### 线程安全
 
@@ -2502,6 +2513,8 @@ for i in range(100):
     # Thread(target=thread_safe2).start()
 ```
 
+<br />
+
 ### daemon
 
 设置线程daemon为False后，当主线程执行结束后，要等待非daemon线程执行完成
@@ -2570,7 +2583,7 @@ print("End")
 #     End
 ```
 
-
+<br />
 
 ### join阻塞线程
 
@@ -2611,7 +2624,7 @@ for thread in threads:
 print("End")
 ```
 
-
+<br />
 
 ### 线程锁
 
@@ -2706,6 +2719,8 @@ print("End")
 # End
 ```
 
+<br />
+
 ### 线程局部变量
 
 创建一个全局变量`request = local()`，使用多线程对`request`进行修改时，会先将request拷贝到自身线程中一份，不会影响到全局和其他线程中的`request`
@@ -2745,6 +2760,8 @@ while active_count() > 1:
 
 print("End")
 ```
+
+<br />
 
 ### 线程同步 - 事件Event
 
@@ -2797,6 +2814,8 @@ time.sleep(7)
 event.set()
 ```
 
+<br />
+
 ### Event应用 - 延迟器 Timer
 
 ```python
@@ -2829,6 +2848,8 @@ logging.warning("做一些其他的事...")
 #   如果函数已经运行，此时cancel依然可以正常执行，但是函数已经无法取消
 # t.cancel()
 ```
+
+<br />
 
 ### 线程同步 - 条件变量Condition
 
@@ -2926,11 +2947,15 @@ for i in range(9):
     t.start()
 ```
 
-
+<br />
 
 ### 线程同步 - Barrier
 
+<br />
+
 ### 线程同步 - Semaphore
+
+<br />
 
 ### 线程池 - ThreadPoolExecutor
 
@@ -3010,7 +3035,7 @@ with ThreadPoolExecutor(max_workers=5, thread_name_prefix="Thread-Add") as execu
         logging.warning("add result: {}".format(result))
 ```
 
-## 
+<br />
 
 ## 五、协程
 
