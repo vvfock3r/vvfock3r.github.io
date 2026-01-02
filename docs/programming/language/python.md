@@ -2265,11 +2265,9 @@ def timer(start_time=3):
 
 **1、并发和并行**
 
-并发（Concurrent）：在同一时间点，一颗CPU核心交替做两件或多件事
+<span style="color: red;font-weight: bold;">并发（Concurrent）：在同一时间点，一颗CPU核心交替做两件或多件事</span>
 
-并行（Parallel）：同一时间点，两颗或多颗CPU核心同时做两件或多件事
-
-
+<span style="color: red;font-weight: bold;">并行（Parallel）：同一时间点，两颗或多颗CPU核心同时做两件或多件事</span>
 
 单单只看这些概念还是让人摸不着头脑，我们深入理解一下：
 
