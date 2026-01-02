@@ -555,16 +555,16 @@ test2()
 
 文档：[https://docs.python.org/zh-cn/3/library/stdtypes.html#tuple](https://docs.python.org/zh-cn/3/library/stdtypes.html#tuple)
 
-**元祖方法**
+::: details 元祖方法
 
 | 分类 | 方法                                                 | 说明                                                         |
 | ---- | ---------------------------------------------------- | ------------------------------------------------------------ |
 | 查找 | `index(value, start=0, stop=9223372036854775807, /)` | 返回value在元组中第一次出现的索引号，找不到抛出ValueError异常 |
 |      | `count(value, /)`                                    | 返回value在元组中出现的次数                                  |
 
+:::
 
-
-**高级数据结构：命名元组**
+::: details 命名元组
 
 命名元组函数签名
 
@@ -572,9 +572,7 @@ test2()
 namedtuple(typename, field_names, *, rename=False, defaults=None, module=None)
 ```
 
-命名元组示例
-
-::: details 点击查看完整代码
+示例代码
 
 ```python
 #!/usr/bin/env python
@@ -610,13 +608,15 @@ if __name__ == '__main__':
 
 :::
 
+<br />
+
 ### 字符串(str)
 
 文档：[https://docs.python.org/3/library/stdtypes.html#str](https://docs.python.org/3/library/stdtypes.html#str)
 
 
 
-**（1）字符串类签名**
+::: details （1）字符串类签名
 
 ```python
 class str(object=b'', encoding='utf-8', errors='strict')
@@ -644,9 +644,9 @@ print(sys.getdefaultencoding())  # utf-8
 print(str(b'abc', encoding="utf-8") == bytes.decode(b'abc', encoding="utf-8"))  # True
 ```
 
+:::
 
-
-**（2）格式化输出的几种方法**
+::: details （2）格式化输出的几种方法
 
 ① 使用%（已经不推荐使用，仅作了解）
 
@@ -704,7 +704,11 @@ year = 18
 print(f"I am {year} years old")
 ```
 
-**（3）格式化输修饰符**
+:::
+
+::: details （3）格式化输修饰符
+
+**修饰符说明**
 
 | 修饰符   | 说明                                                         |
 | -------- | ------------------------------------------------------------ |
@@ -715,9 +719,7 @@ print(f"I am {year} years old")
 | `{:n}`   | 用空白补充该变量的长度到n(在两边补充)                        |
 | `{:#^n}` | 用#号补充该变量的长度到n(在两边补充)，并设置为剧中对齐；格式为：`补充-对齐-宽度-小数点保留位数` |
 
-格式化修饰符演示
-
-::: details 点击查看完整代码
+**代码演示**
 
 ```python
 #!/usr/bin/env python
@@ -773,13 +775,13 @@ for name, years in zip(msg1, msg2):
     print(fmt.format(name=name, width=(100 - chinese_number(name)), years=years))
 ```
 
-:::
-
 输出结果
 
 ![image-20220405164801876](https://tuchuang-1257805459.cos.accelerate.myqcloud.com/image-20220405164801876.png)
 
-**（4）字符串常用方法**
+:::
+
+::: details （4）字符串常用方法
 
 | 分类           | 方法                                         | 说明                                                         |
 | -------------- | -------------------------------------------- | ------------------------------------------------------------ |
@@ -806,7 +808,9 @@ for name, years in zip(msg1, msg2):
 |                | str.isascii()                                | 如果字符串为空或者为ASCII码返回True，否则返回False           |
 |                | 更多类型判断...                              |                                                              |
 
-**（5）str和byte转换**
+:::
+
+::: details （5）str和byte转换
 
 ```python
 #!/usr/bin/env python
@@ -815,6 +819,10 @@ for name, years in zip(msg1, msg2):
 print('中'.encode(encoding="utf-8"))  # b'\xe4\xb8\xad'
 print(b'\xe4\xb8\xad'.decode("utf-8"))  # 中
 ```
+
+:::
+
+<br />
 
 ### 字典(dict)
 
