@@ -828,9 +828,7 @@ print(b'\xe4\xb8\xad'.decode("utf-8"))  # 中
 
 文档：[https://docs.python.org/zh-cn/3/library/stdtypes.html#dict](https://docs.python.org/zh-cn/3/library/stdtypes.html#dict)
 
-**字典创建**
-
-::: details 点击查看完整代码
+::: details （1）字典创建
 
 ```python
 #!/usr/bin/env python
@@ -855,8 +853,6 @@ print("    {}".format({x: chr(x) for x in list(range(65, 68))}))
 print("    {}".format({i: chr(i + 65) for i in list(range(3))}))
 ```
 
-:::
-
 输出结果
 
 ```bash
@@ -867,7 +863,9 @@ print("    {}".format({i: chr(i + 65) for i in list(range(3))}))
     {0: 'A', 1: 'B', 2: 'C'}
 ```
 
-**字典方法**
+:::
+
+::: details （2）字典方法
 
 | 分类 | 方法                        | 说明                                                       |
 | ---- | --------------------------- | ---------------------------------------------------------- |
@@ -886,13 +884,15 @@ print("    {}".format({i: chr(i + 65) for i in list(range(3))}))
 |      | dict.values()               | 返回所有的value                                            |
 |      | dict.items()                | 返回k和v                                                   |
 
+:::
 
+<br />
 
 ### 可变集合(set)
 
 文档：[https://docs.python.org/zh-cn/3/library/stdtypes.html#set](https://docs.python.org/zh-cn/3/library/stdtypes.html#set)
 
-**创建集合**
+::: details （1）创建集合
 
 ```python
 #!/usr/bin/env python
@@ -916,7 +916,9 @@ print(c)
 {0, 1, 2, 3, 4}
 ```
 
-**集合方法**
+:::
+
+::: details （2）集合方法
 
 | 分类     | 方法                              | 说明                                           |
 | -------- | --------------------------------- | ---------------------------------------------- |
@@ -937,9 +939,15 @@ print(c)
 |          | .symmetric_difference(set)        | 返回一个新集合，取两个集合不一样的所有元素     |
 |          | .symmetric_difference_update(set) | **就地修改原集合，取两个集合不一样的所有元素** |
 
+:::
+
+<br />
+
 ### 不可变集合(frozenset)
 
 文档：[https://docs.python.org/zh-cn/3/library/stdtypes.html#frozenset](https://docs.python.org/zh-cn/3/library/stdtypes.html#frozenset)
+
+::: details 不可变集合(frozenset)
 
 和``set``类似，只是少了许多方法，用法都是一样的
 
@@ -956,7 +964,9 @@ print(dir(a))
 # ['copy', 'difference', 'intersection', 'isdisjoint', 'issubset', 'issuperset', 'symmetric_difference', 'union']
 ```
 
+:::
 
+<br />
 
 ### 可变对象和不可变对象
 
@@ -1154,7 +1164,7 @@ print(s)  # {5.1, 5}
 
 方法：copy.deepcopy()
 
-
+<br />
 
 ### **基本数据类型对比**
 
@@ -1171,7 +1181,7 @@ print(s)  # {5.1, 5}
 | 集合                 | ❌                        | ✔              | ❌                   |
 | 不可变集合           | ❌                        | ❌              | ❌                   |
 
-## 
+<br />
 
 ## 三、函数
 
