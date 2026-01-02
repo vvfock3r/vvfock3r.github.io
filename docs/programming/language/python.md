@@ -411,15 +411,70 @@ uv sync
 
 文档：[https://docs.python.org/zh-cn/3/library/stdtypes.html#list](https://docs.python.org/zh-cn/3/library/stdtypes.html#list)
 
-**列表推导式**
+::: details 简单列表推导式
 
 ```python
-x = [x for x in range(100)]
-x = [{chr(x):x} for x in range(97, 123)]
-x = [{x:y} for x in range(1,3) for y in range(3)]
+# 生成数字1-10
+x = [x for x in range(10)]
+print(x)
+
+# 生成字母 a-z
+x = [{chr(x): x} for x in range(97, 123)]
+print(x)
 ```
 
-**列表方法**
+:::
+
+::: details 带if条件的列表推导式
+
+```python
+# 生成数字1-10, 并过滤出偶数
+x = [x for x in range(10) if x % 2 == 0]
+print(x)
+
+# 等价与
+tmp = []
+for i in range(10):
+    if i % 2 == 0:
+        tmp.append(i)
+print(tmp)
+
+# -----------------------------------------------------
+
+# 生成数字1-10, 奇数不做处理, 偶数*2
+x = [x * 2 if x % 2 == 0 else x for x in range(10)]
+print(x)
+
+# 等价于
+tmp = []
+for i in range(10):
+    if i % 2 == 0:
+        tmp.append(i * 2)
+    else:
+        tmp.append(i)
+print(tmp)
+```
+
+:::
+
+::: details 多层循环的列表推导式
+
+```python
+# 多层for循环
+points = [(x, y) for x in range(3) for y in range(2)]
+print(points)
+
+# 等价于
+tmp = []
+for x in range(3):
+    for y in range(2):
+        tmp.append((x, y))
+print(tmp)
+```
+
+:::
+
+::: details 列表常用方法
 
 | 分类     | 方法                                                       | 说明                                                         |
 | -------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
@@ -439,9 +494,9 @@ x = [{x:y} for x in range(1,3) for y in range(3)]
 | 列表查找 | `index(self, value, start=0, stop=9223372036854775807, /)` | 返回value在列表中的索引号，找不到抛出ValueError异常          |
 |          | `count(self, value, /)`                                    | 返回value在列表中出现的次数                                  |
 
-**列表常见操作效率对比**
+:::
 
-::: details 点击查看完整代码
+::: details 列表效率对比：[]  vs list() and .append() vs .insert()
 
 ```python
 #!/usr/bin/env python
@@ -457,8 +512,8 @@ logging.basicConfig(format=FORMAT)
 
 def test1():
     logging.warning("[]和list()效率对比(运行100万次时间总和)")
-    logging.warning("         []: {}秒".format(timeit.timeit(stmt="[]")))
-    logging.warning("     list(): {}秒".format(timeit.timeit(stmt="list()")))
+    logging.warning("         []: {}秒".format(timeit.timeit(stmt="[]", number=1_000_000)))
+    logging.warning("     list(): {}秒".format(timeit.timeit(stmt="list()", number=1_000_000)))
 
 
 def test2():
@@ -481,20 +536,20 @@ test1()
 test2()
 ```
 
-:::
-
 输出结果
 
 ```bash
-2022-04-05 11:34:28,170	 [MainThread, 295460] []和list()效率对比(运行100万次时间总和)
-2022-04-05 11:34:28,185	 [MainThread, 295460]          []: 0.0168023秒
-2022-04-05 11:34:28,248	 [MainThread, 295460]      list(): 0.0661798秒
-2022-04-05 11:34:28,248	 [MainThread, 295460] append与insert效率对比(列表插入10万个数据,运行10次的时间总和)
-2022-04-05 11:34:28,310	 [MainThread, 295460]      append: 0.06255819999999998秒
-2022-04-05 11:34:47,223	 [MainThread, 295460]      insert: 18.904270200000003秒
+2026-01-02 11:47:54,316	 [MainThread, 16076] []和list()效率对比(运行100万次时间总和)
+2026-01-02 11:47:54,335	 [MainThread, 16076]          []: 0.018049100000098406秒
+2026-01-02 11:47:54,378	 [MainThread, 16076]      list(): 0.04234969999970417秒
+2026-01-02 11:47:54,378	 [MainThread, 16076] append与insert效率对比(列表插入10万个数据,运行10次的时间总和)
+2026-01-02 11:47:54,425	 [MainThread, 16076]      append: 0.04686989999981961秒
+2026-01-02 11:48:11,463	 [MainThread, 16076]      insert: 17.038514000000305秒
 ```
 
+:::
 
+<br />
 
 ### 元组(tuple)
 
