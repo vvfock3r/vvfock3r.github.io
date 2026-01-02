@@ -1562,6 +1562,8 @@ print(add('1','2')) # 传入不同类型参数也是可以的，非强制，12
 
 函数签名，说白了就是描述函数参数的东西，除了写框架、调试器等，基本上用不到
 
+::: details 点击查看详情
+
 ```python
 #!/usr/bin/env python
 # --*-- coding:utf-8 --*--
@@ -1606,6 +1608,8 @@ for index, item in enumerate(sig.parameters.items()):
 参数注解: None
 '''    
 ```
+
+:::
 
 <br />
 
@@ -1912,7 +1916,7 @@ print(fib(998))
 
 高阶函数指的是可以将一个函数作为一个形参传递给一个函数 或 返回值是一个函数，这个函数就称为高阶函数
 
-#### sorted
+::: details （1）sorted
 
 sorted 排序函数，key指定自定义排序规则，reverse可以反转结果，返回列表
 
@@ -1972,7 +1976,9 @@ def sorted(iterable, *, key=None, reverse=False):
     return ret
 ```
 
-#### filter
+:::
+
+::: details （2）filter
 
 filter 筛选指定元素，函数可以为None时代表从序列中筛选出为真的元素，返回一个filter对象
 
@@ -2011,7 +2017,9 @@ def filter(fn, iterable):
             yield i
 ```
 
-#### map
+:::
+
+::: details （3）map
 
 将序列的每个元素都作用在函数上，返回一个map object
 
@@ -2105,9 +2113,13 @@ print(list(starmap(lambda x, y: {x: y}, data)))
 # [{1: 2}, {3: 4}]   start_map 将1,2和3,4分别传进去,start_map 只需要传递一个可迭代对象即可
 ```
 
-### 装饰器
+:::
 
-#### 柯里化(Currying)
+<br />
+
+### 装饰器基础
+
+::: details （1）柯里化(Currying)
 
 将原来接受2个参数的函数变成新的接受一个参数的函数的过程。新的函数是接受原有函数第二个参数的函数，比如：
 
@@ -2135,7 +2147,9 @@ def add(x):
 print(add(1)(2)) # 3
 ```
 
-#### 闭包(Closure)
+:::
+
+::: details （2）闭包(Closure)
 
 闭包就是函数中再嵌套一个函数，内层函数中使用了外层函数的自有变量，就产生了闭包
 
@@ -2160,7 +2174,9 @@ for i in add(1, 2).__closure__:
     # 2
 ```
 
-#### 装饰器
+:::
+
+::: details （3）装饰器
 
 无参装饰器
 
@@ -2239,7 +2255,9 @@ def timer(start_time=3):
     return _timer
 ```
 
-## 
+:::
+
+<br />
 
 ## 四、多线程
 
