@@ -18,7 +18,11 @@ const navbar = [
 			  ]
 			}
 		]
-    }
+    },
+	{
+		text: 'ℹ️ 关于',
+		link: '/about/about.md'
+	},
 ]
 
 export default defineUserConfig({
