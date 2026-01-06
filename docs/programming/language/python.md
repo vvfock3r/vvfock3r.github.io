@@ -4,9 +4,11 @@
 
 官网：[https://www.python.org](https://www.python.org)
 
-Python仓库：[https://pypi.org/](https://pypi.org/)
+FTP：[https://www.python.org/ftp/python/](https://www.python.org/ftp/python/)
 
-专为树莓派提供预编译的 Python wheel（二进制安装包）：[https://www.piwheels.org/](https://www.piwheels.org/)
+PyPI：[https://pypi.org/](https://pypi.org/)
+
+piwheels（专为树莓派提供预编译的 Python wheel 二进制安装包）：[https://www.piwheels.org/](https://www.piwheels.org/)
 
 <br />
 
@@ -16,96 +18,159 @@ Python仓库：[https://pypi.org/](https://pypi.org/)
 
 官方文档：[https://docs.python.org/3/reference/introduction.html#implementations](https://docs.python.org/3/reference/introduction.html#implementations)
 
-**CPython**
+**<span style="color: red;">CPython</span>**
 
-这是最早出现并持续维护的 Python 实现，以 C 语言编写。新的语言特性通常在此率先添加。
+这是最早出现并持续维护的 Python 实现，主要以 **C 语言** 编写（少量平台相关代码使用其他语言）。
 
-平常使用的就是CPython
+Python 语言规范的**事实参考实现**，新的语言特性通常首先在CPython 中实现并发布。
 
-**Jython**
+日常开发中使用的 `Python`，通常指的就是 **CPython**。
 
-以 Java 语言编写的 Python 实现。此实现可以作为 Java 应用的一个脚本语言，或者可以用来创建需要 Java 类库支持的应用。想了解更多信息可访问 [Jython 网站](http://www.jython.org/)
+<hr />
 
-**Python for .NET**
+**<span style="color: red;">Jython</span>**
 
-此实现实际上使用了 CPython 实现，但是属于 .NET 托管应用并且可以引入 .NET 类库。它的创造者是 Brian Lloyd。想了解详情可访问 [Python for .NET 主页](https://pythonnet.github.io/)
+以 **Java 语言** 编写的 Python 实现，运行在 **JVM** 之上。 可作为 Java 应用的脚本语言，或用于编写能够直接调用 **Java 类库** 的 Python 程序。
 
-**IronPython**
+当前主要支持 Python 2.7 语义，对 Python 3 的支持长期受限
 
-另一个 .NET 的 Python 实现，与 Python.NET 不同点在于它是生成 IL 的完全 Python 实现，并且将 Python 代码直接编译为 .NET 程序集。它的创造者就是当初创造 Jython 的 Jim Hugunin。想了解详情可访问 [IronPython 网站](http://ironpython.net/)
+项目主页：[http://www.jython.org/](http://www.jython.org/)
 
-**PyPy**
+<hr />
 
-完全使用 Python 语言编写的 Python 实现。它支持多个其他实现所没有的高级特性，例如非栈式支持和 JIT 编译器等。此项目的目标之一是通过允许方便地修改解释器 (因为它是用 Python 编写的)，鼓励该对语言本身进行试验。想了解详情可访问 [PyPy 项目主页](http://pypy.org/)
+**<span style="color: red;">Python for .NET</span>**
 
-总结一下
+**并非独立的 Python 解释器实现**，而是一个用于 **CPython 与 .NET CLR 互操作的桥接库**。
 
-| 实现语言 | 解释器名称                  | 官网                                                         | 备注                             |
-| -------- | --------------------------- | ------------------------------------------------------------ | -------------------------------- |
-| C        | CPython                     | [https://www.python.org/](https://www.python.org/)           | 官方实现                         |
-| Python   | PyPy                        | [https://www.pypy.org/](https://www.pypy.org/)               | Python实现                       |
-| Java     | Jython                      | [https://www.jython.org/](https://www.jython.org/)           | Java实现                         |
-| .Net     | Python for .NET和IronPython | [https://pythonnet.github.io/](https://pythonnet.github.io/)<br />[https://ironpython.net/](https://ironpython.net/) | .Net相关，但是并非完全由.Net实现 |
+ 它允许：
 
-### 增强版交互式解释器（REPL）
+- 在 Python 中直接调用 .NET 类库
+- 在 .NET 程序中嵌入并调用 CPython
 
-IPython：[https://ipython.org/](https://ipython.org/)
+底层仍然依赖 **CPython 解释器**，本身不实现 Python 语言语义。
 
-Jupyter Notebook：[https://jupyter.org/](https://jupyter.org/)
+项目主页：[https://pythonnet.github.io/](https://pythonnet.github.io/)
+
+<hr />
+
+**<span style="color: red;">IronPython</span>**
+
+运行在 **.NET CLR** 上的 Python 实现，基于 **DLR（Dynamic Language Runtime）**， 将 Python 代码编译为 **IL** 并在 CLR 上执行。
+
+与 Python for .NET 的主要区别在于：
+
+ IronPython 是一个 **完整的 Python 语言实现**，而不是对 CPython 的桥接。
+
+该项目由 **Jim Hugunin** 创建（同时也是 Jython 的作者）。
+
+项目主页：[http://ironpython.net/](http://ironpython.net/)
+
+<hr />
+
+**<span style="color: red;">PyPy</span>**
+
+主要使用 **RPython（Python 的受限子集）** 编写的 Python 实现。
+
+其核心特性包括：
+
+- **JIT（即时编译）**
+- 可插拔的 GC
+- 非栈式支持（stackless-like behavior）
+
+PyPy 的设计目标之一是： 通过使用 RPython 编写解释器，使其 **易于分析、优化和实验新的解释器与语言特性**。
+
+项目主页：[http://pypy.org/](http://pypy.org/)
+
+<hr />
+
+**<span style="color: blue;">一句话总结</span>**
+
+- **CPython**：官方参考实现，生态与兼容性最强
+- **Jython / IronPython**：将 Python 深度融入 JVM / CLR
+- **Python for .NET**：CPython ↔ .NET 的互操作桥梁
+- **PyPy**：以 JIT 为核心，探索高性能与解释器设计空间
+
+<br />
+
+### 增强版交互式解释器
+
+**<span style="color: red;">IPython</span>** 是对标准 Python REPL 的增强实现，提供了更强大的交互式开发体验，常被作为调试、探索和实验代码的工具。
+
+核心特性：
+
+- 更友好的交互体验（自动补全、语法高亮、历史记录）
+- 内建对象自省（`obj?`、`obj??`）
+- 支持 **魔法命令（magic commands）**，如 `%timeit`、`%run`、`%debug`
+- 更强的异常回溯与调试信息
+- 与科学计算生态（NumPy / SciPy / Matplotlib）深度集成
+
+IPython **不是新的 Python 语法或解释器实现**，而是运行在现有 Python 解释器（通常是 CPython）之上的增强交互层。
+
+项目主页：[https://ipython.org/](https://ipython.org/)
+
+<hr />
+
+**<span style="color: red;">Jupyter Notebook</span>** 是一个基于 Web 的交互式计算环境，最初由 IPython 项目演化而来，用于将：
+
+- **代码**
+- **运行结果**
+- **图表**
+- **说明性文本（Markdown）**
+
+整合在同一个可复现的文档中。
+
+核心特性：
+
+- 通过浏览器进行交互式编程
+- 支持多语言内核（Python、R、Julia 等）
+- 文档即代码，适合实验、数据分析与教学
+- 可导出为 HTML、PDF 等多种格式
+
+在 Python 生态中，Jupyter Notebook **通常以 IPython 作为 Python 内核**，但两者在架构上是解耦的。
+
+项目主页：[https://jupyter.org/](https://jupyter.org/)
 
 <br />
 
 ### 全局解释器锁（GIL）
 
-**GIL是什么？**
+**GIL 是什么？**
 
-GIL，全称为Global Interpreter Lock，中文翻译为全局解释器锁，属于互斥锁，
+**GIL（Global Interpreter Lock，全局解释器锁）** 是 **CPython** 中的一种全局互斥锁。
 
-简单来说就是给Python解释器上了一把锁，同一时刻只允许同时一个线程执行代码，同一时刻只能利用单核CPU，
+它的作用是：在同一个 CPython 进程中，任意时刻只允许 **一个线程执行 Python 字节码**。
 
-这就导致Python的多线程并非是真正的多线程
+因此：
 
-<br />
+- 多线程 **不能在 CPU 密集型任务上真正并行**
+- 这是 **CPython 的实现细节**，不是 Python 语言本身的特性
 
-**GIL的优点**
+------
 
-CPython使用引用计数作为垃圾回收器的内存管理技术，工作原理如下：
+**为什么会有 GIL？**
 
-1.每个对象都有一个引用计数，
+CPython 使用 **引用计数** 进行内存管理，而引用计数的增减在多线程下需要被保护。
 
-2.当对象被赋给一个新的变量名或被添加到一个容器(如元组、列表等)时，引用计数会增加，
+相比给每个对象加锁，引入一把 **全局锁（GIL）**：
 
-​    同样，当引用超出范围或调用del语句时，引用计数也会减少
+- 实现更简单
+- 性能开销更低
+- 更容易保证解释器稳定性
 
-3.当一个对象的引用计数达到0时，它将被垃圾回收，分配的内存将被释放
+------
 
+**GIL 的影响**
 
+- **CPU 密集型任务**：多线程效果差，推荐 **多进程**
+- **I/O 密集型任务**：多线程仍然有效（I/O 会释放 GIL）,但是：
+  - 网络 I/O 多线程几乎必赚；
+  - 磁盘 I/O 是否提速，取决于磁盘是不是瓶颈，而不是 GIL
 
-在多线程下引用计数变量需要被保护（因为赋值等操作是非原子的），此时有两种解决办法：
+------
 
-（1）给每个对象添加一个锁，这可能 增加死锁的可能性，并且性能开销较大
+**一句话总结**
 
-（2）添加全局解释器锁，只有一把锁，管理简单，且开销较小
-
-<br />
-
-**GIL的缺点**
-
-GIL导致Python无法真正的使用多核CPU资源，无法真正并行
-
-<br />
-
-**总结**
-
-CPU密集型任务不适合多线程，相比单线程反而会降低效率，此时可以使用多进程代替
-
-IO密集型任务可以使用多线程
-
-
-
-参考资料
-
-官方Wiki：[https://wiki.python.org/moin/GlobalInterpreterLock](https://wiki.python.org/moin/GlobalInterpreterLock)
+> **GIL 是 CPython 为简化内存管理而引入的全局锁，它限制了 CPU 密集型多线程的并行能力，但在网络 I/O 场景下，多线程仍然可以有效并发**
 
 <br />
 
@@ -310,20 +375,31 @@ Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
 ::: tip 
 
-**配置文件**
+**1、设计目标**
 
-* **pyproject.toml**：Python 生态的**标准项目配置文件**，用于定义项目元数据、依赖以及工具配置（包括 uv），**优先级最高**，但并非必须存在
+用一个工具，统一解决 Python 的「版本管理 + 虚拟环境 + 依赖管理 + 安装加速」问题，并且做到极快、可复现、低心智负担
 
-* **.python-version**：用于指定项目所使用的 Python 版本，`uv python pin 3.14` 时会修改当前目录的`.python-version`，也可以手动修改。
+<br />
 
-  当 `pyproject.toml` 中已声明 Python 版本时，该文件会被忽略
+**2、配置文件**
 
-* **uv.lock**：用于**精确锁定所有依赖版本**的锁文件，由 uv **自动生成和维护**，不应手动编辑，必须与 `pyproject.toml` 搭配使用
+* pyproject.toml：Python 生态的标准项目配置文件，用于定义项目元数据、依赖以及工具配置（包括 uv），**优先级最高**，但并非必须存在
 
-**注意事项**
+* .python-version：用于指定项目所使用的 Python 版本，`uv python pin 3.14` 时会修改当前目录的`.python-version`，也可以手动修改。  
+
+  当 pyproject.toml 中已声明 Python 版本时，该文件会被忽略
+
+* uv.lock：用于精确锁定所有依赖版本的锁文件，由 uv 自动生成和维护，不应手动编辑，必须与 `pyproject.toml` 搭配使用
+
+<br />
+
+**3、注意事项**
 
 * uv安装后的Python解释器可以直接调用，可以不经过uv，但并不易于使用
+
 * uv 管理的 Python 是"只读解释器"，不能做一些修改操作，比如用 `pip install` 往里面装包
+
+* `pyproject.toml`、 `.python-version`、`uv.lock` 这三个文件应该提交到代码仓库
 
 :::
 
