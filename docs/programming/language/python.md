@@ -2410,6 +2410,8 @@ for i in range(5):
 
 ### 线程属性
 
+::: details Thread类详情
+
 **Thread类签名**
 
 ```python
@@ -2441,6 +2443,8 @@ def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, 
 | main_thread()    | 返回主线程对象                                       |
 | active_count()   | 当前处于alive状态的线程个数                          |
 | enumerate()      | 返回所有的活着的线程列表，不包括未开始和已终止的线程 |
+
+:::
 
 <br />
 
@@ -2656,15 +2660,17 @@ print("End")
 
 ### 线程锁
 
-Lock相关类：
+::: tip Lock类
 
 * Lock：独占锁或叫做互斥锁，同一时间只有一个线程能获取到锁
 
-* RLock：可重入锁，同一时间只有一个线程能获取到锁，在同一个线程内可多次acquire()，但也需要执行相同次数的release()
+* RLock：可重入锁，同一时间只有一个线程能获取到锁，获取锁后可以多次 `acquire()`，但也需要执行相同次数的 `release()`
 
+  > 注意：这不是读写锁
 
+:::
 
-lock实例方法
+**Lock实例方法**
 
 | 方法                       | 说明                                                         |
 | -------------------------- | ------------------------------------------------------------ |
@@ -2672,9 +2678,7 @@ lock实例方法
 | release()                  | 释放锁                                                       |
 | locked()                   | 查看是否上锁，已上锁返回True，否则返回False（注意RLOCK实例没有这个方法） |
 
-
-
-死锁和RLOCK
+**死锁和RLOCK**
 
 连续两次acquire请求会导致死锁，因为第一次获得锁之后还没有释放时，第二次acquire请求紧接着就到来，
 
@@ -2689,9 +2693,7 @@ Lock.release()
 
 RLock就不存在上面提到的死锁问题，只需要保证有多少次acquire()，就有多少次release()即可
 
-
-
-Lock演示
+::: details Lock 示例
 
 ```python
 #!/usr/bin/env python
@@ -2723,7 +2725,7 @@ def add(n):
         #     data += n
         #     lock.release()
 
-        # 加锁（方式三）
+        # 加锁（方式三, 推荐）
         # with lock:
         #     data += n
 
@@ -2738,20 +2740,29 @@ t2.join()
 
 print(data)
 print("End")
+```
 
+输出结果
+
+```bash
 # 未加锁输出结果：
 # 924375
 # End
+
 # 加锁输出结果
 # 0
 # End
 ```
+
+:::
 
 <br />
 
 ### 线程局部变量
 
 创建一个全局变量`request = local()`，使用多线程对`request`进行修改时，会先将request拷贝到自身线程中一份，不会影响到全局和其他线程中的`request`
+
+::: details 点击查看详情
 
 ```python
 #!/usr/bin/env python
@@ -2775,7 +2786,7 @@ request = local()
 
 
 def thread_local(request):
-    request.thread_name = current_thread().getName()
+    request.thread_name = current_thread().name
     time.sleep(1)
     logging.warning('request.thread_name: {}'.format(request.thread_name))
 
@@ -2789,26 +2800,36 @@ while active_count() > 1:
 print("End")
 ```
 
+输出结果
+
+```bash
+2026-01-06 07:46:00,427	 [Thread-1 (thread_local), 7012] request.thread_name: Thread-1 (thread_local)
+2026-01-06 07:46:00,428	 [Thread-4 (thread_local), 12916] request.thread_name: Thread-4 (thread_local)
+2026-01-06 07:46:00,428	 [Thread-6 (thread_local), 10720] request.thread_name: Thread-6 (thread_local)
+2026-01-06 07:46:00,428	 [Thread-5 (thread_local), 9224] request.thread_name: Thread-5 (thread_local)
+2026-01-06 07:46:00,428	 [Thread-2 (thread_local), 11632] request.thread_name: Thread-2 (thread_local)
+2026-01-06 07:46:00,428	 [Thread-3 (thread_local), 12712] request.thread_name: Thread-3 (thread_local)
+End
+```
+
+:::
+
 <br />
 
 ### 线程同步 - 事件Event
 
-Event是线程通信间最简单的实现，使用一个变量flag，通过flag的True或False变化来执行不同操作
+Event是线程通信间最简单的实现，使用一个变量flag，通过flag的True或False变化来执行不同操作。Event变化会通知到所有线程
 
-Event变化会通知到所有线程
-
-
-
-Event实例方法
+**Event实例方法**
 
 | 方法               | 说明                                                         |
 | ------------------ | ------------------------------------------------------------ |
 | set()              | 标记为True                                                   |
 | clear()            | 标记为False                                                  |
 | is_set()           | 新创建的event或使用``clear``()后为False，当设置``set``()后返回True |
-| wait(timeout=None) | 等待，满足以下条件后立即执行：<br />（1）当调用``set``()后立即执行，此时wait返回值为True<br />（2）当超时后立即执行，此时wait返回值为False |
+| wait(timeout=None) | 等待，满足以下条件后立即执行：<br />（1）当调用``set``()后立即执行，此时wait返回值为True<br />（2）当超时后立即执行，此时wait返回值为False<br />默认会一直等待，用不超时 |
 
-Event演示
+::: details 点击查看详情
 
 ```python
 #!/usr/bin/env python
@@ -2823,9 +2844,12 @@ logging.basicConfig(format=FORMAT)
 
 
 def test(event):
-    # 子线程中每隔3秒循环一次，无限循环，除非主线程主动暂停，这里是一个技巧，以后可以使用
-    while not event.wait(3):
-        logging.warning("Running")
+    # 子线程中每隔3秒循环一次，无限循环，除非主线程主动暂停
+    while True:
+        if event.wait(3):
+            logging.warning("主线程通知退出")
+            break
+        logging.warning("等待超时, 默认执行")
 
 
 # 初始化event
@@ -2842,9 +2866,13 @@ time.sleep(7)
 event.set()
 ```
 
+:::
+
 <br />
 
 ### Event应用 - 延迟器 Timer
+
+::: details 点击查看详情
 
 ```python
 #!/usr/bin/env python
@@ -2877,15 +2905,39 @@ logging.warning("做一些其他的事...")
 # t.cancel()
 ```
 
+:::
+
 <br />
 
 ### 线程同步 - 条件变量Condition
 
-Condition内部会维护一个锁（默认是RLock），获取到锁的线程使用notify机制来通知（或称为唤醒）其他线程（1个或多个），然后使用wait释放锁并进入等待，当自身被其他线程通知（或唤醒）时，又会重新获取锁，继续向下执行
+::: tip Condition
 
+**设计思想**
 
+让一个线程等某种条件成立，然后被另一个线程通知
 
-Condition实例方法
+<br />
+
+**解释**
+
+Condition 内部维护一把锁（默认 RLock），线程在持锁状态下可以调用 `notify()` 或 `notify_all()` 唤醒一个或多个等待线程。
+
+调用 `wait()` 时，线程会释放锁并进入等待状态；
+
+当被其他线程唤醒时，会重新获取锁并继续执行。
+
+<br />
+
+**注意事项**
+
+* Condition 是底层工具，功能强大但容易写错，能用 `Queue` 或 `Event` 就不要用 Condition
+* Condition 不存储任何状态，所有状态变量（如 `turn`、buffer）必须在持锁期间访问和修改
+* 先改变共享状态，再唤醒其他线程，避免丢信号或唤醒线程看到错误状态
+
+:::
+
+::: details Condition实例方法
 
 | 方法                              | 说明                                                         |
 | --------------------------------- | ------------------------------------------------------------ |
@@ -2896,84 +2948,56 @@ Condition实例方法
 | wait(timeout=None)                | 进入等待状态（这会释放锁），直到被唤醒或超时（又会重新获取锁），被唤醒返回True，超时返回False<br />如果未获得锁就使用wait，则报错`RuntimeError: cannot wait on un-acquired lock` |
 | wait_for(predicate, timeout=None) | wait_for是更灵活的一种wait方式，predicate需要指定一个可调用对象，<br />（1）当predicate()返回True，则继续往下执行<br />（2）当predicate()返回False，则和wait行为一致了<br />（3）timeout参数含义不变，若超时以后还会调用predicate一次 |
 
-生产者消费者模型
+:::
+
+::: details Condition举例：线程 A 打印数字 `1,2,3,...`，线程 B 打印字母 `A,B,C,...`，两个线程必须 **交替打印**
 
 ```python
-#!/usr/bin/env python
-# -*-coding:utf-8-*-
+from threading import Thread, Condition
 
-import logging
-import random
-import time
-from threading import Thread, Condition, Lock
-from queue import Queue
+cond = Condition()
+turn = 'num'  # 轮到谁打印：'num' 或 'char'
 
-# 初始化日志
-FORMAT = '%(asctime)-15s\t [%(threadName)s, %(thread)d] %(message)s'
-logging.basicConfig(format=FORMAT)
+def print_numbers():
+    global turn
+    for i in range(1, 6):
+        with cond:
+            while turn != 'num':  # 条件不满足就等
+                cond.wait()
+            print(i, end=' ')
+            turn = 'char'        # 改变状态
+            cond.notify()        # 通知其他线程
 
-# 初始化条件变量
-condition = Condition()
-# condition = Condition(Lock())
+def print_chars():
+    global turn
+    for c in 'ABCDE':
+        with cond:
+            while turn != 'char':
+                cond.wait()
+            print(c, end=' ')
+            turn = 'num'
+            cond.notify()
 
-# 初始化全局数据
-data = Queue(maxsize=3)
+# 创建线程
+t1 = Thread(target=print_numbers)
+t2 = Thread(target=print_chars)
 
+t1.start()
+t2.start()
 
-class Producer(Thread):
-    def __init__(self):
-        super().__init__()
-
-    def run(self) -> None:
-        def wrapper():
-            # 获取锁
-            # 注意：如果直接使用condition.acquire()的话不要忘记release(),
-            #      否则当condition = Condition(Lock())时会造成死锁，使用默认的RLock也会造成死锁，只是不容易复现
-            with condition:
-                # 添加数据至容器满
-                while not data.full():
-                    item = random.randint(10, 99)
-                    data.put(item)
-                    logging.warning(f"添加数据项: {item}, 当前队列大小: {data.qsize()}")
-
-                # 通知小伙伴消费
-                condition.notify()  # 通知，但还未释放锁
-                logging.warning("队列已满, 通知其他线程消费")
-                condition.wait()  # 释放锁，并进入等待模式; 被唤醒时又会重新获取锁
-
-        while True:
-            wrapper()
-
-
-class Consumer(Thread):
-    def __init__(self):
-        super().__init__()
-
-    def run(self) -> None:
-        def wrapper():
-            with condition:
-                while not data.empty():
-                    item = data.get()
-                    logging.warning(f"消费数据项: {item}, 当前队列大小: {data.qsize()}")
-                condition.notify()
-                logging.warning("队列已空, 通知其他线程添加\n")
-                time.sleep(3)  # 暂停一下，方便控制台看的清楚
-                condition.wait()
-
-        while True:
-            wrapper()
-
-
-# 创建多个生产者和消费者
-for i in range(9):
-    t = Producer()
-    t.setName("Producer-{}".format(i + 1))
-    t.start()
-
-    t = Consumer()
-    t.setName("Consumer-{}".format(i + 1))
-    t.start()
+t1.join()
+t2.join()
+print("\nDone")
 ```
+
+输出结果
+
+```bash
+1 A 2 B 3 C 4 D 5 E 
+Done
+```
+
+:::
 
 <br />
 
