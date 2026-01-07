@@ -371,8 +371,6 @@ deactivate
 
 Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
-开发语言：**Rust**
-
 ::: tip 
 
 **1、设计目标**
@@ -381,7 +379,19 @@ Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
 <br />
 
-**2、配置文件**
+**2、特点**
+
+* uv 自身是单一静态二进制文件，无需依赖系统 Python 或额外运行时，放进 PATH 即可用
+
+* 直接下载预编译的 Python 二进制文件，不从源码编译，安装速度快且对 Windows 极其友好
+
+* 集成 Python 版本管理、虚拟环境、依赖安装与锁定，避免 pyenv / venv / pip / poetry 多工具拼装
+
+* 不劫持系统 PATH 和 python 命令，通过项目级 pin 控制 Python 版本，环境更可控
+
+<br />
+
+**3、配置文件**
 
 * pyproject.toml：Python 生态的标准项目配置文件，用于定义项目元数据、依赖以及工具配置（包括 uv），**优先级最高**，但并非必须存在
 
@@ -393,7 +403,7 @@ Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
 <br />
 
-**3、注意事项**
+**4、注意事项**
 
 * uv安装后的Python解释器可以直接调用，可以不经过uv，但并不易于使用
 
@@ -403,24 +413,69 @@ Github：[https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 
 :::
 
-::: details 安装 uv 和 uvx
+::: details 安装 uv 自身
 
 ```bash
+# Linux
 wget -c https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-unknown-linux-gnu.tar.gz
 tar -zxf uv-x86_64-unknown-linux-gnu.tar.gz
 cp uv-x86_64-unknown-linux-gnu/* /usr/local/bin/
+
+# Windows
+curl -L -o uv-x86_64-pc-windows-msvc.zip https://github.com/astral-sh/uv/releases/download/0.9.22/uv-x86_64-pc-windows-msvc.zip
+7z x uv-x86_64-pc-windows-msvc.zip -ouv # 解压， 然后将二进制文件路径放入到 PATH 中
 ```
 
 :::
 
-::: details uv 安装和卸载 Python
+::: details 使用 uv 安装和卸载 Python
 
 ```bash
-# 查看可用的 Python 版本
-uv python list
+# 查看可用的 Python 版本, --all-versions 可以显示更多版本
+C:\Users\VVFock3r\Desktop> uv python list
+cpython-3.15.0a3-windows-x86_64-none                 <download available>
+cpython-3.15.0a3+freethreaded-windows-x86_64-none    <download available>
+cpython-3.14.2-windows-x86_64-none                   <download available>
+cpython-3.14.2-windows-x86_64-none                   <download available>
+cpython-3.14.2+freethreaded-windows-x86_64-none      <download available>
+cpython-3.13.11-windows-x86_64-none                  <download available>
+cpython-3.13.11+freethreaded-windows-x86_64-none     <download available>
+cpython-3.13.7-windows-x86_64-none                   <download available>
+cpython-3.12.12-windows-x86_64-none                  <download available>
+cpython-3.11.14-windows-x86_64-none                  <download available>
+cpython-3.10.19-windows-x86_64-none                  <download available>
+cpython-3.9.25-windows-x86_64-none                   <download available>
+cpython-3.8.20-windows-x86_64-none                   <download available>
+pypy-3.11.13-windows-x86_64-none                     <download available>
+pypy-3.10.16-windows-x86_64-none                     <download available>
+pypy-3.9.19-windows-x86_64-none                      <download available>
+pypy-3.8.16-windows-x86_64-none                      <download available>
+graalpy-3.12.0-windows-x86_64-none                   <download available>
+graalpy-3.11.0-windows-x86_64-none                   <download available>
+graalpy-3.10.0-windows-x86_64-none                   <download available>
 
-# 安装指定版本
-uv python install 3.14
+
+# 安装指定版本, -v 用于显示详情, 可以看到
+#     下载地址是: https://github.com/astral-sh/python-build-standalone/releases/xxx
+#     安装路径是: C:\Users\VVFock3r\.local\bin\python3.14.exe
+# 注意: 也可以不需要加版本号，一般用于已存在的项目, 按照项目规范安装python版本
+C:\Users\VVFock3r\Desktop> uv python install 3.14.2 -v
+DEBUG uv 0.9.22 (82a6a66b8 2026-01-06)
+DEBUG Acquired exclusive lock for `C:\Users\VVFock3r\AppData\Roaming\uv\python`
+DEBUG Using request timeout of 30s
+DEBUG No installation found for request `3.14.2 (cpython-3.14.2-windows-x86_64-none)`
+DEBUG Found download `cpython-3.14.2-windows-x86_64-none` for request `3.14.2 (cpython-3.14.2-windows-x86_64-none)`
+DEBUG Downloading https://github.com/astral-sh/python-build-standalone/releases/download/20251217/cpython-3.14.2%2B20251217-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
+DEBUG Extracting cpython-3.14.2-20251217-x86_64-pc-windows-msvc-install_only_stripped.tar.gz to temporary location: C:\Users\VVFock3r\AppData\Roaming\uv\python\.temp\.tmpm8hbMJ
+Downloading cpython-3.14.2-windows-x86_64-none (download) (21.2MiB)
+ Downloaded cpython-3.14.2-windows-x86_64-none (download)
+DEBUG Moving C:\Users\VVFock3r\AppData\Roaming\uv\python\.temp\.tmpm8hbMJ\python to C:\Users\VVFock3r\AppData\Roaming\uv\python\cpython-3.14.2-windows-x86_64-none
+DEBUG Installed executable at `C:\Users\VVFock3r\.local\bin\python3.14.exe` for cpython-3.14.2-windows-x86_64-none
+Installed Python 3.14.2 in 9.79s
+ + cpython-3.14.2-windows-x86_64-none (python3.14.exe)
+warning: `C:\Users\VVFock3r\.local\bin` is not on your PATH. To use installed Python executables, run `set PATH="C:\\Users\\VVFock3r\\.local\\bin;%PATH%"` or `uv python update-shell`.
+DEBUG Released lock at `C:\Users\VVFock3r\AppData\Roaming\uv\python\.lock`
+
 
 # 卸载指定版本
 uv python uninstall 3.14
@@ -442,11 +497,14 @@ uv venv venv --python 3.12          # 建立虚拟环境 venv, 并指定Python�
 uv venv venv --python 3.12 --clear  # --clear用于 如果venv虚拟环境已存在, 那么就删掉再重新建立虚拟环境
 
 # 执行Python命令
-uv run python
-uv run python --version
-uv run python -c "import sys; print(sys.version)"
+uv run python                       # 执行python命令, 版本优先级: pin 版本 > 虚拟环境版本 > 最新稳定版 > 系统 PATH 中的 Python
+uv run --python 3.12 python         # 显示指定版本, 优先级最高
+uv run python main.py               # 执行一个python脚本
 
-# 执行pip命令 
+# 执行pip命令
+# 注意: 
+# 	必须要有虚拟环境。
+# 	uv 的设计哲学：没有虚拟环境，就不要装依赖；除非你非常确定
 uv pip install flask                     # 虚拟环境是 .venv 时, 可以直接这样执行
 VIRTUAL_ENV=./venv uv pip install flask  # 告诉uv虚拟环境目录, 再执行 uv pip xxx
 ```
@@ -463,18 +521,22 @@ VIRTUAL_ENV=./venv uv pip install flask  # 告诉uv虚拟环境目录, 再执行
 # 	.python-version
 # 	README.md
 # 注意：需要在干净的目录下执行此命令, 不能重复执行
-uv init                # 默认用~/.python-verion 或 本地安装的最新版本
+uv init                # 默认用~/.python-verion 或 本地安装的最新稳定版
 uv init --python 3.14  # 指定版本
 
 # 创建虚拟环境
 uv venv
 
-# 安装和移除依赖，不同于 uv pip install flask, 它还会额外修改 pyproject.toml 和 uv.lock
-uv add flask
-uv remove flask
+# 安装和移除依赖
+# 	不同于 uv pip install flask, 它还会额外修改 pyproject.toml 和 uv.lock
+# 	只在“开发、测试、构建、代码质量阶段”使用，而不会被最终程序在运行时 import 的包，都应该放进 dev 环境
+uv add flask         # 安装依赖
+uv add --dev pylint  # 安装在dev环境
+uv remove flask      # 移除依赖
 
 # 严格按照项目声明的依赖，把当前环境同步成应有的样子
 uv sync
+uv sync --dev # dev环境依赖也会安装
 ```
 
 :::
@@ -529,6 +591,8 @@ for i in range(10):
     else:
         tmp.append(i)
 print(tmp)
+
+# 注意：两个例子中, if语句的位置不同, 如果要写在前面, 则必须有else语句, 否则会报错
 ```
 
 :::
@@ -621,6 +685,62 @@ test2()
 2026-01-02 11:47:54,378	 [MainThread, 16076] append与insert效率对比(列表插入10万个数据,运行10次的时间总和)
 2026-01-02 11:47:54,425	 [MainThread, 16076]      append: 0.04686989999981961秒
 2026-01-02 11:48:11,463	 [MainThread, 16076]      insert: 17.038514000000305秒
+```
+
+:::
+
+::: details 列表去重, 并保留原始顺序
+
+```python
+import random
+
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return f"<Person {self.name}>"
+
+
+# 定义数据
+l1 = [random.randint(1, 4) for _ in range(5)]
+l2 = [Person(random.randint(0, 5)) for _ in range(5)]
+
+print("原始数据-1: ", l1)
+print("原始数据-2: ", l2)
+print()
+
+# 简单的去重方式, 简单但是有限制
+# list(set(l1))           适用于简单数据类型, 不适用于上面的l2, 不保证顺序
+# list(dict.fromkeys(l1)) 适用于简单数据类型, 不适用于上面的l2, 保证顺序
+
+# 通用的去重方式 + 保证顺序
+t1 = set()
+u1 = []
+for i in l1:
+    if i not in t1:
+        t1.add(i)
+        u1.append(i)
+print("通用去重-1: ", u1)
+
+t2 = set()
+u2 = []
+for i in l2:
+    if i.name not in t2:
+        t2.add(i.name)
+        u2.append(i)
+print("通用去重-2: ", u2)
+```
+
+输出结果
+
+```bash
+原始数据-1:  [4, 1, 4, 2, 1]
+原始数据-2:  [<Person 3>, <Person 2>, <Person 3>, <Person 1>, <Person 0>]
+
+通用去重-1:  [4, 1, 2]
+通用去重-2:  [<Person 3>, <Person 2>, <Person 1>, <Person 0>]
 ```
 
 :::
