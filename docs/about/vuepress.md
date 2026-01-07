@@ -304,6 +304,23 @@ pageClass: meta-bottom-right
 
 <br />
 
+### 设置表格宽度
+
+**`docs/.vuepress/styles/index.scss`中设置样式（注意不是写在:root { }中的）**
+
+```css
+/* 设置表格占满整个宽度, 并且列等分宽度 */
+table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
+```
+
+<br />
+
 ## 用法
 
 ### 提示容器

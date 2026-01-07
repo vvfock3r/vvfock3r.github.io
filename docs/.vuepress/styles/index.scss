@@ -22,3 +22,12 @@
   align-items: flex-end;
   z-index: 20;
 }
+
+/* 设置表格占满整个宽度, 并且列等分宽度 */
+table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
