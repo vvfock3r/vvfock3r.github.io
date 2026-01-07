@@ -14,14 +14,13 @@ sidebar: false
     <span style="display: inline-block; min-width: 80px;">
       Github：
     </span>
-    <a href="https://github.com/vvfock3r">VVFock3r</a>
+    <a href="https://github.com/vvfock3r" target="_blank" rel="noopener noreferrer">VVFock3r</a>
     <div style="height: 18px;"></div>
     <span style="display: inline-block; min-width: 80px;">
       Site：
     </span>
-    <a href="./vuepress.html">VuePress 部署静态站点</a>
+    <a href="./vuepress.html" target="_blank" rel="noopener noreferrer">VuePress 部署静态站点</a>
   </div>
 </div>
-
 
 
