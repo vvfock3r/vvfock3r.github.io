@@ -1972,7 +1972,7 @@ test3()
 
 <br />
 
-### 内置函数库 `functools`
+### 函数库 `functools`
 
 ::: details （1）reduce：把一组数据按某种规则从左到右不断累积计算，最后压缩成一个值
 
@@ -2176,6 +2176,68 @@ if __name__ == '__main__':
     print(a < b)  # True
     print(b > c)  # True
     print(c == a)  # True
+```
+
+:::
+
+<br />
+
+### Zip系列函数
+
+牢记一点：
+
+* `zip(a, b)` 按最短的可迭代对象截断
+* `itertools.zip_longest(a, b)` 按最长的可迭代对象截断，可以自定义要补全的值
+
+::: details 点击查看详情
+
+```python
+# zip 把多个可迭代对象按位置打包成元组, 按最短的可迭代对象截断, 返回的是 迭代器
+a = [1, 2, 3]
+b = ["a", "b"]
+c = ["A", "B", "C", "D"]
+x = list(zip(a, b, c))
+print(x)
+
+# itertools.zip_longest()  zip 的"补全版"，长度不够的用占位值填充
+from itertools import zip_longest
+
+x = list(zip_longest(a, b, c, fillvalue=None))
+print(x)
+
+# * + zip（解包 / 反向 zip）, 按最短的可迭代对象截断
+pairs = [(1, 2), (3, 4, 5)]
+a, b = zip(*pairs)
+print(a)
+print(b)
+
+print("-" * 50)
+
+# 可能会遇到的用法
+
+# 1.生成字典: dict(zip(keys, values))
+a = dict(zip([1, 2, 3], ["4", "5", "6"]))
+print(a)  # {1: '4', 2: '5', 3: '6'}
+
+# 2.花式秀循环 zip(enumerate(a), b)
+#   带索引遍历 a，同时顺带拿 b 的同位置元素, 按最短的可迭代对象截断
+a = ['x', 'y', 'z']
+b = [10, 20, 30]
+for (index, value), other in zip(enumerate(a), b):
+    print(index, value, other)
+```
+
+输出结果
+
+```bash
+[(1, 'a', 'A'), (2, 'b', 'B')]
+[(1, 'a', 'A'), (2, 'b', 'B'), (3, None, 'C'), (None, None, 'D')]
+(1, 3)
+(2, 4)
+--------------------------------------------------
+{1: '4', 2: '5', 3: '6'}
+0 x 10
+1 y 20
 ```
 
 :::
