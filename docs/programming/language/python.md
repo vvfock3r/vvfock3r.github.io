@@ -2182,7 +2182,7 @@ if __name__ == '__main__':
 
 <br />
 
-### Zip系列函数
+### zip系列函数
 
 牢记一点：
 
@@ -2238,6 +2238,7 @@ for (index, value), other in zip(enumerate(a), b):
 {1: '4', 2: '5', 3: '6'}
 0 x 10
 1 y 20
+2 z 30
 ```
 
 :::
