@@ -549,7 +549,7 @@ uv sync --dev # dev环境依赖也会安装
 
 文档：[https://docs.python.org/zh-cn/3/library/stdtypes.html#list](https://docs.python.org/zh-cn/3/library/stdtypes.html#list)
 
-::: details 简单列表推导式
+::: details 列表推导式：简单形式
 
 ```python
 # 生成数字1-10
@@ -563,7 +563,7 @@ print(x)
 
 :::
 
-::: details 带if条件的列表推导式
+::: details 列表推导式：带if条件
 
 ```python
 # 生成数字1-10, 并过滤出偶数
@@ -597,7 +597,7 @@ print(tmp)
 
 :::
 
-::: details 多层循环的列表推导式
+::: details 列表推导式：多层循环
 
 ```python
 # 多层for循环
@@ -741,6 +741,27 @@ print("通用去重-2: ", u2)
 
 通用去重-1:  [4, 1, 2]
 通用去重-2:  [<Person 3>, <Person 2>, <Person 1>, <Person 0>]
+```
+
+:::
+
+::: details 列表分组
+
+```python
+l = list(range(10))
+print("原始数据: ", l)
+
+# 每三个元素分为一组, 最后一组不足3个元素会保留
+n = 3
+l2 = [l[x:x + n] for x in range(0, len(l), n)]
+print("列表分组: ", l2)
+```
+
+输出结果
+
+```bash
+原始数据:  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+列表分组:  [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
 ```
 
 :::
@@ -1953,11 +1974,9 @@ test3()
 
 ### 内置函数库 `functools`
 
-::: details （1）reduce
+::: details （1）reduce：把一组数据按某种规则从左到右不断累积计算，最后压缩成一个值
 
-用传给 reduce 中的函数 function（有两个参数）先对集合中的第 1、2 个元素进行操作，
-
-得到的结果再与第三个数据用 function 函数运算，最后得到一个结果
+`reduce` 会先用传入的二元函数对集合中的第 1、2 个元素进行计算，然后将得到的结果与第 3 个元素继续用该函数运算，如此反复，最终得到一个结果
 
 ```python
 #!/usr/bin/env python
@@ -1973,7 +1992,9 @@ print(reduce(add, [x for x in range(101)])) # 5050
 
 :::
 
-::: details （2）partial 和 partialmethod
+::: details （2）partial 和 partialmethod：把函数的一部分参数提前“绑定好”，得到一个参数更少的新函数
+
+**partial  用于普通函数**
 
 ```python
 #!/usr/bin/env python
@@ -1981,28 +2002,40 @@ print(reduce(add, [x for x in range(101)])) # 5050
 
 from functools import partial
 
-
-# @functools.wraps()              # 参考装饰器部分
-# functools.update_wrapper()      # 参考装饰器部分
-
-# partial 偏函数，输入一个函数和该函数的参数，并固定下来返回一个新函数; 和柯里化很相似，是不是
-
 def add(x, y):
     return x + y
 
 
 new1 = partial(add, y=1)  # 返回一个新函数
-new2 = partial(add, x=1)  # 返回一个新函数
+new2 = partial(add, x=2)  # 返回一个新函数
 
-print(new1(2))  # 3
-print(new2(y=2))  # 3
+print(new1(2))    # 3
+print(new2(y=2))  # 4
 ```
 
-备注：partialmethod和partial类似，partial用于普通函数，`partialmethod`用于类方法
+**partialmethod 用于类中的方法**
+
+```python
+from functools import partialmethod
+
+
+class Logger:
+    def log(self, level, message):
+        print(f"[{level:<5}] {message}")
+
+    info = partialmethod(log, "INFO")
+    error = partialmethod(log, "ERROR")
+
+
+if __name__ == "__main__":
+    logger = Logger()
+    logger.info("启动成功")
+    logger.error("发生错误")
+```
 
 :::
 
-::: details （3）cached_property：计算过后便被缓存
+::: details （3）cached_property：带缓存功能的 property
 
 ```python
 #!/usr/bin/env python
@@ -2014,16 +2047,42 @@ import random
 
 class Test:
 
+    # 普通的 property, 每次都是重新计算
+    @property
+    def test1(self):
+        return random.random()
+
+    # 带缓存的 property
     @cached_property
-    # @property
-    def test(self):
+    def test2(self):
         return random.random()
 
 
-t = Test()
-print(t.test)  # 0.0832563719467786
-print(t.test)  # 0.0832563719467786
-print(t.test == t.test)  # True
+if __name__ == "__main__":
+    t = Test()
+
+    # 普通的 property
+    print(t.test1)  # 0.0832563719467786
+    print(t.test1)  # 0.0832563719467786
+    print(t.test1 == t.test1)
+
+    print()
+
+    # 带缓存的 property
+    print(t.test2)
+    print(t.test2)
+    print(t.test2 == t.test2)
+
+    # 手动清楚缓存, 以下两种方式都可以使用
+    #   第一种可读性好, Pycharm会报提醒
+    #   第二种可读性差, Pycharm不会报提醒
+    # del t.test2
+    del t.__dict__["test2"]
+    print()
+
+    print(t.test2)
+    print(t.test2)
+    print(t.test2 == t.test2)
 ```
 
 :::
@@ -2050,9 +2109,15 @@ print(fib(100))
 
 :::
 
-::: details （5）cmp_to_key：比较函数
+::: details （5）cmp_to_key：比较函数，`a` 和 `b` 谁应该排在前面？
 
-比较函数，需传入两个值x，y，当x > y时返回1，等于时返回0，否则返回-1
+比较函数，需传入两个值 （x，y），计算 x > y：
+
+* 大于时返回 1
+
+* 等于时返回 0
+
+* 小于时返回 -1
 
 ```python
 #!/usr/bin/env python
@@ -2060,23 +2125,28 @@ print(fib(100))
 
 from functools import cmp_to_key
 
-nums = [3, 30, 34, 5, 9]
-new_nums = sorted(nums, key=cmp_to_key(lambda x, y: y - x))
-new_nums2 = sorted(nums, key=cmp_to_key(lambda x, y: x - y))
-print(new_nums)
-print(new_nums2)
-# 结果:
-# [34, 30, 9, 5, 3]
-# [3, 5, 9, 30, 34]
+l = [3, 30, 34, 5, 9]
+
+l2 = sorted(l, key=cmp_to_key(lambda x, y: y - x))
+l3 = sorted(l, key=cmp_to_key(lambda x, y: x - y))
+
+print(l2)
+print(l3)
+```
+
+输出结果
+
+```bash
+[34, 30, 9, 5, 3]
+[3, 5, 9, 30, 34]
 ```
 
 :::
 
-::: details （6）total_ordering
+::: details （6）total_ordering：只要实现一个等于方法和一个比较方法，就能自动补全对象的全部排序运算符
 
-类装饰器，实现其中一个： `__lt__()`, `__le__()`, `__gt__()`, `__ge__()`，自动实现剩余方法
-
-要求此类需要实现`__eq__`
+* 这是一个类装饰器
+* 要求此类需要实现`__eq__`，并实现其中一个： `__lt__()`, `__le__()`, `__gt__()`, `__ge__()`，装饰器自动补全剩余方法
 
 ```python
 #!/usr/bin/env python
@@ -2097,13 +2167,15 @@ class Point:
     def __lt__(self, other):
         return (self.x, self.y) < (other.x, other.y)
 
-a = Point(0, 0)
-b = Point(0, 1)
-c = Point(0, 0)
 
-print(a < b)  # True
-print(b > c)  # True
-print(c == a)  # True
+if __name__ == '__main__':
+    a = Point(0, 0)
+    b = Point(0, 1)
+    c = Point(0, 0)
+
+    print(a < b)  # True
+    print(b > c)  # True
+    print(c == a)  # True
 ```
 
 :::
@@ -2167,7 +2239,7 @@ L = [('b', 2), ('a', 3), ('c', 3), ('d', 4)]
 # 排序，默认情况下按照ASCII排序
 print(sorted(L))  # [('a', 3), ('b', 2), ('c', 3), ('d', 4)]
 
-# 自定义排序规则，根据元祖索引为1的排序，或者说根据字典(元祖转为字典)的value排序
+# 自定义排序规则，根据元祖索引为1的数据排序，或者说根据字典(元祖转为字典)的value排序
 print(sorted(L, key=lambda x: x[1]))  # [('b', 2), ('a', 3), ('c', 3), ('d', 4)]
 
 # 如果第一次排序有相同的，即x[1]相同，那么按照x[0]排序
