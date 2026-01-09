@@ -1972,7 +1972,7 @@ test3()
 
 <br />
 
-### 函数库 `functools`
+### `functools`
 
 ::: details （1）reduce：把一组数据按某种规则从左到右不断累积计算，最后压缩成一个值
 
