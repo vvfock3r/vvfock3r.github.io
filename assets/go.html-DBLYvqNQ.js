@@ -1,551 +1,21 @@
-import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e(c,n){return t(),a("div",null,[...n[0]||(n[0]=[p(`<h1 id="go核心语法" tabindex="-1"><a class="header-anchor" href="#go核心语法"><span>Go核心语法</span></a></h1><ul><li><p>官网：<a href="https://go.dev/" target="_blank" rel="noopener noreferrer">https://go.dev/</a></p></li><li><p>命令：<a href="https://pkg.go.dev/cmd/go" target="_blank" rel="noopener noreferrer">https://pkg.go.dev/cmd/go</a></p></li><li><p>FAQ：<a href="https://go.dev/doc/faq" target="_blank" rel="noopener noreferrer">https://go.dev/doc/faq</a></p></li><li><p>GopherChina：<a href="https://github.com/gopherchina/conference" target="_blank" rel="noopener noreferrer">https://github.com/gopherchina/conference</a></p></li></ul><br><h2 id="环境设置" tabindex="-1"><a class="header-anchor" href="#环境设置"><span>环境设置</span></a></h2><h3 id="第一个应用" tabindex="-1"><a class="header-anchor" href="#第一个应用"><span>第一个应用</span></a></h3><details class="hint-container details"><summary>（1）使用包管理器安装</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token punctuation">[</span>root@node-1 ~<span class="token punctuation">]</span><span class="token comment"># yum -y install go</span></span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（2）使用二进制包安装</summary><p><strong>1、Go版本管理设想</strong></p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token punctuation">[</span>root@node-1 ~<span class="token punctuation">]</span><span class="token comment"># ll /usr/local/go                  # 所有版本的Go都放在这一个目录中,集中管理</span></span>
-<span class="line">total <span class="token number">0</span></span>
-<span class="line">drwxr-xr-x <span class="token number">10</span> root root <span class="token number">222</span> Nov  <span class="token number">1</span> 04:21 <span class="token number">1.19</span>.2    <span class="token comment"># 某个版本的Go</span></span>
-<span class="line">drwxr-xr-x <span class="token number">10</span> root root <span class="token number">222</span> Nov  <span class="token number">1</span> 04:21 <span class="token number">1.19</span>.3    <span class="token comment"># 某个版本的Go</span></span>
-<span class="line">drwxr-xr-x  <span class="token number">4</span> root root  <span class="token number">28</span> Nov <span class="token number">30</span> <span class="token number">17</span>:43 root      <span class="token comment"># GOROOT</span></span>
-<span class="line">drwxr-xr-x  <span class="token number">4</span> root root  <span class="token number">28</span> Nov <span class="token number">30</span> <span class="token number">17</span>:43 path      <span class="token comment"># GOPATH,这里将他设置为所有Go版本共用</span></span>
-<span class="line"></span></code></pre></div><p><strong>2、安装指定版本的Go</strong></p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># (1) 创建Go目录</span></span>
-<span class="line"><span class="token function">mkdir</span> <span class="token parameter variable">-p</span> /usr/local/go</span>
-<span class="line"><span class="token builtin class-name">cd</span> /usr/local/go</span>
+import{_ as s,c as a,a as p,o as t}from"./app-BhzQtqnp.js";const o={};function c(e,n){return t(),a("div",null,[...n[0]||(n[0]=[p(`<h1 id="go核心语法" tabindex="-1"><a class="header-anchor" href="#go核心语法"><span>Go核心语法</span></a></h1><ul><li>官网：<a href="https://go.dev/" target="_blank" rel="noopener noreferrer">https://go.dev/</a></li><li>FAQ：<a href="https://go.dev/doc/faq" target="_blank" rel="noopener noreferrer">https://go.dev/doc/faq</a></li><li>GopherChina：<a href="https://github.com/gopherchina/conference" target="_blank" rel="noopener noreferrer">https://github.com/gopherchina/conference</a></li></ul><br><h2 id="环境设置" tabindex="-1"><a class="header-anchor" href="#环境设置"><span>环境设置</span></a></h2><h3 id="帮助文档" tabindex="-1"><a class="header-anchor" href="#帮助文档"><span>帮助文档</span></a></h3><p>文档：<a href="https://pkg.go.dev/cmd/go" target="_blank" rel="noopener noreferrer">https://pkg.go.dev/cmd/go</a></p><p><code>go</code> 是 <strong>Go 语言的官方命令行工具</strong>，负责 <strong>编译、运行、管理依赖、测试、格式化代码、管理模块</strong> 等所有开发流程</p><table><thead><tr><th>类型</th><th>命令</th><th>注意事项</th></tr></thead><tbody><tr><td>查看Go版本</td><td><code>go version</code></td><td></td></tr><tr><td>查看顶层帮助文档</td><td><code>go</code> 或 <code>go -h</code> 或 <code>go --help</code> 或 <code>go help</code></td><td></td></tr><tr><td>查看子命令帮助文档</td><td><code>go help &lt;command&gt;</code></td><td><code>go &lt;command&gt; -h/--help</code> 看不到详细信息</td></tr></tbody></table><br><h3 id="编译过程" tabindex="-1"><a class="header-anchor" href="#编译过程"><span>编译过程</span></a></h3><p>Go 程序从源码到可执行文件，完整过程可以抽象为三个阶段：</p><blockquote><p><strong>编译 → 汇编 → 链接</strong></p></blockquote><p><code>go build</code> 负责调度整个流水线，而不是亲自&quot;干活&quot;，真正执行工作的是底层的 <code>go tool</code> 工具链</p><div class="language-markdown" data-highlighter="prismjs" data-ext="md"><pre><code class="language-markdown"><span class="line">go build</span>
+<span class="line"> ├─ 编译： 调用 go tool compile</span>
+<span class="line"> ├─ 汇编:  调用 go tool asm</span>
+<span class="line"> └─ 链接:  调用 go tool link</span>
+<span class="line"></span></code></pre></div><p><strong>对应参数映射</strong></p><table><thead><tr><th>阶段</th><th>工具</th><th>go build 入口参数</th><th>文档查看</th></tr></thead><tbody><tr><td>编译</td><td>compile</td><td><code>-gcflags</code></td><td><code>go tool compile -h</code></td></tr><tr><td>汇编</td><td>asm</td><td><code>-asmflags</code></td><td><code>go tool asm -h</code></td></tr><tr><td>链接</td><td>link</td><td><code>-ldflags</code></td><td><code>go tool link -h</code></td></tr></tbody></table><blockquote><p>一句话总计：凡是 <code>go build</code> 里以 <code>xxxflags</code> 结尾的参数，真正文档都在 <code>go tool xxx -h</code></p></blockquote><br><h3 id="环境变量" tabindex="-1"><a class="header-anchor" href="#环境变量"><span>环境变量</span></a></h3><p><strong>命令行语法</strong></p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">go <span class="token builtin class-name">help</span> <span class="token function">env</span>									<span class="token comment"># 查看env命令帮助</span></span>
+<span class="line">go <span class="token builtin class-name">help</span> environment							<span class="token comment"># 查看所有环境变量帮助信息</span></span>
 <span class="line"></span>
-<span class="line"><span class="token comment"># (2) 下载二进制包</span></span>
-<span class="line"><span class="token assign-left variable">Version</span><span class="token operator">=</span><span class="token number">1.19</span>.5</span>
-<span class="line"><span class="token function">wget</span> <span class="token parameter variable">-c</span> https://dl.google.com/go/go<span class="token variable">\${Version}</span>.linux-amd64.tar.gz</span>
+<span class="line">go <span class="token function">env</span> 										<span class="token comment"># 查看所有环境变量</span></span>
+<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-json</span>								<span class="token comment"># 查看所有环境变量，json格式</span></span>
 <span class="line"></span>
-<span class="line"><span class="token comment"># (3) 解压,默认的目录名是go</span></span>
-<span class="line"><span class="token function">tar</span> zxf go<span class="token variable">\${Version}</span>.linux-amd64.tar.gz</span>
-<span class="line"><span class="token function">mv</span> go <span class="token variable">\${Version}</span></span>
-<span class="line"><span class="token function">ln</span> <span class="token parameter variable">-s</span> <span class="token variable">\${Version}</span> root</span>
-<span class="line"><span class="token function">rm</span> <span class="token parameter variable">-f</span> go<span class="token variable">\${Version}</span>.linux-amd64.tar.gz</span>
+<span class="line">go <span class="token function">env</span> <span class="token punctuation">[</span>VAR1<span class="token punctuation">]</span> <span class="token punctuation">[</span>VAR2<span class="token punctuation">]</span> <span class="token punctuation">[</span>VAR3<span class="token punctuation">]</span>				    <span class="token comment"># 查看某一个或多个具体的环境变量</span></span>
+<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-json</span> <span class="token punctuation">[</span>VAR1<span class="token punctuation">]</span> <span class="token punctuation">[</span>VAR2<span class="token punctuation">]</span> <span class="token punctuation">[</span>VAR3<span class="token punctuation">]</span> <span class="token punctuation">..</span>.		<span class="token comment"># 查看某一个或多个具体的环境变量，json格式</span></span>
 <span class="line"></span>
-<span class="line"><span class="token comment"># (5) 设置PATH路径</span></span>
-<span class="line"><span class="token function">vim</span> /etc/bashrc</span>
-<span class="line">  <span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token variable">\${<span class="token environment constant">PATH</span>}</span>:/usr/local/go/root/bin:/usr/local/go/path/bin</span>
-<span class="line"><span class="token builtin class-name">source</span> /etc/bashrc</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># (6) 设置GO环境变量</span></span>
-<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>on</span>
-<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">GOPATH</span><span class="token operator">=</span>/usr/local/go/path</span>
-<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span>https://goproxy.cn,direct</span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（3）检查Go环境变量</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># (7) 最终检查</span></span>
-<span class="line"><span class="token punctuation">[</span>root@node-1 go<span class="token punctuation">]</span><span class="token comment"># go env | grep -Ei &#39;GOROOT|GOPATH|GOPROXY|GO111MODULE&#39;</span></span>
-<span class="line"><span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span><span class="token string">&quot;on&quot;</span></span>
-<span class="line"><span class="token assign-left variable">GOPATH</span><span class="token operator">=</span><span class="token string">&quot;/usr/local/go/path&quot;</span></span>
-<span class="line"><span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span><span class="token string">&quot;https://goproxy.cn,direct&quot;</span></span>
-<span class="line"><span class="token assign-left variable">GOROOT</span><span class="token operator">=</span><span class="token string">&quot;/usr/local/go/1.19.5&quot;</span></span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（4）环境变量说明</summary><p><strong>设置环境变量</strong></p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 语法</span></span>
-<span class="line">go <span class="token function">env</span> 						<span class="token comment"># 查看所有环境变量</span></span>
-<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-json</span>				<span class="token comment"># 查看所有环境变量，json格式</span></span>
-<span class="line">go <span class="token function">env</span> <span class="token punctuation">[</span>environment<span class="token punctuation">]</span>		<span class="token comment"># 查看某个具体的环境变量</span></span>
-<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>on	<span class="token comment"># 设置环境变量,永久生效</span></span>
-<span class="line">go <span class="token builtin class-name">help</span> <span class="token function">env</span>					<span class="token comment"># 查看env命令帮助</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 推荐设置的环境变量</span></span>
+<span class="line">go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">name</span><span class="token operator">=</span>value <span class="token punctuation">[</span>name<span class="token operator">=</span>value <span class="token punctuation">..</span>.<span class="token punctuation">]</span>		<span class="token comment"># 设置环境变量（写入 Go 配置文件，永久生效）</span></span>
+<span class="line"></span></code></pre></div><p><strong>推荐设置的环境变量</strong></p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 推荐设置的环境变量</span></span>
 <span class="line">go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>on</span>
 <span class="line">go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">GOPROXY</span><span class="token operator">=</span>https://goproxy.cn,direct</span>
-<span class="line"></span></code></pre></div><p><strong>环境变量说明</strong></p><table><thead><tr><th>环境变量</th><th>说明</th><th>设置命令</th></tr></thead><tbody><tr><td><code>GOROOT</code></td><td>Go的安装目录</td><td>一般不用自己设置</td></tr><tr><td><code>GOPATH</code></td><td>代表Go的工作区，可以是一个目录，也可以是多个目录，使用逗号分隔?<br>官方说明文档：https://github.com/golang/go/wiki/GOPATH</td><td><code>go env -w GOPATH=/usr/local/gopath</code></td></tr><tr><td><code>GO111MODULE</code></td><td>Go 1.11版本增加的模块管理机制，建议开启</td><td><code>go env -w GO111MODULE=on</code></td></tr><tr><td><code>GOPROXY</code></td><td>代理地址，由于墙的因素建议修改<br>默认值：https://proxy.golang.org,direct<br>七牛云：https://goproxy.cn,direct<br><code>direct</code>：字面翻译是直连，代表官方下载地址，<br>意思是如果通过代理下载不到，那么通过官方地址下载</td><td><code>go env -w GOPROXY=https://goproxy.cn,direct</code></td></tr><tr><td><code>GOSUMDB</code></td><td>用来校验下载的包的安全性，一般情况下不需要修改<br>默认值：<code>sum.golang.org</code><br>关闭：<code>off</code></td><td><code>go env -w GOSUMDB=off</code></td></tr></tbody></table><p>更多环境变量：<a href="https://golang.google.cn/cmd/go/#hdr-Environment_variables" target="_blank" rel="noopener noreferrer">https://golang.google.cn/cmd/go/#hdr-Environment_variables</a> 或<code>go help environment</code></p></details><details class="hint-container details"><summary>（5）第一个应用</summary><p><code>main.go</code></p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
-<span class="line"> </span>
-<span class="line"><span class="token keyword">import</span> <span class="token string">&quot;fmt&quot;</span></span>
-<span class="line"> </span>
-<span class="line"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">   fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">&quot;Hello World!&quot;</span><span class="token punctuation">)</span></span>
-<span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre></div><p>说明：</p><ul><li><code>package</code>声明我自己的包名</li><li><code>import</code> 导入其他包，这里<code>fmt</code>是内置的一个包</li><li><code>func </code>声明函数</li><li>程序执行的入口必须是<code>main</code>包和<code>main</code>方法，文件名任意</li></ul><p>两种运行方式</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># (1) 编译和运行</span></span>
-<span class="line">go build main.go        <span class="token comment"># 编译</span></span>
-<span class="line">./main.exe              <span class="token comment"># 运行</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># (2) 编译并运行</span></span>
-<span class="line">go run main.go</span>
-<span class="line"></span></code></pre></div><p>如果我们导入的是一个第三方包，那么编译的时候会报错，如下所示，我们将在下一节解决这个问题</p><p><code>main.go</code></p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">import</span> <span class="token punctuation">(</span></span>
-<span class="line">        <span class="token string">&quot;github.com/gin-gonic/gin&quot;</span></span>
-<span class="line">        <span class="token string">&quot;log&quot;</span></span>
-<span class="line">        <span class="token string">&quot;net/http&quot;</span></span>
-<span class="line"><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">        <span class="token comment">// 监听地址</span></span>
-<span class="line">        addr <span class="token operator">:=</span> <span class="token string">&quot;127.0.0.1:80&quot;</span></span>
-<span class="line"></span>
-<span class="line">        <span class="token comment">// 实例化Gin路由引擎</span></span>
-<span class="line">        r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line">        <span class="token comment">// 注册路由</span></span>
-<span class="line">        r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">                c<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> <span class="token string">&quot;Hello Gin!\\n&quot;</span><span class="token punctuation">)</span></span>
-<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line">        <span class="token comment">// 启动Gin Server</span></span>
-<span class="line">        log<span class="token punctuation">.</span><span class="token function">Fatalln</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">)</span></span>
-<span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre></div><p>输出结果</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># go run main.go   # 在当前目录及父目录没有找到go.mod文件</span></span>
-<span class="line">main.go:4:2: no required module provides package github.com/gin-gonic/gin: go.mod <span class="token function">file</span> not found <span class="token keyword">in</span> current directory or any parent directory<span class="token punctuation">;</span></span>
-<span class="line">see <span class="token string">&#39;go help modules&#39;</span></span>
-<span class="line"></span></code></pre></div></details><br><h3 id="go-module" tabindex="-1"><a class="header-anchor" href="#go-module"><span>Go Module</span></a></h3><p>文档：<a href="https://go.dev/ref/mod" target="_blank" rel="noopener noreferrer">https://go.dev/ref/mod</a></p><p>包命名：<a href="https://go.dev/blog/package-names" target="_blank" rel="noopener noreferrer">https://go.dev/blog/package-names</a></p><details class="hint-container details"><summary>（1）开启Go Module</summary><p>从<code>Go1.11</code>开始，官方推出Go module作为包管理工具</p><p><code>GO111MODULE</code>变量控制是否启用go modules，他有3个值：</p><ul><li><code>on</code>：开启go module</li><li><code>off</code>：关闭go module</li><li><code>auto</code>：根据项目配置自动选择使用<code>go module</code>还是<code>go path</code></li></ul><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 不管开启没开启，都重新开启一遍</span></span>
-<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>Administrator<span class="token punctuation">\\</span>Desktop<span class="token punctuation">\\</span>Notes<span class="token operator">&gt;</span>go <span class="token function">env</span> <span class="token parameter variable">-w</span> <span class="token assign-left variable">GO111MODULE</span><span class="token operator">=</span>on</span>
-<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>Administrator<span class="token punctuation">\\</span>Desktop<span class="token punctuation">\\</span>Notes<span class="token operator">&gt;</span>go <span class="token function">env</span> GO111MODULE</span>
-<span class="line">on</span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（2）初始化项目：go mod init</summary><p>文档：<a href="https://go.dev/ref/mod#go-mod-init" target="_blank" rel="noopener noreferrer">https://go.dev/ref/mod#go-mod-init</a></p><p><strong>1、基础使用</strong></p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 先创建我们的项目目录demo</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># mkdir demo</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># cd demo/</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 然后初始化项目</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go mod init demo</span></span>
-<span class="line">go: creating new go.mod: module demo</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 看一下都做了什么事：生成了一个文件go.mod</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># ll</span></span>
-<span class="line">total <span class="token number">4</span></span>
-<span class="line">-rw-r--r-- <span class="token number">1</span> root root <span class="token number">21</span> May <span class="token number">30</span> <span class="token number">19</span>:27 go.mod</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 看看这个文件内容</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># cat go.mod </span></span>
-<span class="line">module demo		<span class="token comment"># 模块名</span></span>
-<span class="line"></span>
-<span class="line">go <span class="token number">1.18</span>			<span class="token comment"># go版本</span></span>
-<span class="line"></span></code></pre></div><p><strong>2、我们来看几个Go明星项目的Module Name是如何写的</strong></p><table><thead><tr><th>Github地址</th><th>Module Name</th></tr></thead><tbody><tr><td>https://github.com/containerd/containerd</td><td><code>module github.com/containerd/containerd</code></td></tr><tr><td>https://github.com/gin-gonic/gin</td><td><code>module github.com/gin-gonic/gin</code></td></tr><tr><td>https://github.com/pingcap/tidb</td><td><code>module github.com/pingcap/tidb</code></td></tr></tbody></table><p>仔细研究发现他们的格式都是<code>github.com/用户名/项目名</code>，这是为啥？先不管他，后面再说</p><p><strong>（3）使用第三方模块</strong></p><p><code>main.go</code></p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">import</span> <span class="token punctuation">(</span></span>
-<span class="line">        <span class="token string">&quot;github.com/gin-gonic/gin&quot;</span></span>
-<span class="line">        <span class="token string">&quot;log&quot;</span></span>
-<span class="line">        <span class="token string">&quot;net/http&quot;</span></span>
-<span class="line"><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">        <span class="token comment">// 监听地址</span></span>
-<span class="line">        addr <span class="token operator">:=</span> <span class="token string">&quot;127.0.0.1:80&quot;</span></span>
-<span class="line"></span>
-<span class="line">        <span class="token comment">// 实例化Gin路由引擎</span></span>
-<span class="line">        r <span class="token operator">:=</span> gin<span class="token punctuation">.</span><span class="token function">Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line">        <span class="token comment">// 注册路由</span></span>
-<span class="line">        r<span class="token punctuation">.</span><span class="token function">GET</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span> <span class="token keyword">func</span><span class="token punctuation">(</span>c <span class="token operator">*</span>gin<span class="token punctuation">.</span>Context<span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">                c<span class="token punctuation">.</span><span class="token function">String</span><span class="token punctuation">(</span>http<span class="token punctuation">.</span>StatusOK<span class="token punctuation">,</span> <span class="token string">&quot;Hello Gin!\\n&quot;</span><span class="token punctuation">)</span></span>
-<span class="line">        <span class="token punctuation">}</span><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line">        <span class="token comment">// 启动Gin Server</span></span>
-<span class="line">        log<span class="token punctuation">.</span><span class="token function">Fatalln</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">)</span></span>
-<span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre></div><p>输出结果</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 查看当前目录</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># ls -l</span></span>
-<span class="line">total <span class="token number">8</span></span>
-<span class="line">-rw-r--r-- <span class="token number">1</span> root root  <span class="token number">21</span> May <span class="token number">30</span> <span class="token number">19</span>:49 go.mod</span>
-<span class="line">-rw-r--r-- <span class="token number">1</span> root root <span class="token number">327</span> May <span class="token number">30</span> <span class="token number">19</span>:17 main.go</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 这次报错不一样了，让我们使用go get下载gin</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go run main.go		</span></span>
-<span class="line">main.go:4:2: no required module provides package github.com/gin-gonic/gin<span class="token punctuation">;</span> to <span class="token function">add</span> it:</span>
-<span class="line">        go get github.com/gin-gonic/gin</span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（3）go get基础：下载第三方包</summary><p>文档：<a href="https://go.dev/ref/mod#go-get" target="_blank" rel="noopener noreferrer">https://go.dev/ref/mod#go-get</a></p><p>特点：</p><ul><li>必须在项目目录(含有go.mod的目录)使用<code>go get</code>，无法在全局目录使用</li><li><code>go get</code>用来管理第三方包版本问题，会自动维护go.mod和go.sum文件</li><li><code>go get</code>下载的包放在GOPATH/pkg目录内</li><li>若不指定版本号只能更新到<code>v1.x.x</code>最新版，若第三方包没有版本号（Tag）则会更新到最后一次提交的代码</li></ul><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 下载</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go get github.com/gin-gonic/gin</span></span>
-<span class="line">go: added github.com/gin-contrib/sse v0.1.0</span>
-<span class="line">go: added github.com/gin-gonic/gin v1.8.0</span>
-<span class="line">go: added github.com/go-playground/locales v0.14.0</span>
-<span class="line">go: added github.com/go-playground/universal-translator v0.18.0</span>
-<span class="line">go: added github.com/go-playground/validator/v10 v10.10.0</span>
-<span class="line">go: added github.com/goccy/go-json v0.9.7</span>
-<span class="line">go: added github.com/json-iterator/go v1.1.12</span>
-<span class="line">go: added github.com/leodido/go-urn v1.2.1</span>
-<span class="line">go: added github.com/mattn/go-isatty v0.0.14</span>
-<span class="line">go: added github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421</span>
-<span class="line">go: added github.com/modern-go/reflect2 v1.0.2</span>
-<span class="line">go: added github.com/pelletier/go-toml/v2 v2.0.1</span>
-<span class="line">go: added github.com/ugorji/go/codec v1.2.7</span>
-<span class="line">go: added golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97</span>
-<span class="line">go: added golang.org/x/net v0.0.0-20210226172049-e18ecbb05110</span>
-<span class="line">go: added golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069</span>
-<span class="line">go: added golang.org/x/text v0.3.6</span>
-<span class="line">go: added google.golang.org/protobuf v1.28.0</span>
-<span class="line">go: added gopkg.in/yaml.v2 v2.4.0</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 查看go.mod, 将gin及其依赖的包都写入到go.mod文件中了</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># cat go.mod</span></span>
-<span class="line">module demo</span>
-<span class="line"></span>
-<span class="line">go <span class="token number">1.18</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># require里面代表依赖的包</span></span>
-<span class="line">require <span class="token punctuation">(</span></span>
-<span class="line">        github.com/gin-contrib/sse v0.1.0 // indirect</span>
-<span class="line">        github.com/gin-gonic/gin v1.8.0 // indirect</span>
-<span class="line">        github.com/go-playground/locales v0.14.0 // indirect</span>
-<span class="line">        github.com/go-playground/universal-translator v0.18.0 // indirect</span>
-<span class="line">        github.com/go-playground/validator/v10 v10.10.0 // indirect</span>
-<span class="line">        github.com/goccy/go-json v0.9.7 // indirect</span>
-<span class="line">        github.com/json-iterator/go v1.1.12 // indirect</span>
-<span class="line">        github.com/leodido/go-urn v1.2.1 // indirect</span>
-<span class="line">        github.com/mattn/go-isatty v0.0.14 // indirect</span>
-<span class="line">        github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect</span>
-<span class="line">        github.com/modern-go/reflect2 v1.0.2 // indirect</span>
-<span class="line">        github.com/pelletier/go-toml/v2 v2.0.1 // indirect</span>
-<span class="line">        github.com/ugorji/go/codec v1.2.7 // indirect</span>
-<span class="line">        golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect</span>
-<span class="line">        golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect</span>
-<span class="line">        golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 // indirect</span>
-<span class="line">        golang.org/x/text v0.3.6 // indirect</span>
-<span class="line">        google.golang.org/protobuf v1.28.0 // indirect</span>
-<span class="line">        gopkg.in/yaml.v2 v2.4.0 // indirect</span>
-<span class="line"><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 我们下载的包在GOPATH目录下</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go env GOPATH</span></span>
-<span class="line">/usr/local/gopath</span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># ls -l /usr/local/gopath/pkg/mod/</span></span>
-<span class="line">total <span class="token number">20</span></span>
-<span class="line">drwxr-xr-x <span class="token number">3</span> root root <span class="token number">4096</span> May <span class="token number">30</span> <span class="token number">20</span>:26 cache</span>
-<span class="line">drwxr-xr-x <span class="token number">9</span> root root <span class="token number">4096</span> May <span class="token number">30</span> <span class="token number">20</span>:26 github.com</span>
-<span class="line">drwxr-xr-x <span class="token number">3</span> root root <span class="token number">4096</span> May <span class="token number">30</span> <span class="token number">20</span>:26 golang.org</span>
-<span class="line">drwxr-xr-x <span class="token number">3</span> root root <span class="token number">4096</span> May <span class="token number">30</span> <span class="token number">20</span>:26 google.golang.org</span>
-<span class="line">drwxr-xr-x <span class="token number">3</span> root root <span class="token number">4096</span> May <span class="token number">30</span> <span class="token number">20</span>:26 gopkg.in</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 还会生成一个go.sum文件，此文件不需要我们管理，先不做深入研究</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># ls -lh go.sum </span></span>
-<span class="line">-rw-r--r-- <span class="token number">1</span> root root <span class="token number">9</span>.1K May <span class="token number">30</span> <span class="token number">20</span>:32 go.sum</span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（4）go get进阶：安装最新版、安装指定版、移除版本、升级依赖</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 安装最新版本，以下两种方法都可以，这会下载最新的tag版本</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go get github.com/gin-gonic/gin</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go get github.com/gin-gonic/gin@latest</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 安装指定版本</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go get github.com/gin-gonic/gin@v1.7.0</span></span>
-<span class="line">go: downgraded github.com/gin-gonic/gin v1.8.0 <span class="token operator">=</span><span class="token operator">&gt;</span> v1.7.0</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 将包从go.mod中移除（本地并不会删除）</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go get github.com/gin-gonic/gin@none</span></span>
-<span class="line">go: removed github.com/gin-gonic/gin v1.7.0</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 查看本地包</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># ll /usr/local/gopath/pkg/mod/github.com/gin-gonic/</span></span>
-<span class="line">total <span class="token number">8</span></span>
-<span class="line">dr-xr-xr-x <span class="token number">9</span> root root <span class="token number">4096</span> May <span class="token number">30</span> <span class="token number">20</span>:32 gin@v1.7.0</span>
-<span class="line">dr-xr-xr-x <span class="token number">9</span> root root <span class="token number">4096</span> May <span class="token number">30</span> <span class="token number">20</span>:26 gin@v1.8.0</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 升级依赖（这会升级所有依赖）</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go get -u</span></span>
-<span class="line">go: downloading golang.org/x/net v0.0.0-20220526153639-5463443f8c37</span>
-<span class="line">go: downloading github.com/go-playground/validator/v10 v10.11.0</span>
-<span class="line">go: downloading github.com/go-playground/validator v9.31.0+incompatible</span>
-<span class="line">go: downloading github.com/pelletier/go-toml v1.9.5</span>
-<span class="line">go: downloading github.com/ugorji/go v1.2.7</span>
-<span class="line">go: downloading golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a</span>
-<span class="line">go: downloading golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e</span>
-<span class="line">go: downloading golang.org/x/text v0.3.7</span>
-<span class="line">go: downloading github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd</span>
-<span class="line">go: upgraded github.com/go-playground/validator/v10 v10.10.0 <span class="token operator">=</span><span class="token operator">&gt;</span> v10.11.0</span>
-<span class="line">go: upgraded github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 <span class="token operator">=</span><span class="token operator">&gt;</span> v0.0.0-20180306012644-bacd9c7ef1dd</span>
-<span class="line">go: upgraded golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 <span class="token operator">=</span><span class="token operator">&gt;</span> v0.0.0-20220525230936-793ad666bf5e</span>
-<span class="line">go: upgraded golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 <span class="token operator">=</span><span class="token operator">&gt;</span> v0.0.0-20220526153639-5463443f8c37</span>
-<span class="line">go: upgraded golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 <span class="token operator">=</span><span class="token operator">&gt;</span> v0.0.0-20220520151302-bc2c85ada10a</span>
-<span class="line">go: upgraded golang.org/x/text v0.3.6 <span class="token operator">=</span><span class="token operator">&gt;</span> v0.3.7</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 升级依赖go.mod变化</span></span>
-<span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># cat go.mod </span></span>
-<span class="line">module demo</span>
-<span class="line"></span>
-<span class="line">go <span class="token number">1.18</span></span>
-<span class="line"></span>
-<span class="line">require github.com/gin-gonic/gin v1.8.0		// 这个原来在下面，并且有// indirect，现在没有了</span>
-<span class="line"></span>
-<span class="line">require <span class="token punctuation">(</span></span>
-<span class="line">        github.com/gin-contrib/sse v0.1.0 // indirect</span>
-<span class="line">        github.com/go-playground/locales v0.14.0 // indirect</span>
-<span class="line">        github.com/go-playground/universal-translator v0.18.0 // indirect</span>
-<span class="line">        github.com/go-playground/validator/v10 v10.11.0 // indirect</span>
-<span class="line">        github.com/goccy/go-json v0.9.7 // indirect</span>
-<span class="line">        github.com/golang/protobuf v1.5.2 // indirect</span>
-<span class="line">        github.com/json-iterator/go v1.1.12 // indirect</span>
-<span class="line">        github.com/leodido/go-urn v1.2.1 // indirect</span>
-<span class="line">        github.com/mattn/go-isatty v0.0.14 // indirect</span>
-<span class="line">        github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect</span>
-<span class="line">        github.com/modern-go/reflect2 v1.0.2 // indirect</span>
-<span class="line">        github.com/pelletier/go-toml/v2 v2.0.1 // indirect</span>
-<span class="line">        github.com/ugorji/go/codec v1.2.7 // indirect</span>
-<span class="line">        golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect</span>
-<span class="line">        golang.org/x/net v0.0.0-20220526153639-5463443f8c37 // indirect</span>
-<span class="line">        golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect</span>
-<span class="line">        golang.org/x/text v0.3.7 // indirect</span>
-<span class="line">        google.golang.org/protobuf v1.28.0 // indirect</span>
-<span class="line">        gopkg.in/yaml.v2 v2.4.0 // indirect</span>
-<span class="line"><span class="token punctuation">)</span></span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（5）安装可执行文件：go install</summary><p>文档：<a href="https://go.dev/ref/mod#go-install" target="_blank" rel="noopener noreferrer">https://go.dev/ref/mod#go-install</a></p><p>特点：</p><ul><li>可以在全局使用<code>go install</code>，不会维护go.mod和go.sum文件</li><li>使用<code>go install github.com/xxx/@版本</code>,必须加上版本，如果是最新版则是<code>latest</code></li><li>其原理是： <ul><li>下载第三方包到<code>GOPATH/pkg</code></li><li>然后编译（入口是<code>main</code>包的<code>main</code>方法）</li><li>将可执行文件放在<code>GOPATH/bin</code>目录下</li></ul></li><li>可以使用<code>go install</code>的第三方包，一般都有一个<code>main</code>包和<code>main</code>方法</li></ul><p>举几个例子</p><table><thead><tr><th>Github</th><th>main</th></tr></thead><tbody><tr><td>https://github.com/davecheney/httpstat</td><td><code>main.go</code></td></tr><tr><td>https://github.com/Code-Hex/pget</td><td><code>cmd/pget/main.go</code></td></tr></tbody></table></details><details class="hint-container details"><summary>（6）依赖整理：go mod tidy</summary><p>很常用的一个命令，可多次执行</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token punctuation">[</span>root@localhost demo<span class="token punctuation">]</span><span class="token comment"># go help mod</span></span>
-<span class="line">Go mod provides access to operations on modules.</span>
-<span class="line"></span>
-<span class="line">Note that support <span class="token keyword">for</span> modules is built into all the go commands,</span>
-<span class="line">not just <span class="token string">&#39;go mod&#39;</span><span class="token builtin class-name">.</span> For example, day-to-day adding, removing, upgrading,</span>
-<span class="line">and downgrading of dependencies should be <span class="token keyword">done</span> using <span class="token string">&#39;go get&#39;</span><span class="token builtin class-name">.</span></span>
-<span class="line">See <span class="token string">&#39;go help modules&#39;</span> <span class="token keyword">for</span> an overview of module functionality.</span>
-<span class="line"></span>
-<span class="line">Usage:</span>
-<span class="line"></span>
-<span class="line">        go mod <span class="token operator">&lt;</span>command<span class="token operator">&gt;</span> <span class="token punctuation">[</span>arguments<span class="token punctuation">]</span></span>
-<span class="line"></span>
-<span class="line">The commands are:</span>
-<span class="line"></span>
-<span class="line">        download    download modules to <span class="token builtin class-name">local</span> cache</span>
-<span class="line">        edit        edit go.mod from tools or scripts</span>
-<span class="line">        graph       print module requirement graph</span>
-<span class="line">        init        initialize new module <span class="token keyword">in</span> current directory</span>
-<span class="line">        tidy        <span class="token function">add</span> missing and remove unused modules			<span class="token comment"># 添加缺少的包，并移除未使用的包</span></span>
-<span class="line">        vendor      <span class="token function">make</span> vendored copy of dependencies</span>
-<span class="line">        verify      verify dependencies have expected content</span>
-<span class="line">        why         explain why packages or modules are needed</span>
-<span class="line"></span>
-<span class="line">Use <span class="token string">&quot;go help mod &lt;command&gt;&quot;</span> <span class="token keyword">for</span> <span class="token function">more</span> information about a command.</span>
-<span class="line"></span></code></pre></div></details><br><h3 id="发布公共模块" tabindex="-1"><a class="header-anchor" href="#发布公共模块"><span>发布公共模块</span></a></h3><details class="hint-container details"><summary>（1）发布公共模块到 GitHub：先跑通一个最简单的发布流程</summary><p>① 在Github上新建一个仓库test，并克隆代码到本地</p><p>② 使用go mod初始化，要求module name必须是绝对路径（github.com/用户名/项目名），</p><p>这样别人就可以导入我们的模块，或者是利用<code>go install</code>下载并编译我们的代码来生成二进制文件</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 克隆</span></span>
-<span class="line"><span class="token function">git</span> clone https://github.com/vvfock3r/test.git</span>
-<span class="line"><span class="token builtin class-name">cd</span> <span class="token builtin class-name">test</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 初始化Go模块</span></span>
-<span class="line">go mod init github.com/vvfock3r/test</span>
-<span class="line"></span></code></pre></div><p>③ 提交代码到test仓库</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 新建一个文件utils.go</span></span>
-<span class="line">package <span class="token builtin class-name">test</span></span>
-<span class="line"></span>
-<span class="line">func Add<span class="token punctuation">(</span>x, y int<span class="token punctuation">)</span> int <span class="token punctuation">{</span></span>
-<span class="line">	<span class="token builtin class-name">return</span> x + y</span>
-<span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 提交</span></span>
-<span class="line"><span class="token function">git</span> <span class="token function">add</span> *</span>
-<span class="line"><span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">&quot;test&quot;</span></span>
-<span class="line"><span class="token function">git</span> push <span class="token parameter variable">-u</span> origin main</span>
-<span class="line"></span></code></pre></div><p>④ 使用GoLand新建一个Go项目demo，进行测试</p><p>添加依赖包</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>Administrator<span class="token punctuation">\\</span>GolandProjects<span class="token punctuation">\\</span>demo<span class="token operator">&gt;</span>go get github.com/vvfock3r/test </span>
-<span class="line">go: downloading github.com/vvfock3r/test v0.0.0-20220601023617-b9d901edce34</span>
-<span class="line"></span></code></pre></div><p>编写<code>main.go</code></p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">import</span> <span class="token punctuation">(</span></span>
-<span class="line">	<span class="token string">&quot;fmt&quot;</span></span>
-<span class="line">	<span class="token string">&quot;github.com/vvfock3r/test&quot;</span></span>
-<span class="line"><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line"><span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span>
-<span class="line">	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>test<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span>
-<span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre></div><p>测试执行</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>Administrator<span class="token punctuation">\\</span>GolandProjects<span class="token punctuation">\\</span>demo<span class="token operator">&gt;</span>go run <span class="token builtin class-name">.</span>      </span>
-<span class="line"><span class="token number">3</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 查看go.mod</span></span>
-<span class="line">module demo</span>
-<span class="line"></span>
-<span class="line">go <span class="token number">1.18</span></span>
-<span class="line"></span>
-<span class="line">require github.com/vvfock3r/test v0.0.0-20220601023617-b9d901edce34 // indirect</span>
-<span class="line"></span></code></pre></div><p>总结几个关键点：</p><p>（1）第三方模块的模块名：应使用<strong>github.com/用户名/项目名</strong></p><p>（2）第三方模块的版本：若无版本，Go自动添加一个版本<strong>v0.0.0-时间-提交ID</strong></p><ul><li><code>v0.0.0</code>是固定的</li><li>时间格式<code>年月日时分秒</code></li><li>提交ID长度<code>12</code>位</li></ul><p>从上面可以看出，一次提交可以认为是一个版本</p></details><details class="hint-container details"><summary>（2）发布公共模块到 GitHub：更新第三方包延迟问题</summary><p>描述：我们对第三方模块<code>test</code>随便做一点修改并提交到GitHub，在<code>demo</code>项目中测试更新<code>test</code>模块是否正常</p><p>结果：第三方包刚刚更新的代码，我们无法立马拉取到新代码，测试过的方法有：</p><ul><li>使用<code>go get -u github.com/vvfock3r/test</code>更新，无效</li><li>删除<code>go.mod</code>和本地<code>GOPATH</code>下的<code>test</code>模块相关的任何东西，然后使用<code>go get</code>重新下载，无效</li></ul><p>原因是：我们<code>go get</code>下载包并不是直接从<code>github.com</code>下载的，而是通过<code>GOPROXY</code>指定的镜像站下载的（通过<code>go get -x</code>可以看到），而镜像站存在一定延迟从而导致不能马上下载最新包</p><p>解决办法：使用<code>go get github.com/vvfock3r/test@提交ID</code>来进行更新（提交ID并不一定是完整的ID），可以在下图中这个位置找到最新提交ID</p><p><img src="https://tuchuang-1257805459.cos.accelerate.myqcloud.com/image-20220601140958608.png" alt="image-20220601140958608"></p></details><details class="hint-container details"><summary>（3）发布公共模块到 GitHub：指定第三方包的版本</summary><p>如果我想让用户使用<code>go get github.com/vvfock3r/test@v1.0.0</code>这样的方式来安装指定版本，该如何做呢？</p><p>这里的<code>v1.0.0</code>，就是仓库的<code>Tag</code>名称，但是有几点注意事项：</p><ul><li><p>Tag名称必须是类似<code>v1.0.0</code>这种规则，如果是<code>v1.0</code>这样是拉取不到对应版本的</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>Administrator<span class="token punctuation">\\</span>GolandProjects<span class="token punctuation">\\</span>demo<span class="token operator">&gt;</span>go get github.com/vvfock3r/test@v1.0</span>
-<span class="line">go: github.com/vvfock3r/test@v1.0: no matching versions <span class="token keyword">for</span> query <span class="token string">&quot;v1.0&quot;</span></span>
-<span class="line"></span></code></pre></div></li><li><p>对于<code>v2.0.0</code>及以上版本，我们如果直接使用<code>go get github.com/vvfock3r/test@v2.0.0</code>会报错</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>Administrator<span class="token punctuation">\\</span>GolandProjects<span class="token punctuation">\\</span>demo<span class="token operator">&gt;</span>go get github.com/vvfock3r/test@v2.0.0</span>
-<span class="line">go: github.com/vvfock3r/test@v2.0.0: invalid version: module contains a go.mod file, so module path must match major version <span class="token punctuation">(</span><span class="token string">&quot;github.com/vvfock3r/test/v2&quot;</span><span class="token punctuation">)</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 原因也给出来了：模块路径必须包含主版本号</span></span>
-<span class="line"></span></code></pre></div><p>这个时候我们有两种解决方案：</p><ul><li>永远不升级到<code>v2.x.x</code>，一直使用v1的版本比如<code>v1.0.0</code>、<code>v1.0.1</code>、<code>@v1.999.999</code></li><li>升级到<code>v2.x.x</code>，需要在项目根目录下创建一个<code>v2</code>的目录，代表这是一个全新的版本</li></ul></li><li><p>其他：Github上新打的Tag可以直接在命令行使用<code>go get </code>下载，没有GOPROXY缓存的问题（指定版本为<code>latest</code>除外）</p></li></ul></details><details class="hint-container details"><summary>（4）发布公共模块到 GitHub：replace简介</summary><p>replace可以让我们对包进行替换，可以达到这样的效果：导入的是<code>a</code>包，但实际使用的是<code>b</code>包</p><p>使用replace可以直接修改go.mod文件，也可以使用<code>go mod edit -replace</code>命令（推荐）</p><p>语法</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 语法</span></span>
-<span class="line"><span class="token comment"># go mod edit -replace 旧地址=新地址</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 示例：将v1.1.2替换为v1.1.1版本，也就是降低了一个版本</span></span>
-<span class="line">go mod edit <span class="token parameter variable">-replace</span> github.com/vvfock3r/test@v1.1.2<span class="token operator">=</span>github.com/vvfock3r/test@v1.1.1</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 查看一下go.mod文件</span></span>
-<span class="line">module demo</span>
-<span class="line">go <span class="token number">1.18</span></span>
-<span class="line">require github.com/vvfock3r/test v1.1.2</span>
-<span class="line">replace github.com/vvfock3r/test v1.1.2 <span class="token operator">=</span><span class="token operator">&gt;</span> github.com/vvfock3r/test v1.1.1		<span class="token comment"># replace</span></span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 说明</span></span>
-<span class="line">虽然go.mod中require是v1.1.2版本，但实际上在使用v1.1.1版本</span>
-<span class="line"></span></code></pre></div></details><br><h3 id="设置私有模块" tabindex="-1"><a class="header-anchor" href="#设置私有模块"><span>设置私有模块</span></a></h3><details class="hint-container details"><summary>（1）GOPRIVATE 说明</summary><p><code>GOPRIVATE</code> 是一个环境变量，它用于指定一组私有模块的列表，这些模块不属于公共代码库，无法通过普通的方式访问和下载</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 默认 GOPRIVATE 为空</span></span>
-<span class="line">C:<span class="token punctuation">\\</span>Users<span class="token punctuation">\\</span>Administrator<span class="token operator">&gt;</span>go <span class="token function">env</span> GOPRIVATE</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 一般设置为私有仓库的项目地址</span></span>
-<span class="line"><span class="token builtin class-name">export</span> <span class="token assign-left variable">GOPRIVATE</span><span class="token operator">=</span>gitlab.com/PRIVATE_REPO1,gitlab.com/PRIVATE_REPO2,gitlab.com/PRIVATE_REPO3</span>
-<span class="line"></span></code></pre></div></details><br><h3 id="go命令文档" tabindex="-1"><a class="header-anchor" href="#go命令文档"><span>Go命令文档</span></a></h3><details class="hint-container details"><summary>（1）查看顶层帮助文档： go 或 go -h 或 go --help</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">D:<span class="token punctuation">\\</span>application<span class="token punctuation">\\</span>GoLand<span class="token punctuation">\\</span>example<span class="token operator">&gt;</span>go <span class="token parameter variable">-h</span></span>
-<span class="line">Go is a tool <span class="token keyword">for</span> managing Go <span class="token builtin class-name">source</span> code.                              </span>
-<span class="line">                                                                       </span>
-<span class="line">Usage:                                                                 </span>
-<span class="line">                                                                       </span>
-<span class="line">        go <span class="token operator">&lt;</span>command<span class="token operator">&gt;</span> <span class="token punctuation">[</span>arguments<span class="token punctuation">]</span>                                       </span>
-<span class="line">                                                                       </span>
-<span class="line">The commands are:                                                      </span>
-<span class="line">                                                                       </span>
-<span class="line">        bug         start a bug report                                 </span>
-<span class="line">        build       compile packages and dependencies                  </span>
-<span class="line">        clean       remove object files and cached files               </span>
-<span class="line">        doc         show documentation <span class="token keyword">for</span> package or symbol           </span>
-<span class="line">        <span class="token function">env</span>         print Go environment information                   </span>
-<span class="line">        fix         update packages to use new APIs                    </span>
-<span class="line">        <span class="token function">fmt</span>         gofmt <span class="token punctuation">(</span>reformat<span class="token punctuation">)</span> package sources                   </span>
-<span class="line">        generate    generate Go files by processing <span class="token builtin class-name">source</span>             </span>
-<span class="line">        get         <span class="token function">add</span> dependencies to current module and <span class="token function">install</span> them</span>
-<span class="line">        <span class="token function">install</span>     compile and <span class="token function">install</span> packages and dependencies      </span>
-<span class="line">        list        list packages or modules                           </span>
-<span class="line">        mod         module maintenance                                 </span>
-<span class="line">        work        workspace maintenance                              </span>
-<span class="line">        run         compile and run Go program                         </span>
-<span class="line">        <span class="token builtin class-name">test</span>        <span class="token builtin class-name">test</span> packages                                      </span>
-<span class="line">        tool        run specified go tool                              </span>
-<span class="line">        version     print Go version                                   </span>
-<span class="line">        vet         report likely mistakes <span class="token keyword">in</span> packages                 </span>
-<span class="line">                                                                       </span>
-<span class="line">Use <span class="token string">&quot;go help &lt;command&gt;&quot;</span> <span class="token keyword">for</span> <span class="token function">more</span> information about a command.          </span>
-<span class="line">                                                                       </span>
-<span class="line">Additional <span class="token builtin class-name">help</span> topics:                                                </span>
-<span class="line">                                                                       </span>
-<span class="line">        buildconstraint build constraints                              </span>
-<span class="line">        buildmode       build modes                                    </span>
-<span class="line">        c               calling between Go and C</span>
-<span class="line">        cache           build and <span class="token builtin class-name">test</span> caching</span>
-<span class="line">        environment     environment variables</span>
-<span class="line">        filetype        <span class="token function">file</span> types</span>
-<span class="line">        go.mod          the go.mod <span class="token function">file</span></span>
-<span class="line">        gopath          GOPATH environment variable</span>
-<span class="line">        gopath-get      legacy GOPATH go get</span>
-<span class="line">        goproxy         module proxy protocol</span>
-<span class="line">        importpath      <span class="token function">import</span> path syntax</span>
-<span class="line">        modules         modules, module versions, and <span class="token function">more</span></span>
-<span class="line">        module-get      module-aware go get</span>
-<span class="line">        module-auth     module authentication using go.sum</span>
-<span class="line">        packages        package lists and patterns</span>
-<span class="line">        private         configuration <span class="token keyword">for</span> downloading non-public code</span>
-<span class="line">        testflag        testing flags</span>
-<span class="line">        testfunc        testing functions</span>
-<span class="line">        vcs             controlling version control with GOVCS</span>
-<span class="line"></span>
-<span class="line">Use <span class="token string">&quot;go help &lt;topic&gt;&quot;</span> <span class="token keyword">for</span> <span class="token function">more</span> information about that topic.</span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（2）查看子命令帮助文档：go help sub-command</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># 1、使用-h和--help, 输出内容太过于简单，根本没有参考意义。它告诉我们要使用 go help build</span></span>
-<span class="line">D:<span class="token punctuation">\\</span>application<span class="token punctuation">\\</span>GoLand<span class="token punctuation">\\</span>example<span class="token operator">&gt;</span>go build <span class="token parameter variable">-h</span></span>
-<span class="line">usage: go build <span class="token punctuation">[</span>-o output<span class="token punctuation">]</span> <span class="token punctuation">[</span>build flags<span class="token punctuation">]</span> <span class="token punctuation">[</span>packages<span class="token punctuation">]</span></span>
-<span class="line">Run <span class="token string">&#39;go help build&#39;</span> <span class="token keyword">for</span> details.</span>
-<span class="line"></span>
-<span class="line">D:<span class="token punctuation">\\</span>application<span class="token punctuation">\\</span>GoLand<span class="token punctuation">\\</span>example<span class="token operator">&gt;</span>go build <span class="token parameter variable">--help</span></span>
-<span class="line">usage: go build <span class="token punctuation">[</span>-o output<span class="token punctuation">]</span> <span class="token punctuation">[</span>build flags<span class="token punctuation">]</span> <span class="token punctuation">[</span>packages<span class="token punctuation">]</span></span>
-<span class="line">Run <span class="token string">&#39;go help build&#39;</span> <span class="token keyword">for</span> details.</span>
-<span class="line"></span>
-<span class="line"><span class="token comment"># 2、go help build,内容很详细</span></span>
-<span class="line">D:<span class="token punctuation">\\</span>application<span class="token punctuation">\\</span>GoLand<span class="token punctuation">\\</span>example<span class="token operator">&gt;</span>go <span class="token builtin class-name">help</span> build</span>
-<span class="line">usage: go build <span class="token punctuation">[</span>-o output<span class="token punctuation">]</span> <span class="token punctuation">[</span>build flags<span class="token punctuation">]</span> <span class="token punctuation">[</span>packages<span class="token punctuation">]</span></span>
-<span class="line"></span>
-<span class="line"><span class="token punctuation">..</span>.</span>
-<span class="line"></span>
-<span class="line">The build flags are shared by the build, clean, get, install, list, run,</span>
-<span class="line">and <span class="token builtin class-name">test</span> commands:</span>
-<span class="line"></span>
-<span class="line">        <span class="token parameter variable">-C</span> <span class="token function">dir</span></span>
-<span class="line">                Change to <span class="token function">dir</span> before running the command.</span>
-<span class="line">                Any files named on the <span class="token builtin class-name">command</span> line are interpreted after</span>
-<span class="line">                changing directories.</span>
-<span class="line">        <span class="token parameter variable">-a</span></span>
-<span class="line">                force rebuilding of packages that are already up-to-date.</span>
-<span class="line">        <span class="token parameter variable">-n</span></span>
-<span class="line">                print the commands but <span class="token keyword">do</span> not run them.</span>
-<span class="line">        <span class="token parameter variable">-p</span> n</span>
-<span class="line">                the number of programs, such as build commands or</span>
-<span class="line">                <span class="token builtin class-name">test</span> binaries, that can be run <span class="token keyword">in</span> parallel.</span>
-<span class="line">                The default is GOMAXPROCS, normally the number of CPUs available.</span>
-<span class="line">        <span class="token parameter variable">-race</span></span>
-<span class="line">                <span class="token builtin class-name">enable</span> data race detection.</span>
-<span class="line">                Supported only on linux/amd64, freebsd/amd64, darwin/amd64, darwin/arm64, windows/amd64,</span>
-<span class="line">                linux/ppc64le and linux/arm64 <span class="token punctuation">(</span>only <span class="token keyword">for</span> <span class="token number">48</span>-bit VMA<span class="token punctuation">)</span>.</span>
-<span class="line">        <span class="token parameter variable">-msan</span></span>
-<span class="line">                <span class="token builtin class-name">enable</span> interoperation with memory sanitizer.</span>
-<span class="line">                Supported only on linux/amd64, linux/arm64, freebsd/amd64</span>
-<span class="line">                and only with Clang/LLVM as the <span class="token function">host</span> C compiler.</span>
-<span class="line">                PIE build mode will be used on all platforms except linux/amd64.</span>
-<span class="line"><span class="token punctuation">..</span>.</span>
-<span class="line">        <span class="token parameter variable">-ldflags</span> <span class="token string">&#39;[pattern=]arg list&#39;</span></span>
-<span class="line">                arguments to pass on each go tool <span class="token function">link</span> invocation.</span>
-<span class="line"><span class="token punctuation">..</span>.</span>
-<span class="line"></span></code></pre></div></details><details class="hint-container details"><summary>（3）查看某个选项可接收的参数列表：go sub-command option --help</summary><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line"><span class="token comment"># go build -ldflags选项接收一个列表作为值</span></span>
-<span class="line"><span class="token comment"># 注意必须使用--help，不能使用-h</span></span>
-<span class="line">D:<span class="token punctuation">\\</span>application<span class="token punctuation">\\</span>GoLand<span class="token punctuation">\\</span>example<span class="token operator">&gt;</span>go build <span class="token parameter variable">-ldflags</span> <span class="token parameter variable">--help</span></span>
-<span class="line"><span class="token comment"># example</span></span>
-<span class="line">usage: <span class="token function">link</span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span> main.o</span>
-<span class="line">  <span class="token parameter variable">-B</span> note</span>
-<span class="line">        <span class="token function">add</span> an ELF NT_GNU_BUILD_ID note when using ELF               </span>
-<span class="line">  <span class="token parameter variable">-E</span> entry                                                           </span>
-<span class="line">        <span class="token builtin class-name">set</span> entry symbol name                                        </span>
-<span class="line">  <span class="token parameter variable">-H</span> <span class="token builtin class-name">type</span>                                                            </span>
-<span class="line">        <span class="token builtin class-name">set</span> header <span class="token builtin class-name">type</span>                                              </span>
-<span class="line">  <span class="token parameter variable">-I</span> linker                                                          </span>
-<span class="line">        use linker as ELF dynamic linker                             </span>
-<span class="line">  <span class="token parameter variable">-L</span> directory                                                       </span>
-<span class="line">        <span class="token function">add</span> specified directory to library path                      </span>
-<span class="line">  <span class="token parameter variable">-R</span> quantum                                                         </span>
-<span class="line">        <span class="token builtin class-name">set</span> address rounding quantum <span class="token punctuation">(</span>default -1<span class="token punctuation">)</span>                    </span>
-<span class="line">  <span class="token parameter variable">-T</span> address                                                         </span>
-<span class="line">        <span class="token builtin class-name">set</span> text segment address <span class="token punctuation">(</span>default -1<span class="token punctuation">)</span>                        </span>
-<span class="line">  <span class="token parameter variable">-V</span>    print version and <span class="token builtin class-name">exit</span>                                       </span>
-<span class="line">  <span class="token parameter variable">-X</span> definition                                                      </span>
-<span class="line">        <span class="token function">add</span> string value definition of the form <span class="token assign-left variable">importpath.name</span><span class="token operator">=</span>value</span>
-<span class="line">  <span class="token parameter variable">-a</span>    no-op <span class="token punctuation">(</span>deprecated<span class="token punctuation">)</span>                                           </span>
-<span class="line">  <span class="token parameter variable">-asan</span>                                                              </span>
-<span class="line">        <span class="token builtin class-name">enable</span> ASan interface                                        </span>
-<span class="line">  <span class="token parameter variable">-aslr</span>                                                              </span>
-<span class="line">        <span class="token builtin class-name">enable</span> ASLR <span class="token keyword">for</span> <span class="token assign-left variable">buildmode</span><span class="token operator">=</span>c-shared on windows <span class="token punctuation">(</span>default <span class="token boolean">true</span><span class="token punctuation">)</span> </span>
-<span class="line">  <span class="token parameter variable">-benchmark</span> string                                                  </span>
-<span class="line">        <span class="token builtin class-name">set</span> to <span class="token string">&#39;mem&#39;</span> or <span class="token string">&#39;cpu&#39;</span> to <span class="token builtin class-name">enable</span> phase benchmarking           </span>
-<span class="line">  <span class="token parameter variable">-benchmarkprofile</span> base                                             </span>
-<span class="line">        emit phase profiles to base_phase.<span class="token punctuation">{</span>cpu,mem<span class="token punctuation">}</span>prof              </span>
-<span class="line">  <span class="token parameter variable">-buildid</span> <span class="token function">id</span>                                                        </span>
-<span class="line">        record <span class="token function">id</span> as Go toolchain build <span class="token function">id</span>                           </span>
-<span class="line">  <span class="token parameter variable">-buildmode</span> mode                                                    </span>
-<span class="line">        <span class="token builtin class-name">set</span> build mode                                               </span>
-<span class="line">  <span class="token parameter variable">-c</span>    dump call graph                                              </span>
-<span class="line">  <span class="token parameter variable">-capturehostobjs</span> string</span>
-<span class="line">        capture <span class="token function">host</span> object files loaded during internal linking to specified <span class="token function">dir</span></span>
-<span class="line">  <span class="token parameter variable">-compressdwarf</span></span>
-<span class="line">        compress DWARF <span class="token keyword">if</span> possible <span class="token punctuation">(</span>default <span class="token boolean">true</span><span class="token punctuation">)</span></span>
-<span class="line">  <span class="token parameter variable">-cpuprofile</span> <span class="token function">file</span></span>
-<span class="line">        <span class="token function">write</span> cpu profile to <span class="token function">file</span></span>
-<span class="line">  <span class="token parameter variable">-d</span>    disable dynamic executable</span>
-<span class="line">  <span class="token parameter variable">-debugnosplit</span></span>
-<span class="line">        dump nosplit call graph</span>
-<span class="line">  <span class="token parameter variable">-debugtextsize</span> int</span>
-<span class="line">        debug text section max size</span>
-<span class="line">  <span class="token parameter variable">-debugtramp</span> int</span>
-<span class="line">        debug trampolines</span>
-<span class="line">  <span class="token parameter variable">-dumpdep</span></span>
-<span class="line">        dump symbol dependency graph</span>
-<span class="line">  <span class="token parameter variable">-extar</span> string</span>
-<span class="line">        archive program <span class="token keyword">for</span> <span class="token assign-left variable">buildmode</span><span class="token operator">=</span>c-archive</span>
-<span class="line">  <span class="token parameter variable">-extld</span> linker</span>
-<span class="line">        use linker when linking <span class="token keyword">in</span> external mode</span>
-<span class="line">  <span class="token parameter variable">-extldflags</span> flags</span>
-<span class="line">        pass flags to external linker</span>
-<span class="line">  <span class="token parameter variable">-f</span>    ignore version mismatch</span>
-<span class="line">  <span class="token parameter variable">-g</span>    disable go package data checks</span>
-<span class="line">  <span class="token parameter variable">-h</span>    <span class="token function">halt</span> on error</span>
-<span class="line">  <span class="token parameter variable">-importcfg</span> <span class="token function">file</span></span>
-<span class="line">        <span class="token builtin class-name">read</span> <span class="token function">import</span> configuration from <span class="token function">file</span></span>
-<span class="line">  <span class="token parameter variable">-installsuffix</span> suffix</span>
-<span class="line">        <span class="token builtin class-name">set</span> package directory suffix</span>
-<span class="line">  <span class="token parameter variable">-k</span> symbol</span>
-<span class="line">        <span class="token builtin class-name">set</span> field tracking symbol</span>
-<span class="line">  <span class="token parameter variable">-libgcc</span> string</span>
-<span class="line">        compiler support lib <span class="token keyword">for</span> internal linking<span class="token punctuation">;</span> use <span class="token string">&quot;none&quot;</span> to disable</span>
-<span class="line">  <span class="token parameter variable">-linkmode</span> mode</span>
-<span class="line">        <span class="token builtin class-name">set</span> <span class="token function">link</span> mode</span>
-<span class="line">  <span class="token parameter variable">-linkshared</span></span>
-<span class="line">        <span class="token function">link</span> against installed Go shared libraries</span>
-<span class="line">  <span class="token parameter variable">-memprofile</span> <span class="token function">file</span></span>
-<span class="line">        <span class="token function">write</span> memory profile to <span class="token function">file</span></span>
-<span class="line">  <span class="token parameter variable">-memprofilerate</span> rate</span>
-<span class="line">        <span class="token builtin class-name">set</span> runtime.MemProfileRate to rate</span>
-<span class="line">  <span class="token parameter variable">-msan</span></span>
-<span class="line">        <span class="token builtin class-name">enable</span> MSan interface</span>
-<span class="line">  <span class="token parameter variable">-n</span>    dump symbol table</span>
-<span class="line">  <span class="token parameter variable">-o</span> <span class="token function">file</span></span>
-<span class="line">        <span class="token function">write</span> output to <span class="token function">file</span></span>
-<span class="line">  <span class="token parameter variable">-pluginpath</span> string</span>
-<span class="line">        full path name <span class="token keyword">for</span> plugin</span>
-<span class="line">  <span class="token parameter variable">-r</span> path</span>
-<span class="line">        <span class="token builtin class-name">set</span> the ELF dynamic linker search path to dir1:dir2:<span class="token punctuation">..</span>.</span>
-<span class="line">  <span class="token parameter variable">-race</span></span>
-<span class="line">        <span class="token builtin class-name">enable</span> race detector</span>
-<span class="line">  <span class="token parameter variable">-s</span>    disable symbol table</span>
-<span class="line">  <span class="token parameter variable">-strictdups</span> int</span>
-<span class="line">        sanity check duplicate symbol contents during object <span class="token function">file</span> reading <span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">=</span>warn <span class="token assign-left variable">2</span><span class="token operator">=</span>err<span class="token punctuation">)</span>.</span>
-<span class="line">  <span class="token parameter variable">-tmpdir</span> directory</span>
-<span class="line">        use directory <span class="token keyword">for</span> temporary files</span>
-<span class="line">  <span class="token parameter variable">-v</span>    print <span class="token function">link</span> trace</span>
-<span class="line">  <span class="token parameter variable">-w</span>    disable DWARF generation</span>
-<span class="line"></span></code></pre></div></details><h2 id="" tabindex="-1"><a class="header-anchor" href="#"><span></span></a></h2><h2 id="基础入门" tabindex="-1"><a class="header-anchor" href="#基础入门"><span>基础入门</span></a></h2><h3 id="变量" tabindex="-1"><a class="header-anchor" href="#变量"><span>变量</span></a></h3><details class="hint-container details"><summary>（1）声明关键字</summary><table><thead><tr><th>关键字</th><th>说明</th></tr></thead><tbody><tr><td><code>var</code></td><td>声明变量</td></tr><tr><td><code>const</code></td><td>声明常量</td></tr><tr><td><code>func</code></td><td>声明函数</td></tr><tr><td><code>type</code></td><td>声明类型</td></tr></tbody></table></details><details class="hint-container details"><summary>（2）声明变量并赋值</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div><p><strong>常用环境变量</strong></p><details class="hint-container details"><summary>点击查看详情</summary><table><thead><tr><th>分类</th><th>变量</th><th>作用</th></tr></thead><tbody><tr><td><strong>安装路径</strong></td><td><code>GOROOT</code></td><td>Go 安装目录（编译器和标准库所在位置）</td></tr><tr><td></td><td><code>GOPATH</code></td><td>旧工作区目录（模块缓存、工具安装位置）</td></tr><tr><td></td><td><code>GOBIN</code></td><td><code>go install</code> 安装的可执行文件输出目录</td></tr><tr><td></td><td><code>GOCACHE</code></td><td>编译构建缓存目录</td></tr><tr><td></td><td><code>GOMODCACHE</code></td><td>模块下载缓存目录</td></tr><tr><td><strong>模块系统</strong></td><td><code>GOMOD</code></td><td>当前项目的 go.mod 路径</td></tr><tr><td></td><td><code>GOPROXY</code></td><td>模块下载代理地址</td></tr><tr><td></td><td><code>GOPRIVATE</code></td><td>私有模块域名（不走代理和校验）</td></tr><tr><td></td><td><code>GONOSUMDB</code></td><td>指定不使用校验数据库的模块</td></tr><tr><td></td><td><code>GO111MODULE</code></td><td>是否启用 Modules（现代 Go 基本无需设置）</td></tr><tr><td><strong>编译构建</strong></td><td><code>GOOS</code></td><td>目标操作系统</td></tr><tr><td></td><td><code>GOARCH</code></td><td>目标 CPU 架构</td></tr><tr><td></td><td><code>CGO_ENABLED</code></td><td>是否启用 CGO</td></tr><tr><td></td><td><code>GOFLAGS</code></td><td>默认附加到所有 go 命令的 flags</td></tr><tr><td><strong>运行调试</strong></td><td><code>GODEBUG</code></td><td>运行时调试参数</td></tr><tr><td></td><td><code>GOTRACEBACK</code></td><td>panic 堆栈输出级别</td></tr><tr><td><strong>安全下载</strong></td><td><code>GOSUMDB</code></td><td>模块校验数据库</td></tr><tr><td></td><td><code>GOINSECURE</code></td><td>允许不安全下载的模块域</td></tr></tbody></table></details><br><h3 id="gopath" tabindex="-1"><a class="header-anchor" href="#gopath"><span>GOPATH</span></a></h3><br><h2 id="基础入门" tabindex="-1"><a class="header-anchor" href="#基础入门"><span>基础入门</span></a></h2><h3 id="变量" tabindex="-1"><a class="header-anchor" href="#变量"><span>变量</span></a></h3><details class="hint-container details"><summary>（1）声明关键字</summary><table><thead><tr><th>关键字</th><th>说明</th></tr></thead><tbody><tr><td><code>var</code></td><td>声明变量</td></tr><tr><td><code>const</code></td><td>声明常量</td></tr><tr><td><code>func</code></td><td>声明函数</td></tr><tr><td><code>type</code></td><td>声明类型</td></tr></tbody></table></details><details class="hint-container details"><summary>（2）声明变量并赋值</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token string">&quot;fmt&quot;</span></span>
 <span class="line"></span>
@@ -1090,7 +560,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line">switch-fallthrough判断</span>
 <span class="line"><span class="token number">100</span>                   </span>
 <span class="line"><span class="token number">200</span></span>
-<span class="line"></span></code></pre></div></details><h2 id="-1" tabindex="-1"><a class="header-anchor" href="#-1"><span></span></a></h2><h2 id="基本数据类型" tabindex="-1"><a class="header-anchor" href="#基本数据类型"><span>基本数据类型</span></a></h2><h3 id="数字" tabindex="-1"><a class="header-anchor" href="#数字"><span>数字</span></a></h3><details class="hint-container details"><summary>（1）数字类型</summary><p>有符号整数：<code>int8</code>、<code>int16</code>、<code>int32</code>、<code>int64</code></p><p>无符号整数：<code>uint8</code>、<code>uint16</code>、<code>uint32</code>、<code>uint64</code></p><p>浮点数：<code>float32</code>、<code>float64</code></p></details><details class="hint-container details"><summary>（2）各类型取值范围</summary><p>取值范围计算：</p><p>（1）有符号整数： -2的(n-1)次方 ~ (2的(n-1)次方 -1)</p><p>​ 因为第一位表示符号位，实际位数为n-1，同时正数中0代表一个数字，所以正数取值范围要-1</p><p>（2）无符号整数：0 ~ (2的n次方-1)</p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div></details><h2 id="" tabindex="-1"><a class="header-anchor" href="#"><span></span></a></h2><h2 id="基本数据类型" tabindex="-1"><a class="header-anchor" href="#基本数据类型"><span>基本数据类型</span></a></h2><h3 id="数字" tabindex="-1"><a class="header-anchor" href="#数字"><span>数字</span></a></h3><details class="hint-container details"><summary>（1）数字类型</summary><p>有符号整数：<code>int8</code>、<code>int16</code>、<code>int32</code>、<code>int64</code></p><p>无符号整数：<code>uint8</code>、<code>uint16</code>、<code>uint32</code>、<code>uint64</code></p><p>浮点数：<code>float32</code>、<code>float64</code></p></details><details class="hint-container details"><summary>（2）各类型取值范围</summary><p>取值范围计算：</p><p>（1）有符号整数： -2的(n-1)次方 ~ (2的(n-1)次方 -1)</p><p>​ 因为第一位表示符号位，实际位数为n-1，同时正数中0代表一个数字，所以正数取值范围要-1</p><p>（2）无符号整数：0 ~ (2的n次方-1)</p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">(</span></span>
 <span class="line">	<span class="token string">&quot;fmt&quot;</span></span>
@@ -1979,7 +1449,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line"></span>
 <span class="line">任意数据类型转字符串:</span>
 <span class="line">string <span class="token number">3.14</span></span>
-<span class="line"></span></code></pre></div></details><br><h3 id="类型总结" tabindex="-1"><a class="header-anchor" href="#类型总结"><span>类型总结</span></a></h3><table><thead><tr><th>数据类型</th><th>元素是否有序</th><th>值类型/引用类型</th><th>指针类型初始化关键字</th><th>零值</th></tr></thead><tbody><tr><td>数字</td><td>✔</td><td>值类型</td><td><code>new</code></td><td><code>0</code></td></tr><tr><td>字符串</td><td>✔</td><td>值类型</td><td><code>new</code></td><td>空字符串</td></tr><tr><td>布尔值</td><td>✔</td><td>值类型</td><td><code>new</code></td><td><code>false</code></td></tr><tr><td>数组</td><td>✔</td><td>值类型</td><td><code>new</code></td><td>元素数据类型的零值</td></tr><tr><td>切片</td><td>✔</td><td>引用类型</td><td><code>make</code></td><td><code>nil</code></td></tr><tr><td>映射</td><td>❌</td><td>引用类型</td><td><code>make</code></td><td><code>nil</code></td></tr></tbody></table><h2 id="-2" tabindex="-1"><a class="header-anchor" href="#-2"><span></span></a></h2><h2 id="函数" tabindex="-1"><a class="header-anchor" href="#函数"><span>函数</span></a></h2><h3 id="基础示例" tabindex="-1"><a class="header-anchor" href="#基础示例"><span>基础示例</span></a></h3><details class="hint-container details"><summary>（1）第一个函数</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div></details><br><h3 id="类型总结" tabindex="-1"><a class="header-anchor" href="#类型总结"><span>类型总结</span></a></h3><table><thead><tr><th>数据类型</th><th>元素是否有序</th><th>值类型/引用类型</th><th>指针类型初始化关键字</th><th>零值</th></tr></thead><tbody><tr><td>数字</td><td>✔</td><td>值类型</td><td><code>new</code></td><td><code>0</code></td></tr><tr><td>字符串</td><td>✔</td><td>值类型</td><td><code>new</code></td><td>空字符串</td></tr><tr><td>布尔值</td><td>✔</td><td>值类型</td><td><code>new</code></td><td><code>false</code></td></tr><tr><td>数组</td><td>✔</td><td>值类型</td><td><code>new</code></td><td>元素数据类型的零值</td></tr><tr><td>切片</td><td>✔</td><td>引用类型</td><td><code>make</code></td><td><code>nil</code></td></tr><tr><td>映射</td><td>❌</td><td>引用类型</td><td><code>make</code></td><td><code>nil</code></td></tr></tbody></table><h2 id="-1" tabindex="-1"><a class="header-anchor" href="#-1"><span></span></a></h2><h2 id="函数" tabindex="-1"><a class="header-anchor" href="#函数"><span>函数</span></a></h2><h3 id="基础示例" tabindex="-1"><a class="header-anchor" href="#基础示例"><span>基础示例</span></a></h3><details class="hint-container details"><summary>（1）第一个函数</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token string">&quot;fmt&quot;</span></span>
 <span class="line"></span>
@@ -2578,7 +2048,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line"><span class="token number">3</span>            </span>
 <span class="line"><span class="token number">3</span>            </span>
 <span class="line"><span class="token number">3</span>        </span>
-<span class="line"></span></code></pre></div></details><h2 id="-3" tabindex="-1"><a class="header-anchor" href="#-3"><span></span></a></h2><h2 id="结构体" tabindex="-1"><a class="header-anchor" href="#结构体"><span>结构体</span></a></h2><p>Go语言的结构体其实就相当于其他编程语言的类</p><h3 id="基础" tabindex="-1"><a class="header-anchor" href="#基础"><span>基础</span></a></h3><details class="hint-container details"><summary>点击查看完整代码</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div></details><h2 id="-2" tabindex="-1"><a class="header-anchor" href="#-2"><span></span></a></h2><h2 id="结构体" tabindex="-1"><a class="header-anchor" href="#结构体"><span>结构体</span></a></h2><p>Go语言的结构体其实就相当于其他编程语言的类</p><h3 id="基础" tabindex="-1"><a class="header-anchor" href="#基础"><span>基础</span></a></h3><details class="hint-container details"><summary>点击查看完整代码</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">(</span></span>
 <span class="line">	<span class="token string">&quot;fmt&quot;</span></span>
@@ -3052,7 +2522,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line">	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>unsafe<span class="token punctuation">.</span><span class="token function">Sizeof</span><span class="token punctuation">(</span>P1<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 32</span></span>
 <span class="line">	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>unsafe<span class="token punctuation">.</span><span class="token function">Sizeof</span><span class="token punctuation">(</span>P2<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 24</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre></div></details><h2 id="-4" tabindex="-1"><a class="header-anchor" href="#-4"><span></span></a></h2><h2 id="接口" tabindex="-1"><a class="header-anchor" href="#接口"><span>接口</span></a></h2><h3 id="接口是什么" tabindex="-1"><a class="header-anchor" href="#接口是什么"><span>接口是什么</span></a></h3><p>接口是一个类型，就和<code>int</code>、<code>string</code>、<code>map</code>等一样，是类型，不是值</p><p>接口是一系列方法的集合，比如<code>io.Writer</code>就是一个接口</p><p>某个值实现了某个接口的所有方法，我们称它实现了某个接口，比如<code>os.Stdout</code>实现了<code>io.Writer</code>接口</p><p>下面用代码演示一下</p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div></details><h2 id="-3" tabindex="-1"><a class="header-anchor" href="#-3"><span></span></a></h2><h2 id="接口" tabindex="-1"><a class="header-anchor" href="#接口"><span>接口</span></a></h2><h3 id="接口是什么" tabindex="-1"><a class="header-anchor" href="#接口是什么"><span>接口是什么</span></a></h3><p>接口是一个类型，就和<code>int</code>、<code>string</code>、<code>map</code>等一样，是类型，不是值</p><p>接口是一系列方法的集合，比如<code>io.Writer</code>就是一个接口</p><p>某个值实现了某个接口的所有方法，我们称它实现了某个接口，比如<code>os.Stdout</code>实现了<code>io.Writer</code>接口</p><p>下面用代码演示一下</p><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">(</span></span>
 <span class="line">	<span class="token string">&quot;io&quot;</span></span>
@@ -3348,7 +2818,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line">GoString: 大家好, 我是张三, 性别男, 年龄18</span>
 <span class="line">String: 大家好, 我是张三, 性别男, 年龄18  </span>
 <span class="line"><span class="token string">&quot;String: 大家好, 我是张三, 性别男, 年龄18&quot;</span></span>
-<span class="line"></span></code></pre></div></details><h2 id="-5" tabindex="-1"><a class="header-anchor" href="#-5"><span></span></a></h2><h2 id="io" tabindex="-1"><a class="header-anchor" href="#io"><span>IO</span></a></h2><h3 id="fmt-格式化io" tabindex="-1"><a class="header-anchor" href="#fmt-格式化io"><span><code>fmt</code>：格式化IO</span></a></h3><p>文档：<a href="https://pkg.go.dev/fmt" target="_blank" rel="noopener noreferrer">https://pkg.go.dev/fmt</a></p><details class="hint-container details"><summary>（1）常用函数</summary><table><thead><tr><th>分类</th><th>函数</th><th>说明</th></tr></thead><tbody><tr><td>输出到控制台</td><td><code>fmt.Print(string)</code></td><td>不换行</td></tr><tr><td></td><td><code>fmt.Println(string)</code></td><td>自动换行，<code>ln</code>意为<code>line</code></td></tr><tr><td></td><td><code>fmt.Printf(格式化字符, 字符串)</code></td><td>格式化输出</td></tr><tr><td>作为返回值返回</td><td><code>fmt.Sprint()</code></td><td></td></tr><tr><td></td><td><code>fmt.Sprintln()</code></td><td></td></tr><tr><td></td><td><code>fmt.Sprintf(格式化字符, 字符串对象)</code></td><td></td></tr><tr><td>接收用户输入</td><td><code>fmt.Scan(指针对象)</code></td><td>将控制台接收的值 赋值给指针对象</td></tr></tbody></table></details><details class="hint-container details"><summary>（2）fmt.printf格式化字符串</summary><table><thead><tr><th>分类</th><th>修饰符</th><th>说明</th></tr></thead><tbody><tr><td>常用</td><td><code>%T</code></td><td>数据类型</td></tr><tr><td></td><td><code>%v</code></td><td>获取数据的值，如果实现了 <code>error </code>接口，仅表示错误消息</td></tr><tr><td></td><td><code>%+v</code></td><td>获取数据的值，如果是结构体会携带字段名</td></tr><tr><td></td><td><code>%#v</code></td><td>获取数据的值，如果是结构体会携带结构体名和字段名</td></tr><tr><td>指针</td><td><code>%p</code></td><td>指针地址（带 <code>0x</code>）</td></tr><tr><td></td><td><code>%#p</code></td><td>指针地址（不带 <code>0x</code>）</td></tr><tr><td>字符串</td><td><code>%s</code></td><td>字符串或字节切片</td></tr><tr><td></td><td><code>%c</code></td><td>Unicode码点对应的字符</td></tr><tr><td></td><td><code>%q</code></td><td>对于字符串或字节切片，结果会加上双引号；<br>对于<code>byte</code>或<code>rune，</code>结果会加上单引号</td></tr><tr><td>字符串宽度</td><td><code>%5s</code></td><td>最小宽度为5（默认右对齐）</td></tr><tr><td></td><td><code>%-5s</code></td><td>最小宽度为5（左对齐）</td></tr><tr><td></td><td><code>%.5s</code></td><td>最大宽度为5，多出部分会截断</td></tr><tr><td></td><td><code>%5.7s</code></td><td>最小宽度为5，最大宽度为7</td></tr><tr><td></td><td><code>%-5.7s</code></td><td>最小宽度为5，最大宽度为7（左对齐）</td></tr><tr><td></td><td><code>%5.3s</code></td><td>如果宽度大于3，则截断</td></tr><tr><td></td><td><code>%05s</code></td><td>如果宽度小于5，就会在字符串前面补零</td></tr><tr><td>整型</td><td><code>%b</code></td><td>二进制数</td></tr><tr><td></td><td><code>%o</code></td><td>八进制数</td></tr><tr><td></td><td><code>%#o</code></td><td>八进制数</td></tr><tr><td></td><td><code>%d</code></td><td>十进制数</td></tr><tr><td></td><td><code>%x</code></td><td>打印16进制数，a-f</td></tr><tr><td></td><td><code>%X</code></td><td>打印16进制数，A-F</td></tr><tr><td></td><td><code>%#x</code>、<code>%#X</code></td><td>打印16进制数，带<code>0x</code>、<code>0X</code></td></tr><tr><td></td><td><code>% x</code>、<code>% X</code></td><td>打印16进制数，前面带一个空格</td></tr><tr><td>浮点数</td><td><code>%f</code></td><td>浮点数, 默认保留6位小数，即<code>%.6</code></td></tr><tr><td></td><td><code>%e</code></td><td>科学计数法，默认保留6位小数，即<code>%.6e</code></td></tr><tr><td>指针</td><td><code>%p</code></td><td>指针，十六进制表示，带前缀<code>0x</code></td></tr><tr><td></td><td><code>%#p</code></td><td>指针，十六进制表示，不带前缀<code>0x</code></td></tr><tr><td>布尔值</td><td><code>%t</code></td><td>打印<code>true</code>或<code>false</code></td></tr></tbody></table></details><details class="hint-container details"><summary>（3）fmt.Printf：基础示例</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div></details><h2 id="-4" tabindex="-1"><a class="header-anchor" href="#-4"><span></span></a></h2><h2 id="io" tabindex="-1"><a class="header-anchor" href="#io"><span>IO</span></a></h2><h3 id="fmt-格式化io" tabindex="-1"><a class="header-anchor" href="#fmt-格式化io"><span><code>fmt</code>：格式化IO</span></a></h3><p>文档：<a href="https://pkg.go.dev/fmt" target="_blank" rel="noopener noreferrer">https://pkg.go.dev/fmt</a></p><details class="hint-container details"><summary>（1）常用函数</summary><table><thead><tr><th>分类</th><th>函数</th><th>说明</th></tr></thead><tbody><tr><td>输出到控制台</td><td><code>fmt.Print(string)</code></td><td>不换行</td></tr><tr><td></td><td><code>fmt.Println(string)</code></td><td>自动换行，<code>ln</code>意为<code>line</code></td></tr><tr><td></td><td><code>fmt.Printf(格式化字符, 字符串)</code></td><td>格式化输出</td></tr><tr><td>作为返回值返回</td><td><code>fmt.Sprint()</code></td><td></td></tr><tr><td></td><td><code>fmt.Sprintln()</code></td><td></td></tr><tr><td></td><td><code>fmt.Sprintf(格式化字符, 字符串对象)</code></td><td></td></tr><tr><td>接收用户输入</td><td><code>fmt.Scan(指针对象)</code></td><td>将控制台接收的值 赋值给指针对象</td></tr></tbody></table></details><details class="hint-container details"><summary>（2）fmt.printf格式化字符串</summary><table><thead><tr><th>分类</th><th>修饰符</th><th>说明</th></tr></thead><tbody><tr><td>常用</td><td><code>%T</code></td><td>数据类型</td></tr><tr><td></td><td><code>%v</code></td><td>获取数据的值，如果实现了 <code>error </code>接口，仅表示错误消息</td></tr><tr><td></td><td><code>%+v</code></td><td>获取数据的值，如果是结构体会携带字段名</td></tr><tr><td></td><td><code>%#v</code></td><td>获取数据的值，如果是结构体会携带结构体名和字段名</td></tr><tr><td>指针</td><td><code>%p</code></td><td>指针地址（带 <code>0x</code>）</td></tr><tr><td></td><td><code>%#p</code></td><td>指针地址（不带 <code>0x</code>）</td></tr><tr><td>字符串</td><td><code>%s</code></td><td>字符串或字节切片</td></tr><tr><td></td><td><code>%c</code></td><td>Unicode码点对应的字符</td></tr><tr><td></td><td><code>%q</code></td><td>对于字符串或字节切片，结果会加上双引号；<br>对于<code>byte</code>或<code>rune，</code>结果会加上单引号</td></tr><tr><td>字符串宽度</td><td><code>%5s</code></td><td>最小宽度为5（默认右对齐）</td></tr><tr><td></td><td><code>%-5s</code></td><td>最小宽度为5（左对齐）</td></tr><tr><td></td><td><code>%.5s</code></td><td>最大宽度为5，多出部分会截断</td></tr><tr><td></td><td><code>%5.7s</code></td><td>最小宽度为5，最大宽度为7</td></tr><tr><td></td><td><code>%-5.7s</code></td><td>最小宽度为5，最大宽度为7（左对齐）</td></tr><tr><td></td><td><code>%5.3s</code></td><td>如果宽度大于3，则截断</td></tr><tr><td></td><td><code>%05s</code></td><td>如果宽度小于5，就会在字符串前面补零</td></tr><tr><td>整型</td><td><code>%b</code></td><td>二进制数</td></tr><tr><td></td><td><code>%o</code></td><td>八进制数</td></tr><tr><td></td><td><code>%#o</code></td><td>八进制数</td></tr><tr><td></td><td><code>%d</code></td><td>十进制数</td></tr><tr><td></td><td><code>%x</code></td><td>打印16进制数，a-f</td></tr><tr><td></td><td><code>%X</code></td><td>打印16进制数，A-F</td></tr><tr><td></td><td><code>%#x</code>、<code>%#X</code></td><td>打印16进制数，带<code>0x</code>、<code>0X</code></td></tr><tr><td></td><td><code>% x</code>、<code>% X</code></td><td>打印16进制数，前面带一个空格</td></tr><tr><td>浮点数</td><td><code>%f</code></td><td>浮点数, 默认保留6位小数，即<code>%.6</code></td></tr><tr><td></td><td><code>%e</code></td><td>科学计数法，默认保留6位小数，即<code>%.6e</code></td></tr><tr><td>指针</td><td><code>%p</code></td><td>指针，十六进制表示，带前缀<code>0x</code></td></tr><tr><td></td><td><code>%#p</code></td><td>指针，十六进制表示，不带前缀<code>0x</code></td></tr><tr><td>布尔值</td><td><code>%t</code></td><td>打印<code>true</code>或<code>false</code></td></tr></tbody></table></details><details class="hint-container details"><summary>（3）fmt.Printf：基础示例</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token string">&quot;fmt&quot;</span></span>
 <span class="line"></span>
@@ -4402,7 +3872,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line"><span class="token comment"># 说明</span></span>
 <span class="line"><span class="token comment"># 1、使用读缓冲区有明显的性能提升</span></span>
 <span class="line"><span class="token comment"># 2、缓冲区并不是唯一的影响因素，如果不使用缓冲区都能榨干硬件性能，那么使用缓冲区提升也不会大</span></span>
-<span class="line"></span></code></pre></div></details><br><h3 id="ioutils-已被os-io代替" tabindex="-1"><a class="header-anchor" href="#ioutils-已被os-io代替"><span>ioutils：已被os/io代替</span></a></h3><p>官方文档：<a href="https://pkg.go.dev/io/ioutil" target="_blank" rel="noopener noreferrer">https://pkg.go.dev/io/ioutil</a></p><p>从Go 1.16开始，同样的功能现在由包<code>io</code>包或<code>os</code>包提供，在代码中应该优先使用这些实现。有关详细信息，请参阅特定功能文档。</p><h2 id="-6" tabindex="-1"><a class="header-anchor" href="#-6"><span></span></a></h2><h2 id="并发基础" tabindex="-1"><a class="header-anchor" href="#并发基础"><span>并发基础</span></a></h2><h3 id="goroutine" tabindex="-1"><a class="header-anchor" href="#goroutine"><span>Goroutine</span></a></h3><details class="hint-container details"><summary>（1）基础示例</summary><ul><li>Go语言中每个并发执行的单元叫<code>Goroutine</code>（协程）</li><li>使用<code>go</code>关键字后接函数调用来创建一个<code>Goroutine</code></li><li>\`\`Goroutine\`是并发安全的</li></ul><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div></details><br><h3 id="ioutils-已被os-io代替" tabindex="-1"><a class="header-anchor" href="#ioutils-已被os-io代替"><span>ioutils：已被os/io代替</span></a></h3><p>官方文档：<a href="https://pkg.go.dev/io/ioutil" target="_blank" rel="noopener noreferrer">https://pkg.go.dev/io/ioutil</a></p><p>从Go 1.16开始，同样的功能现在由包<code>io</code>包或<code>os</code>包提供，在代码中应该优先使用这些实现。有关详细信息，请参阅特定功能文档。</p><h2 id="-5" tabindex="-1"><a class="header-anchor" href="#-5"><span></span></a></h2><h2 id="并发基础" tabindex="-1"><a class="header-anchor" href="#并发基础"><span>并发基础</span></a></h2><h3 id="goroutine" tabindex="-1"><a class="header-anchor" href="#goroutine"><span>Goroutine</span></a></h3><details class="hint-container details"><summary>（1）基础示例</summary><ul><li>Go语言中每个并发执行的单元叫<code>Goroutine</code>（协程）</li><li>使用<code>go</code>关键字后接函数调用来创建一个<code>Goroutine</code></li><li>\`\`Goroutine\`是并发安全的</li></ul><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token punctuation">(</span></span>
 <span class="line">	<span class="token string">&quot;fmt&quot;</span></span>
@@ -6065,7 +5535,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line">	wg<span class="token punctuation">.</span><span class="token function">Wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span>
 <span class="line">	fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span></span>
 <span class="line"><span class="token punctuation">}</span></span>
-<span class="line"></span></code></pre></div></details><h2 id="-7" tabindex="-1"><a class="header-anchor" href="#-7"><span></span></a></h2><h2 id="程序优化" tabindex="-1"><a class="header-anchor" href="#程序优化"><span>程序优化</span></a></h2><h3 id="基础优化" tabindex="-1"><a class="header-anchor" href="#基础优化"><span>基础优化</span></a></h3><details class="hint-container details"><summary>（1）gofmt格式化代码</summary><p>说明：</p><ul><li><code>gofmt</code>是一个内置的独立的二进制命令，推荐使用</li><li><code>go fmt</code>是一个精简版的gofmt，相当于<code>gofmt -l -w</code></li></ul><p>推荐命令</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">gofmt <span class="token parameter variable">-w</span> <span class="token parameter variable">-r</span> <span class="token string">&quot;interface{} -&gt; any&quot;</span> <span class="token builtin class-name">.</span></span>
+<span class="line"></span></code></pre></div></details><h2 id="-6" tabindex="-1"><a class="header-anchor" href="#-6"><span></span></a></h2><h2 id="程序优化" tabindex="-1"><a class="header-anchor" href="#程序优化"><span>程序优化</span></a></h2><h3 id="基础优化" tabindex="-1"><a class="header-anchor" href="#基础优化"><span>基础优化</span></a></h3><details class="hint-container details"><summary>（1）gofmt格式化代码</summary><p>说明：</p><ul><li><code>gofmt</code>是一个内置的独立的二进制命令，推荐使用</li><li><code>go fmt</code>是一个精简版的gofmt，相当于<code>gofmt -l -w</code></li></ul><p>推荐命令</p><div class="language-bash" data-highlighter="prismjs" data-ext="sh"><pre><code class="language-bash"><span class="line">gofmt <span class="token parameter variable">-w</span> <span class="token parameter variable">-r</span> <span class="token string">&quot;interface{} -&gt; any&quot;</span> <span class="token builtin class-name">.</span></span>
 <span class="line"></span>
 <span class="line"><span class="token comment"># 参数解释</span></span>
 <span class="line"><span class="token comment"># -w 会修改源文件</span></span>
@@ -7023,7 +6493,7 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line"><span class="token comment"># 再次执行，会把我们的注释作为返回值返回</span></span>
 <span class="line">D:<span class="token punctuation">\\</span>application<span class="token punctuation">\\</span>GoLand<span class="token punctuation">\\</span>example<span class="token operator">&gt;</span>go run main.go</span>
 <span class="line">星期日</span>
-<span class="line"></span></code></pre></div></details><h2 id="-8" tabindex="-1"><a class="header-anchor" href="#-8"><span></span></a></h2><h2 id="编译与反编译" tabindex="-1"><a class="header-anchor" href="#编译与反编译"><span>编译与反编译</span></a></h2><h3 id="编译过程" tabindex="-1"><a class="header-anchor" href="#编译过程"><span>编译过程</span></a></h3><p><code>go help build</code>查看可使用的选项</p><ul><li>-x：输出编译命令（会真正编译）</li><li>-n：输出编译命令（不真正编译）</li><li>-work：输出编译所用的临时目录，并且编译完成后不删除它</li></ul><details class="hint-container details"><summary>（1）查看编译过程</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
+<span class="line"></span></code></pre></div></details><h2 id="-7" tabindex="-1"><a class="header-anchor" href="#-7"><span></span></a></h2><h2 id="编译与反编译" tabindex="-1"><a class="header-anchor" href="#编译与反编译"><span>编译与反编译</span></a></h2><h3 id="编译过程-1" tabindex="-1"><a class="header-anchor" href="#编译过程-1"><span>编译过程</span></a></h3><p><code>go help build</code>查看可使用的选项</p><ul><li>-x：输出编译命令（会真正编译）</li><li>-n：输出编译命令（不真正编译）</li><li>-work：输出编译所用的临时目录，并且编译完成后不删除它</li></ul><details class="hint-container details"><summary>（1）查看编译过程</summary><div class="language-go" data-highlighter="prismjs" data-ext="go"><pre><code class="language-go"><span class="line"><span class="token keyword">package</span> main</span>
 <span class="line"></span>
 <span class="line"><span class="token keyword">import</span> <span class="token string">&quot;fmt&quot;</span></span>
 <span class="line"></span>
@@ -7516,4 +6986,4 @@ import{_ as s,c as a,a as p,o as t}from"./app-BW1Rdw-6.js";const o={};function e
 <span class="line">        build   <span class="token assign-left variable">GOARCH</span><span class="token operator">=</span>amd64</span>
 <span class="line">        build   <span class="token assign-left variable">GOOS</span><span class="token operator">=</span>linux</span>
 <span class="line">        build   <span class="token assign-left variable">GOAMD64</span><span class="token operator">=</span>v1</span>
-<span class="line"></span></code></pre></div></details>`,468)])])}const i=s(o,[["render",e]]),u=JSON.parse('{"path":"/programming/language/go.html","title":"Go核心语法","lang":"zh-CN","frontmatter":{},"git":{"updatedTime":1767951377000,"contributors":[{"name":"VVFock3r","username":"VVFock3r","email":"1835363399@qq.com","commits":1,"url":"https://github.com/VVFock3r"}],"changelog":[{"hash":"7882b941b0d9cf8cbb5838edf642ebd896e65be5","time":1767951377000,"email":"1835363399@qq.com","author":"VVFock3r","message":"auto commit"}]},"filePathRelative":"programming/language/go.md"}');export{i as comp,u as data};
+<span class="line"></span></code></pre></div></details>`,461)])])}const i=s(o,[["render",c]]),u=JSON.parse('{"path":"/programming/language/go.html","title":"Go核心语法","lang":"zh-CN","frontmatter":{},"git":{"updatedTime":1768132230000,"contributors":[{"name":"VVFock3r","username":"VVFock3r","email":"vvfock3r@gmail.com","commits":1,"url":"https://github.com/VVFock3r"}],"changelog":[{"hash":"cfd22ce8ecb6354ecb5922f2e6ece81616598655","time":1768132230000,"email":"vvfock3r@gmail.com","author":"VVFock3r","message":"auto commit"}]},"filePathRelative":"programming/language/go.md"}');export{i as comp,u as data};
