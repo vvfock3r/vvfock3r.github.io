@@ -1,906 +1,111 @@
 # Go核心语法
 
 * 官网：[https://go.dev/](https://go.dev/)
-
-* 命令：[https://pkg.go.dev/cmd/go](https://pkg.go.dev/cmd/go)
-
 * FAQ：[https://go.dev/doc/faq](https://go.dev/doc/faq)
-
 * GopherChina：[https://github.com/gopherchina/conference](https://github.com/gopherchina/conference)
 
 <br />
 
 ## 环境设置
 
-### 第一个应用
+### 帮助文档
 
-::: details （1）使用包管理器安装
+文档：[https://pkg.go.dev/cmd/go](https://pkg.go.dev/cmd/go)
 
-```bash
-[root@node-1 ~]# yum -y install go
+`go` 是 **Go 语言的官方命令行工具**，负责 **编译、运行、管理依赖、测试、格式化代码、管理模块** 等所有开发流程
+
+| 类型               | 命令                                        | 注意事项                                |
+| ------------------ | ------------------------------------------- | --------------------------------------- |
+| 查看Go版本         | `go version`                                |                                         |
+| 查看顶层帮助文档   | `go` 或 `go -h` 或 `go --help` 或 `go help` |                                         |
+| 查看子命令帮助文档 | `go help <command>`                         | `go <command> -h/--help` 看不到详细信息 |
+
+<br />
+
+### 编译过程
+
+Go 程序从源码到可执行文件，完整过程可以抽象为三个阶段：
+
+> **编译 → 汇编 → 链接**
+
+`go build` 负责调度整个流水线，而不是亲自"干活"，真正执行工作的是底层的 `go tool` 工具链
+
+```md
+go build
+ ├─ 编译： 调用 go tool compile
+ ├─ 汇编:  调用 go tool asm
+ └─ 链接:  调用 go tool link
 ```
 
-:::
+**对应参数映射**
 
-::: details （2）使用二进制包安装
+| 阶段 | 工具    | go build 入口参数 | 文档查看             |
+| ---- | ------- | ----------------- | -------------------- |
+| 编译 | compile | `-gcflags`        | `go tool compile -h` |
+| 汇编 | asm     | `-asmflags`       | `go tool asm -h`     |
+| 链接 | link    | `-ldflags`        | `go tool link -h`    |
 
-**1、Go版本管理设想**
+>  一句话总计：凡是 `go build` 里以 `xxxflags` 结尾的参数，真正文档都在 `go tool xxx -h`
+
+<br />
+
+### 环境变量
+
+**命令行语法**
 
 ```bash
-[root@node-1 ~]# ll /usr/local/go                  # 所有版本的Go都放在这一个目录中,集中管理
-total 0
-drwxr-xr-x 10 root root 222 Nov  1 04:21 1.19.2    # 某个版本的Go
-drwxr-xr-x 10 root root 222 Nov  1 04:21 1.19.3    # 某个版本的Go
-drwxr-xr-x  4 root root  28 Nov 30 17:43 root      # GOROOT
-drwxr-xr-x  4 root root  28 Nov 30 17:43 path      # GOPATH,这里将他设置为所有Go版本共用
+go help env									# 查看env命令帮助
+go help environment							# 查看所有环境变量帮助信息
+
+go env 										# 查看所有环境变量
+go env -json								# 查看所有环境变量，json格式
+
+go env [VAR1] [VAR2] [VAR3]				    # 查看某一个或多个具体的环境变量
+go env -json [VAR1] [VAR2] [VAR3] ...		# 查看某一个或多个具体的环境变量，json格式
+
+go env -w name=value [name=value ...]		# 设置环境变量（写入 Go 配置文件，永久生效）
 ```
 
-**2、安装指定版本的Go**
+**推荐设置的环境变量**
 
 ```bash
-# (1) 创建Go目录
-mkdir -p /usr/local/go
-cd /usr/local/go
-
-# (2) 下载二进制包
-Version=1.19.5
-wget -c https://dl.google.com/go/go${Version}.linux-amd64.tar.gz
-
-# (3) 解压,默认的目录名是go
-tar zxf go${Version}.linux-amd64.tar.gz
-mv go ${Version}
-ln -s ${Version} root
-rm -f go${Version}.linux-amd64.tar.gz
-
-# (5) 设置PATH路径
-vim /etc/bashrc
-  export PATH=${PATH}:/usr/local/go/root/bin:/usr/local/go/path/bin
-source /etc/bashrc
-
-# (6) 设置GO环境变量
-go env -w GO111MODULE=on
-go env -w GOPATH=/usr/local/go/path
-go env -w GOPROXY=https://goproxy.cn,direct
-```
-
-:::
-
-::: details （3）检查Go环境变量
-
-```bash
-# (7) 最终检查
-[root@node-1 go]# go env | grep -Ei 'GOROOT|GOPATH|GOPROXY|GO111MODULE'
-GO111MODULE="on"
-GOPATH="/usr/local/go/path"
-GOPROXY="https://goproxy.cn,direct"
-GOROOT="/usr/local/go/1.19.5"
-```
-
-:::
-
-::: details （4）环境变量说明
-
-**设置环境变量**
-
-```bash
-# 语法
-go env 						# 查看所有环境变量
-go env -json				# 查看所有环境变量，json格式
-go env [environment]		# 查看某个具体的环境变量
-go env -w GO111MODULE=on	# 设置环境变量,永久生效
-go help env					# 查看env命令帮助
-
 # 推荐设置的环境变量
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-**环境变量说明**
+**常用环境变量**
 
-| 环境变量      | 说明                                                         | 设置命令                                      |
-| ------------- | ------------------------------------------------------------ | --------------------------------------------- |
-| `GOROOT`      | Go的安装目录                                                 | 一般不用自己设置                              |
-| `GOPATH`      | 代表Go的工作区，可以是一个目录，也可以是多个目录，使用逗号分隔?<br />官方说明文档：https://github.com/golang/go/wiki/GOPATH | `go env -w GOPATH=/usr/local/gopath`          |
-| `GO111MODULE` | Go 1.11版本增加的模块管理机制，建议开启                      | `go env -w GO111MODULE=on`                    |
-| `GOPROXY`     | 代理地址，由于墙的因素建议修改<br />默认值：https://proxy.golang.org,direct<br />七牛云：https://goproxy.cn,direct<br />`direct`：字面翻译是直连，代表官方下载地址，<br />意思是如果通过代理下载不到，那么通过官方地址下载 | `go env -w GOPROXY=https://goproxy.cn,direct` |
-| `GOSUMDB`     | 用来校验下载的包的安全性，一般情况下不需要修改<br />默认值：`sum.golang.org`<br />关闭：`off` | `go env -w GOSUMDB=off`                       |
+::: details 点击查看详情
 
-更多环境变量：[https://golang.google.cn/cmd/go/#hdr-Environment_variables](https://golang.google.cn/cmd/go/#hdr-Environment_variables) 或`go help environment` 
-
-:::
-
-::: details （5）第一个应用
-
-`main.go`
-
-```go
-package main
- 
-import "fmt"
- 
-func main() {
-   fmt.Println("Hello World!")
-}
-```
-
-说明：
-
-- `package`声明我自己的包名
-- `import` 导入其他包，这里`fmt`是内置的一个包
-- `func `声明函数
-- 程序执行的入口必须是`main`包和`main`方法，文件名任意
-
-两种运行方式
-
-```bash
-# (1) 编译和运行
-go build main.go        # 编译
-./main.exe              # 运行
-
-# (2) 编译并运行
-go run main.go
-```
-
-如果我们导入的是一个第三方包，那么编译的时候会报错，如下所示，我们将在下一节解决这个问题
-
-`main.go`
-
-```go
-package main
-
-import (
-        "github.com/gin-gonic/gin"
-        "log"
-        "net/http"
-)
-
-func main() {
-        // 监听地址
-        addr := "127.0.0.1:80"
-
-        // 实例化Gin路由引擎
-        r := gin.Default()
-
-        // 注册路由
-        r.GET("/", func(c *gin.Context) {
-                c.String(http.StatusOK, "Hello Gin!\n")
-        })
-
-        // 启动Gin Server
-        log.Fatalln(r.Run(addr))
-}
-```
-
-输出结果
-
-```bash
-[root@localhost ~]# go run main.go   # 在当前目录及父目录没有找到go.mod文件
-main.go:4:2: no required module provides package github.com/gin-gonic/gin: go.mod file not found in current directory or any parent directory;
-see 'go help modules'
-```
+| 分类         | 变量          | 作用                                     |
+| ------------ | ------------- | ---------------------------------------- |
+| **安装路径** | `GOROOT`      | Go 安装目录（编译器和标准库所在位置）    |
+|              | `GOPATH`      | 旧工作区目录（模块缓存、工具安装位置）   |
+|              | `GOBIN`       | `go install` 安装的可执行文件输出目录    |
+|              | `GOCACHE`     | 编译构建缓存目录                         |
+|              | `GOMODCACHE`  | 模块下载缓存目录                         |
+| **模块系统** | `GOMOD`       | 当前项目的 go.mod 路径                   |
+|              | `GOPROXY`     | 模块下载代理地址                         |
+|              | `GOPRIVATE`   | 私有模块域名（不走代理和校验）           |
+|              | `GONOSUMDB`   | 指定不使用校验数据库的模块               |
+|              | `GO111MODULE` | 是否启用 Modules（现代 Go 基本无需设置） |
+| **编译构建** | `GOOS`        | 目标操作系统                             |
+|              | `GOARCH`      | 目标 CPU 架构                            |
+|              | `CGO_ENABLED` | 是否启用 CGO                             |
+|              | `GOFLAGS`     | 默认附加到所有 go 命令的 flags           |
+| **运行调试** | `GODEBUG`     | 运行时调试参数                           |
+|              | `GOTRACEBACK` | panic 堆栈输出级别                       |
+| **安全下载** | `GOSUMDB`     | 模块校验数据库                           |
+|              | `GOINSECURE`  | 允许不安全下载的模块域                   |
 
 :::
 
 <br />
 
-### Go Module
-
-文档：[https://go.dev/ref/mod](https://go.dev/ref/mod)
-
-包命名：[https://go.dev/blog/package-names](https://go.dev/blog/package-names)
-
-::: details （1）开启Go Module
-
-从`Go1.11`开始，官方推出Go module作为包管理工具
-
-`GO111MODULE`变量控制是否启用go modules，他有3个值：
-
-* `on`：开启go module
-* `off`：关闭go module
-* `auto`：根据项目配置自动选择使用`go module`还是`go path`
-
-```bash
-# 不管开启没开启，都重新开启一遍
-C:\Users\Administrator\Desktop\Notes>go env -w GO111MODULE=on
-C:\Users\Administrator\Desktop\Notes>go env GO111MODULE
-on
-```
-
-:::
-
-::: details （2）初始化项目：go mod init
-
-文档：[https://go.dev/ref/mod#go-mod-init](https://go.dev/ref/mod#go-mod-init)
-
-**1、基础使用**
-
-```bash
-# 先创建我们的项目目录demo
-[root@localhost ~]# mkdir demo
-[root@localhost ~]# cd demo/
-
-# 然后初始化项目
-[root@localhost demo]# go mod init demo
-go: creating new go.mod: module demo
-
-# 看一下都做了什么事：生成了一个文件go.mod
-[root@localhost demo]# ll
-total 4
--rw-r--r-- 1 root root 21 May 30 19:27 go.mod
-
-# 看看这个文件内容
-[root@localhost demo]# cat go.mod 
-module demo		# 模块名
-
-go 1.18			# go版本
-```
-
-**2、我们来看几个Go明星项目的Module Name是如何写的**
-
-| Github地址                               | Module Name                               |
-| ---------------------------------------- | ----------------------------------------- |
-| https://github.com/containerd/containerd | `module github.com/containerd/containerd` |
-| https://github.com/gin-gonic/gin         | `module github.com/gin-gonic/gin`         |
-| https://github.com/pingcap/tidb          | `module github.com/pingcap/tidb`          |
-
-仔细研究发现他们的格式都是`github.com/用户名/项目名`，这是为啥？先不管他，后面再说
-
-**（3）使用第三方模块**
-
-`main.go`
-
-```go
-package main
-
-import (
-        "github.com/gin-gonic/gin"
-        "log"
-        "net/http"
-)
-
-func main() {
-        // 监听地址
-        addr := "127.0.0.1:80"
-
-        // 实例化Gin路由引擎
-        r := gin.Default()
-
-        // 注册路由
-        r.GET("/", func(c *gin.Context) {
-                c.String(http.StatusOK, "Hello Gin!\n")
-        })
-
-        // 启动Gin Server
-        log.Fatalln(r.Run(addr))
-}
-```
-
-输出结果
-
-```bash
-# 查看当前目录
-[root@localhost demo]# ls -l
-total 8
--rw-r--r-- 1 root root  21 May 30 19:49 go.mod
--rw-r--r-- 1 root root 327 May 30 19:17 main.go
-
-# 这次报错不一样了，让我们使用go get下载gin
-[root@localhost demo]# go run main.go		
-main.go:4:2: no required module provides package github.com/gin-gonic/gin; to add it:
-        go get github.com/gin-gonic/gin
-```
-
-:::
-
-::: details （3）go get基础：下载第三方包
-
-文档：[https://go.dev/ref/mod#go-get](https://go.dev/ref/mod#go-get)
-
-特点：
-
-* 必须在项目目录(含有go.mod的目录)使用`go get`，无法在全局目录使用
-* `go get`用来管理第三方包版本问题，会自动维护go.mod和go.sum文件
-* `go get`下载的包放在GOPATH/pkg目录内
-* 若不指定版本号只能更新到`v1.x.x`最新版，若第三方包没有版本号（Tag）则会更新到最后一次提交的代码
-
-```bash
-# 下载
-[root@localhost demo]# go get github.com/gin-gonic/gin
-go: added github.com/gin-contrib/sse v0.1.0
-go: added github.com/gin-gonic/gin v1.8.0
-go: added github.com/go-playground/locales v0.14.0
-go: added github.com/go-playground/universal-translator v0.18.0
-go: added github.com/go-playground/validator/v10 v10.10.0
-go: added github.com/goccy/go-json v0.9.7
-go: added github.com/json-iterator/go v1.1.12
-go: added github.com/leodido/go-urn v1.2.1
-go: added github.com/mattn/go-isatty v0.0.14
-go: added github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
-go: added github.com/modern-go/reflect2 v1.0.2
-go: added github.com/pelletier/go-toml/v2 v2.0.1
-go: added github.com/ugorji/go/codec v1.2.7
-go: added golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97
-go: added golang.org/x/net v0.0.0-20210226172049-e18ecbb05110
-go: added golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069
-go: added golang.org/x/text v0.3.6
-go: added google.golang.org/protobuf v1.28.0
-go: added gopkg.in/yaml.v2 v2.4.0
-
-# 查看go.mod, 将gin及其依赖的包都写入到go.mod文件中了
-[root@localhost demo]# cat go.mod
-module demo
-
-go 1.18
-
-# require里面代表依赖的包
-require (
-        github.com/gin-contrib/sse v0.1.0 // indirect
-        github.com/gin-gonic/gin v1.8.0 // indirect
-        github.com/go-playground/locales v0.14.0 // indirect
-        github.com/go-playground/universal-translator v0.18.0 // indirect
-        github.com/go-playground/validator/v10 v10.10.0 // indirect
-        github.com/goccy/go-json v0.9.7 // indirect
-        github.com/json-iterator/go v1.1.12 // indirect
-        github.com/leodido/go-urn v1.2.1 // indirect
-        github.com/mattn/go-isatty v0.0.14 // indirect
-        github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
-        github.com/modern-go/reflect2 v1.0.2 // indirect
-        github.com/pelletier/go-toml/v2 v2.0.1 // indirect
-        github.com/ugorji/go/codec v1.2.7 // indirect
-        golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
-        golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
-        golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 // indirect
-        golang.org/x/text v0.3.6 // indirect
-        google.golang.org/protobuf v1.28.0 // indirect
-        gopkg.in/yaml.v2 v2.4.0 // indirect
-)
-
-# 我们下载的包在GOPATH目录下
-[root@localhost demo]# go env GOPATH
-/usr/local/gopath
-[root@localhost demo]# ls -l /usr/local/gopath/pkg/mod/
-total 20
-drwxr-xr-x 3 root root 4096 May 30 20:26 cache
-drwxr-xr-x 9 root root 4096 May 30 20:26 github.com
-drwxr-xr-x 3 root root 4096 May 30 20:26 golang.org
-drwxr-xr-x 3 root root 4096 May 30 20:26 google.golang.org
-drwxr-xr-x 3 root root 4096 May 30 20:26 gopkg.in
-
-# 还会生成一个go.sum文件，此文件不需要我们管理，先不做深入研究
-[root@localhost demo]# ls -lh go.sum 
--rw-r--r-- 1 root root 9.1K May 30 20:32 go.sum
-```
-
-:::
-
-::: details （4）go get进阶：安装最新版、安装指定版、移除版本、升级依赖
-
-```bash
-# 安装最新版本，以下两种方法都可以，这会下载最新的tag版本
-[root@localhost demo]# go get github.com/gin-gonic/gin
-[root@localhost demo]# go get github.com/gin-gonic/gin@latest
-
-# 安装指定版本
-[root@localhost demo]# go get github.com/gin-gonic/gin@v1.7.0
-go: downgraded github.com/gin-gonic/gin v1.8.0 => v1.7.0
-
-# 将包从go.mod中移除（本地并不会删除）
-[root@localhost demo]# go get github.com/gin-gonic/gin@none
-go: removed github.com/gin-gonic/gin v1.7.0
-
-# 查看本地包
-[root@localhost demo]# ll /usr/local/gopath/pkg/mod/github.com/gin-gonic/
-total 8
-dr-xr-xr-x 9 root root 4096 May 30 20:32 gin@v1.7.0
-dr-xr-xr-x 9 root root 4096 May 30 20:26 gin@v1.8.0
-
-# 升级依赖（这会升级所有依赖）
-[root@localhost demo]# go get -u
-go: downloading golang.org/x/net v0.0.0-20220526153639-5463443f8c37
-go: downloading github.com/go-playground/validator/v10 v10.11.0
-go: downloading github.com/go-playground/validator v9.31.0+incompatible
-go: downloading github.com/pelletier/go-toml v1.9.5
-go: downloading github.com/ugorji/go v1.2.7
-go: downloading golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a
-go: downloading golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
-go: downloading golang.org/x/text v0.3.7
-go: downloading github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
-go: upgraded github.com/go-playground/validator/v10 v10.10.0 => v10.11.0
-go: upgraded github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 => v0.0.0-20180306012644-bacd9c7ef1dd
-go: upgraded golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 => v0.0.0-20220525230936-793ad666bf5e
-go: upgraded golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 => v0.0.0-20220526153639-5463443f8c37
-go: upgraded golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 => v0.0.0-20220520151302-bc2c85ada10a
-go: upgraded golang.org/x/text v0.3.6 => v0.3.7
-
-# 升级依赖go.mod变化
-[root@localhost demo]# cat go.mod 
-module demo
-
-go 1.18
-
-require github.com/gin-gonic/gin v1.8.0		// 这个原来在下面，并且有// indirect，现在没有了
-
-require (
-        github.com/gin-contrib/sse v0.1.0 // indirect
-        github.com/go-playground/locales v0.14.0 // indirect
-        github.com/go-playground/universal-translator v0.18.0 // indirect
-        github.com/go-playground/validator/v10 v10.11.0 // indirect
-        github.com/goccy/go-json v0.9.7 // indirect
-        github.com/golang/protobuf v1.5.2 // indirect
-        github.com/json-iterator/go v1.1.12 // indirect
-        github.com/leodido/go-urn v1.2.1 // indirect
-        github.com/mattn/go-isatty v0.0.14 // indirect
-        github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-        github.com/modern-go/reflect2 v1.0.2 // indirect
-        github.com/pelletier/go-toml/v2 v2.0.1 // indirect
-        github.com/ugorji/go/codec v1.2.7 // indirect
-        golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
-        golang.org/x/net v0.0.0-20220526153639-5463443f8c37 // indirect
-        golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
-        golang.org/x/text v0.3.7 // indirect
-        google.golang.org/protobuf v1.28.0 // indirect
-        gopkg.in/yaml.v2 v2.4.0 // indirect
-)
-```
-
-:::
-
-::: details （5）安装可执行文件：go install
-
-文档：[https://go.dev/ref/mod#go-install](https://go.dev/ref/mod#go-install)
-
-特点：
-
-* 可以在全局使用`go install`，不会维护go.mod和go.sum文件
-* 使用`go install github.com/xxx/@版本`,必须加上版本，如果是最新版则是`latest`
-* 其原理是：
-  * 下载第三方包到`GOPATH/pkg`
-  * 然后编译（入口是`main`包的`main`方法）
-  * 将可执行文件放在`GOPATH/bin`目录下
-* 可以使用`go install`的第三方包，一般都有一个`main`包和`main`方法
-
-举几个例子
-
-| Github                                 | main               |
-| -------------------------------------- | ------------------ |
-| https://github.com/davecheney/httpstat | `main.go`          |
-| https://github.com/Code-Hex/pget       | `cmd/pget/main.go` |
-
-:::
-
-::: details （6）依赖整理：go mod tidy
-
-很常用的一个命令，可多次执行
-
-```bash
-[root@localhost demo]# go help mod
-Go mod provides access to operations on modules.
-
-Note that support for modules is built into all the go commands,
-not just 'go mod'. For example, day-to-day adding, removing, upgrading,
-and downgrading of dependencies should be done using 'go get'.
-See 'go help modules' for an overview of module functionality.
-
-Usage:
-
-        go mod <command> [arguments]
-
-The commands are:
-
-        download    download modules to local cache
-        edit        edit go.mod from tools or scripts
-        graph       print module requirement graph
-        init        initialize new module in current directory
-        tidy        add missing and remove unused modules			# 添加缺少的包，并移除未使用的包
-        vendor      make vendored copy of dependencies
-        verify      verify dependencies have expected content
-        why         explain why packages or modules are needed
-
-Use "go help mod <command>" for more information about a command.
-```
-
-:::
+### GOPATH
 
 <br />
-
-### 发布公共模块
-
-::: details （1）发布公共模块到 GitHub：先跑通一个最简单的发布流程
-
-① 在Github上新建一个仓库test，并克隆代码到本地
-
-② 使用go mod初始化，要求module name必须是绝对路径（github.com/用户名/项目名），
-
-这样别人就可以导入我们的模块，或者是利用`go install`下载并编译我们的代码来生成二进制文件
-
-```bash
-# 克隆
-git clone https://github.com/vvfock3r/test.git
-cd test
-
-# 初始化Go模块
-go mod init github.com/vvfock3r/test
-```
-
-③ 提交代码到test仓库
-
-```bash
-# 新建一个文件utils.go
-package test
-
-func Add(x, y int) int {
-	return x + y
-}
-
-# 提交
-git add *
-git commit -m "test"
-git push -u origin main
-```
-
-④ 使用GoLand新建一个Go项目demo，进行测试
-
-添加依赖包
-
-```bash
-C:\Users\Administrator\GolandProjects\demo>go get github.com/vvfock3r/test 
-go: downloading github.com/vvfock3r/test v0.0.0-20220601023617-b9d901edce34
-```
-
-编写`main.go`
-
-```go
-package main
-
-import (
-	"fmt"
-	"github.com/vvfock3r/test"
-)
-
-func main() {
-	fmt.Println(test.Add(1, 2))
-}
-```
-
-测试执行
-
-```bash
-C:\Users\Administrator\GolandProjects\demo>go run .      
-3
-
-# 查看go.mod
-module demo
-
-go 1.18
-
-require github.com/vvfock3r/test v0.0.0-20220601023617-b9d901edce34 // indirect
-```
-
-总结几个关键点：
-
-（1）第三方模块的模块名：应使用**github.com/用户名/项目名**
-
-（2）第三方模块的版本：若无版本，Go自动添加一个版本**v0.0.0-时间-提交ID**
-
-* `v0.0.0`是固定的
-* 时间格式`年月日时分秒`
-* 提交ID长度`12`位
-
-从上面可以看出，一次提交可以认为是一个版本
-
-:::
-
-::: details （2）发布公共模块到 GitHub：更新第三方包延迟问题
-
-描述：我们对第三方模块`test`随便做一点修改并提交到GitHub，在`demo`项目中测试更新`test`模块是否正常
-
-结果：第三方包刚刚更新的代码，我们无法立马拉取到新代码，测试过的方法有：
-
-* 使用`go get -u github.com/vvfock3r/test`更新，无效
-* 删除`go.mod`和本地`GOPATH`下的`test`模块相关的任何东西，然后使用`go get`重新下载，无效
-
-原因是：我们`go get`下载包并不是直接从`github.com`下载的，而是通过`GOPROXY`指定的镜像站下载的（通过`go get -x`可以看到），而镜像站存在一定延迟从而导致不能马上下载最新包
-
-解决办法：使用`go get github.com/vvfock3r/test@提交ID`来进行更新（提交ID并不一定是完整的ID），可以在下图中这个位置找到最新提交ID
-
-![image-20220601140958608](https://tuchuang-1257805459.cos.accelerate.myqcloud.com/image-20220601140958608.png)
-
-:::
-
-::: details （3）发布公共模块到 GitHub：指定第三方包的版本
-
-如果我想让用户使用`go get github.com/vvfock3r/test@v1.0.0`这样的方式来安装指定版本，该如何做呢？
-
-这里的`v1.0.0`，就是仓库的`Tag`名称，但是有几点注意事项：
-
-* Tag名称必须是类似`v1.0.0`这种规则，如果是`v1.0`这样是拉取不到对应版本的
-
-  ```bash
-  C:\Users\Administrator\GolandProjects\demo>go get github.com/vvfock3r/test@v1.0
-  go: github.com/vvfock3r/test@v1.0: no matching versions for query "v1.0"
-  ```
-
-* 对于`v2.0.0`及以上版本，我们如果直接使用`go get github.com/vvfock3r/test@v2.0.0`会报错
-
-  ```bash
-  C:\Users\Administrator\GolandProjects\demo>go get github.com/vvfock3r/test@v2.0.0
-  go: github.com/vvfock3r/test@v2.0.0: invalid version: module contains a go.mod file, so module path must match major version ("github.com/vvfock3r/test/v2")
-  
-  # 原因也给出来了：模块路径必须包含主版本号
-  ```
-
-  这个时候我们有两种解决方案：
-
-  * 永远不升级到`v2.x.x`，一直使用v1的版本比如`v1.0.0`、`v1.0.1`、`@v1.999.999`
-  * 升级到`v2.x.x`，需要在项目根目录下创建一个`v2`的目录，代表这是一个全新的版本
-
-* 其他：Github上新打的Tag可以直接在命令行使用`go get `下载，没有GOPROXY缓存的问题（指定版本为`latest`除外）
-
-:::
-
-::: details （4）发布公共模块到 GitHub：replace简介
-
-replace可以让我们对包进行替换，可以达到这样的效果：导入的是`a`包，但实际使用的是`b`包
-
-使用replace可以直接修改go.mod文件，也可以使用`go mod edit -replace`命令（推荐）
-
-语法
-
-```bash
-# 语法
-# go mod edit -replace 旧地址=新地址
-
-# 示例：将v1.1.2替换为v1.1.1版本，也就是降低了一个版本
-go mod edit -replace github.com/vvfock3r/test@v1.1.2=github.com/vvfock3r/test@v1.1.1
-
-# 查看一下go.mod文件
-module demo
-go 1.18
-require github.com/vvfock3r/test v1.1.2
-replace github.com/vvfock3r/test v1.1.2 => github.com/vvfock3r/test v1.1.1		# replace
-
-# 说明
-虽然go.mod中require是v1.1.2版本，但实际上在使用v1.1.1版本
-```
-
-:::
-
-<br />
-
-### 设置私有模块
-
-::: details （1）GOPRIVATE 说明
-
-`GOPRIVATE` 是一个环境变量，它用于指定一组私有模块的列表，这些模块不属于公共代码库，无法通过普通的方式访问和下载
-
-
-
-```bash
-# 默认 GOPRIVATE 为空
-C:\Users\Administrator>go env GOPRIVATE
-
-# 一般设置为私有仓库的项目地址
-export GOPRIVATE=gitlab.com/PRIVATE_REPO1,gitlab.com/PRIVATE_REPO2,gitlab.com/PRIVATE_REPO3
-```
-
-:::
-
-<br />
-
-### Go命令文档
-
-::: details （1）查看顶层帮助文档： go 或 go -h 或 go --help
-
-```bash
-D:\application\GoLand\example>go -h
-Go is a tool for managing Go source code.                              
-                                                                       
-Usage:                                                                 
-                                                                       
-        go <command> [arguments]                                       
-                                                                       
-The commands are:                                                      
-                                                                       
-        bug         start a bug report                                 
-        build       compile packages and dependencies                  
-        clean       remove object files and cached files               
-        doc         show documentation for package or symbol           
-        env         print Go environment information                   
-        fix         update packages to use new APIs                    
-        fmt         gofmt (reformat) package sources                   
-        generate    generate Go files by processing source             
-        get         add dependencies to current module and install them
-        install     compile and install packages and dependencies      
-        list        list packages or modules                           
-        mod         module maintenance                                 
-        work        workspace maintenance                              
-        run         compile and run Go program                         
-        test        test packages                                      
-        tool        run specified go tool                              
-        version     print Go version                                   
-        vet         report likely mistakes in packages                 
-                                                                       
-Use "go help <command>" for more information about a command.          
-                                                                       
-Additional help topics:                                                
-                                                                       
-        buildconstraint build constraints                              
-        buildmode       build modes                                    
-        c               calling between Go and C
-        cache           build and test caching
-        environment     environment variables
-        filetype        file types
-        go.mod          the go.mod file
-        gopath          GOPATH environment variable
-        gopath-get      legacy GOPATH go get
-        goproxy         module proxy protocol
-        importpath      import path syntax
-        modules         modules, module versions, and more
-        module-get      module-aware go get
-        module-auth     module authentication using go.sum
-        packages        package lists and patterns
-        private         configuration for downloading non-public code
-        testflag        testing flags
-        testfunc        testing functions
-        vcs             controlling version control with GOVCS
-
-Use "go help <topic>" for more information about that topic.
-```
-
-:::
-
-::: details （2）查看子命令帮助文档：go   help   sub-command
-
-```bash
-# 1、使用-h和--help, 输出内容太过于简单，根本没有参考意义。它告诉我们要使用 go help build
-D:\application\GoLand\example>go build -h
-usage: go build [-o output] [build flags] [packages]
-Run 'go help build' for details.
-
-D:\application\GoLand\example>go build --help
-usage: go build [-o output] [build flags] [packages]
-Run 'go help build' for details.
-
-# 2、go help build,内容很详细
-D:\application\GoLand\example>go help build
-usage: go build [-o output] [build flags] [packages]
-
-...
-
-The build flags are shared by the build, clean, get, install, list, run,
-and test commands:
-
-        -C dir
-                Change to dir before running the command.
-                Any files named on the command line are interpreted after
-                changing directories.
-        -a
-                force rebuilding of packages that are already up-to-date.
-        -n
-                print the commands but do not run them.
-        -p n
-                the number of programs, such as build commands or
-                test binaries, that can be run in parallel.
-                The default is GOMAXPROCS, normally the number of CPUs available.
-        -race
-                enable data race detection.
-                Supported only on linux/amd64, freebsd/amd64, darwin/amd64, darwin/arm64, windows/amd64,
-                linux/ppc64le and linux/arm64 (only for 48-bit VMA).
-        -msan
-                enable interoperation with memory sanitizer.
-                Supported only on linux/amd64, linux/arm64, freebsd/amd64
-                and only with Clang/LLVM as the host C compiler.
-                PIE build mode will be used on all platforms except linux/amd64.
-...
-        -ldflags '[pattern=]arg list'
-                arguments to pass on each go tool link invocation.
-...
-```
-
-:::
-
-::: details （3）查看某个选项可接收的参数列表：go   sub-command   option   --help
-
-```bash
-# go build -ldflags选项接收一个列表作为值
-# 注意必须使用--help，不能使用-h
-D:\application\GoLand\example>go build -ldflags --help
-# example
-usage: link [options] main.o
-  -B note
-        add an ELF NT_GNU_BUILD_ID note when using ELF               
-  -E entry                                                           
-        set entry symbol name                                        
-  -H type                                                            
-        set header type                                              
-  -I linker                                                          
-        use linker as ELF dynamic linker                             
-  -L directory                                                       
-        add specified directory to library path                      
-  -R quantum                                                         
-        set address rounding quantum (default -1)                    
-  -T address                                                         
-        set text segment address (default -1)                        
-  -V    print version and exit                                       
-  -X definition                                                      
-        add string value definition of the form importpath.name=value
-  -a    no-op (deprecated)                                           
-  -asan                                                              
-        enable ASan interface                                        
-  -aslr                                                              
-        enable ASLR for buildmode=c-shared on windows (default true) 
-  -benchmark string                                                  
-        set to 'mem' or 'cpu' to enable phase benchmarking           
-  -benchmarkprofile base                                             
-        emit phase profiles to base_phase.{cpu,mem}prof              
-  -buildid id                                                        
-        record id as Go toolchain build id                           
-  -buildmode mode                                                    
-        set build mode                                               
-  -c    dump call graph                                              
-  -capturehostobjs string
-        capture host object files loaded during internal linking to specified dir
-  -compressdwarf
-        compress DWARF if possible (default true)
-  -cpuprofile file
-        write cpu profile to file
-  -d    disable dynamic executable
-  -debugnosplit
-        dump nosplit call graph
-  -debugtextsize int
-        debug text section max size
-  -debugtramp int
-        debug trampolines
-  -dumpdep
-        dump symbol dependency graph
-  -extar string
-        archive program for buildmode=c-archive
-  -extld linker
-        use linker when linking in external mode
-  -extldflags flags
-        pass flags to external linker
-  -f    ignore version mismatch
-  -g    disable go package data checks
-  -h    halt on error
-  -importcfg file
-        read import configuration from file
-  -installsuffix suffix
-        set package directory suffix
-  -k symbol
-        set field tracking symbol
-  -libgcc string
-        compiler support lib for internal linking; use "none" to disable
-  -linkmode mode
-        set link mode
-  -linkshared
-        link against installed Go shared libraries
-  -memprofile file
-        write memory profile to file
-  -memprofilerate rate
-        set runtime.MemProfileRate to rate
-  -msan
-        enable MSan interface
-  -n    dump symbol table
-  -o file
-        write output to file
-  -pluginpath string
-        full path name for plugin
-  -r path
-        set the ELF dynamic linker search path to dir1:dir2:...
-  -race
-        enable race detector
-  -s    disable symbol table
-  -strictdups int
-        sanity check duplicate symbol contents during object file reading (1=warn 2=err).
-  -tmpdir directory
-        use directory for temporary files
-  -v    print link trace
-  -w    disable DWARF generation
-```
-
-:::
-
-## 
 
 ## 基础入门
 
