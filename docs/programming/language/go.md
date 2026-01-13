@@ -105,6 +105,79 @@ go env -w GOPROXY=https://goproxy.cn,direct
 
 ### GOPATH
 
+::: tip GOPATH简介
+
+**GOPATH** 是 Go 的旧工作区，早期用于管理所有项目源码与依赖，在 **Modules** 时代退化为 **模块缓存与工具安装根目录**
+
+**默认目录**
+
+* Windows：`%USERPROFILE%\go`
+* Linux：`$HOME/go`
+
+**GOPATH 时代的核心问题**
+
+- 依赖无版本
+- 共享全局目录
+- 依赖冲突
+- 构建不可复现
+
+:::
+
+**GOPATH目录结构**
+
+```md
+$GOPATH/
+ ├── pkg/mod/        # 默认模块下载缓存目录（若未设置 GOMODCACHE）
+ └── bin/            # go install 安装的可执行文件 (若未设置 GOBIN时)
+```
+
+<br />
+
+### Go Modules
+
+::: tip Go Modules简介
+
+Go 1.11 开始引入，Go 1.13 起默认开启，Go 1.16 起 GOPATH 模式默认关闭。`GO111MODULE` 是用于控制 是否启用 Go Modules 的过渡期开关变量，名字里的 "111" 代表 在 1.11 版本首次引入。
+
+<hr />
+
+一个 **Module** 定义为：以 `go.mod` 文件为根的一组 Go 包集合。
+
+* 项目可以位于任意目录，不再依赖 GOPATH/src；
+* 模块依赖关系写入 `go.mod`
+*  模块版本校验写入 `go.sum`
+*  模块下载的依赖缓存于 `GOMODCACHE`（默认 `$GOPATH/pkg/mod`）；
+* 代码编译缓存存放于 `GOCACHE`
+
+:::
+
+::: details 标准新项目流程
+
+```bash
+mkdir <projectName>
+cd <projectName>
+go mod init github.com/<username>/<projectName>
+```
+
+:::
+
+::: details 常用命令
+
+| 命令                     | 作用                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| go mod init <模块名>     | 初始化模块                                                   |
+| go mod tidy              | 会根据当前模块的源码 import 情况， <br />自动添加缺失的依赖，并删除未使用的依赖， 同时更新 go.sum，<br />使依赖描述与源码状态完全一致 |
+| go get [模块路径][@版本] | 添加 / 更新依赖                                              |
+| go list -m all           | 查看依赖树                                                   |
+| go mod graph             | 依赖图                                                       |
+| go mod vendor            | 生成 vendor 目录                                             |
+
+:::
+
+::: details go mod init 取名问题
+
+:::
+
 <br />
 
 ## 基础入门

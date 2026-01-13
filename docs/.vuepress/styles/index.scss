@@ -29,5 +29,17 @@ table {
   width: 100%;
   max-width: 100%;
   table-layout: fixed;
-  text-align: center;
+  border-collapse: collapse;  
+}
+
+table thead {
+  text-align: left;
+  background-color: #D6EBFF;
+}
+
+table th, td {
+  border-left: none;
+  border-right: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
