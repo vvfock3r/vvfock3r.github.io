@@ -2870,7 +2870,7 @@ for i in range(100):
 
 ### daemon
 
-::: tip 含义
+::: tip  守护线程 或者叫 后台线程
 
 * daemon = False：当主线程执行结束后，要等待非daemon线程执行完成
 * daemon = True：当主线程执行结束后，daemon线程也会立即退出
@@ -2944,11 +2944,77 @@ print("End")
 
 <br />
 
-### join阻塞线程
+### 数据隔离 - 线程局部变量 local()
+
+::: tip 线程局部变量
+
+创建全局变量 `request = threading.local()` 后， 所有线程访问的都是**同一个 request 对象实例**， 但该对象内部会为**每个线程维护独立的属性存储空间**。
+
+因此，不同线程对 `request` 设置的属性彼此隔离， 互不影响，也不会污染主线程或其他线程的数据。
+
+:::
+
+::: details 点击查看详情
+
+```python
+#!/usr/bin/env python
+# -*-coding:utf-8-*-
+
+import time
+import logging
+from threading import Thread, local, current_thread, active_count
+
+# 初始化日志
+FORMAT = '%(asctime)-15s\t [%(threadName)s, %(thread)d] %(message)s'
+logging.basicConfig(format=FORMAT)
+
+
+class Request(): pass
+
+
+request = local()  # 初始化线程局部变量
+# request = Request()  # 初始化全局变量
+
+
+def test(item):
+    item.thread_name = current_thread().name
+    time.sleep(1)
+    logging.warning('request.thread_name: {}'.format(item.thread_name))
+
+
+threads = []
+for i in range(6):
+    t = Thread(target=test, args=(request,))
+    t.start()
+    threads.append(t)
+
+for i in threads:
+    i.join()
+
+logging.warning("End")
+```
+
+输出结果
+
+```bash
+2026-01-17 10:07:16,226	 [Thread-1 (test), 8448] request.thread_name: Thread-1 (test)
+2026-01-17 10:07:16,227	 [Thread-6 (test), 11860] request.thread_name: Thread-6 (test)
+2026-01-17 10:07:16,227	 [Thread-4 (test), 1544] request.thread_name: Thread-4 (test)
+2026-01-17 10:07:16,227	 [Thread-2 (test), 3728] request.thread_name: Thread-2 (test)
+2026-01-17 10:07:16,227	 [Thread-5 (test), 10404] request.thread_name: Thread-5 (test)
+2026-01-17 10:07:16,227	 [Thread-3 (test), 4644] request.thread_name: Thread-3 (test)
+2026-01-17 10:07:16,227	 [MainThread, 4620] End
+```
+
+:::
+
+<br />
+
+### 线程同步 - 等待线程完成 join()
+
+::: tip 等待线程结束
 
 如果想让所有线程工作完毕后，主线程再执行代码，此时可以使用`线程.join()`来等待线程执行完毕
-
-::: tip 含义
 
 * 阻塞线程直到执行完毕
 * 它还可以设置超时时间，当超过超时时间，不管线程是否执行完毕，都会向下执行
@@ -2989,7 +3055,7 @@ print("End")
 
 <br />
 
-### 线程锁
+### 线程同步 - 互斥锁 Lock
 
 ::: tip Lock类
 
@@ -3089,69 +3155,11 @@ print("End")
 
 <br />
 
-### 线程局部变量
-
-创建一个全局变量`request = local()`，使用多线程对`request`进行修改时，会先将request拷贝到自身线程中一份，不会影响到全局和其他线程中的`request`
-
-::: details 点击查看详情
-
-```python
-#!/usr/bin/env python
-# -*-coding:utf-8-*-
-
-import time
-import logging
-from threading import Thread, local, current_thread, active_count
-
-# 初始化日志
-FORMAT = '%(asctime)-15s\t [%(threadName)s, %(thread)d] %(message)s'
-logging.basicConfig(format=FORMAT)
-
-# 初始化全局变量
-# class Request(object): pass
-# request = Request()
-
-
-# 初始化线程局部变量
-request = local()
-
-
-def thread_local(request):
-    request.thread_name = current_thread().name
-    time.sleep(1)
-    logging.warning('request.thread_name: {}'.format(request.thread_name))
-
-
-for i in range(6):
-    Thread(target=thread_local, args=(request,)).start()
-
-while active_count() > 1:
-    time.sleep(1)
-
-print("End")
-```
-
-输出结果
-
-```bash
-2026-01-06 07:46:00,427	 [Thread-1 (thread_local), 7012] request.thread_name: Thread-1 (thread_local)
-2026-01-06 07:46:00,428	 [Thread-4 (thread_local), 12916] request.thread_name: Thread-4 (thread_local)
-2026-01-06 07:46:00,428	 [Thread-6 (thread_local), 10720] request.thread_name: Thread-6 (thread_local)
-2026-01-06 07:46:00,428	 [Thread-5 (thread_local), 9224] request.thread_name: Thread-5 (thread_local)
-2026-01-06 07:46:00,428	 [Thread-2 (thread_local), 11632] request.thread_name: Thread-2 (thread_local)
-2026-01-06 07:46:00,428	 [Thread-3 (thread_local), 12712] request.thread_name: Thread-3 (thread_local)
-End
-```
-
-:::
-
-<br />
-
-### 线程同步 - 事件Event
+### 线程同步 - 事件 Event
 
 Event是线程通信间最简单的实现，使用一个变量flag，通过flag的True或False变化来执行不同操作。Event变化会通知到所有线程
 
-**Event实例方法**
+**Event 实例方法**
 
 | 方法               | 说明                                                         |
 | ------------------ | ------------------------------------------------------------ |
@@ -3240,9 +3248,90 @@ logging.warning("做一些其他的事...")
 
 <br />
 
-### 线程同步 - 条件变量Condition
+### 线程同步 - 阶段屏障 Barrier
 
-::: tip Condition
+Barrier 用来让一组线程在某个“阶段点”集合，等所有人都到了，再一起继续往下执行。
+
+**Barrier  实例化参数**
+
+`__init__(self, parties, action=None, timeout=None)`
+
+* parties：必须到齐的线程数
+* action：所有线程到齐时，由最后到达的线程执行的回调
+* timeout：全局默认超时
+
+**Barrier 实例方法**
+
+| 方法               | 说明                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| wait(timeout=None) | 到达屏障并阻塞，直到所有线程到齐<br />返回值：一个整数 `0 ~ parties-1`<br />最后到达的线程返回值通常为 `0`<br />可用来让某个线程执行"领队任务"，比如 最后执行完的，负责合并结果 |
+| reset()            | 用于异常恢复或中止本轮同步<br />即让所有正在等待的线程抛 `BrokenBarrierError`，屏障恢复到初始状态，可重新使用 |
+| abort()            | 标记屏障为损坏状态<br />所有 wait 中线程立即抛异常<br />后续任何 wait 也会直接报 `BrokenBarrierError`<br />必须 reset 才能恢复 |
+| parties            | 需要到达屏障的线程总数                                       |
+| n_waiting          | 当前正在等待中的线程数                                       |
+| broken             | 屏障是否已损坏                                               |
+
+::: details 点击查看详情
+
+```python
+import time
+import random
+from threading import Thread, Barrier, current_thread
+
+# 三个工作线程
+N = 3
+
+# 存放每个线程的计算结果
+results = [None] * N
+
+
+def merge_results():
+    # 这个函数由“最后到达屏障的线程”自动执行
+    total = sum(results)
+    print(f"\n>>> 合并结果: {results} => 总和 = {total}\n")
+
+
+# 设置屏障：3 个线程到齐时执行 merge_results
+barrier = Barrier(N, action=merge_results)
+
+
+def worker(i):
+    # ===== 第一阶段 =====
+    t = random.randint(1, 3)
+    time.sleep(t)
+    results[i] = t * 10
+    print(f"{current_thread().name} 第一阶段完成，结果={results[i]}")
+
+    # 等所有线程完成第一阶段
+    barrier.wait()
+
+    # ===== 第二阶段 =====
+    print(f"{current_thread().name} 进入第二阶段继续工作")
+    time.sleep(1)
+
+    # 再次同步第二阶段结束
+    barrier.wait()
+
+    if barrier.wait() == 0:
+        print("\n>>> 第二阶段所有线程结束，任务完成 <<<")
+
+
+# 启动线程
+for i in range(N):
+    Thread(target=worker, args=(i,)).start()
+```
+
+:::
+
+<br />
+
+### 线程同步 - 信号量 Semaphore
+
+<br />
+
+### 线程同步 - 条件变量 Condition
+
+::: tip Condition - 条件变量
 
 **设计思想**
 
@@ -3332,11 +3421,18 @@ Done
 
 <br />
 
-### 线程同步 - Barrier
+### 线程同步总结
 
-<br />
+线程同步的本质 = 在并发执行中人为建立“秩序”
 
-### 线程同步 - Semaphore
+| 场景                   | 需要的同步方式    | 说明           |
+| ---------------------- | ----------------- | -------------- |
+| 主线程等待子线程完成   | join              | 生命周期同步   |
+| 多线程修改共享变量     | Lock              | 防止数据错乱   |
+| 限制并发访问数据库连接 | Semaphore         | 控制最大连接数 |
+| 生产者 → 消费者队列    | Condition / Event | 有数据才消费   |
+| 并行计算分阶段处理     | Barrier           | 阶段集合       |
+| 定时任务唤醒工作线程   | Event             | 信号触发       |
 
 <br />
 
