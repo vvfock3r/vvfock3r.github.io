@@ -3250,6 +3250,8 @@ logging.warning("做一些其他的事...")
 
 ### 线程同步 - 阶段屏障 Barrier
 
+::: tip Barrier 类
+
 Barrier 用来让一组线程在某个“阶段点”集合，等所有人都到了，再一起继续往下执行。
 
 **Barrier  实例化参数**
@@ -3270,6 +3272,8 @@ Barrier 用来让一组线程在某个“阶段点”集合，等所有人都到
 | parties            | 需要到达屏障的线程总数                                       |
 | n_waiting          | 当前正在等待中的线程数                                       |
 | broken             | 屏障是否已损坏                                               |
+
+:::
 
 ::: details 点击查看详情
 
@@ -3327,6 +3331,54 @@ for i in range(N):
 
 ### 线程同步 - 信号量 Semaphore
 
+::: tip Semaphore类
+
+信号量本质上就是一个"可用资源配额计数器"，常用于限制并发数量，threading.Semaphore(3) 代表：
+
+* 初始值 = 系统允许同时使用该资源的最大配额为3
+* acquire(blocking=True, timeout=None) = 领取一个配额，计数器-1，若没有足够配额（>=1）则默认进入等待状态
+* release() = 归还一个配额，计数器+1，.release() 可以直接调用，即使你从没 acquire()
+
+普通 Semaphore 允许多次 release，允许 超出初始值，BoundedSemaphore 会直接抛异常，防止错误释放
+
+:::
+
+::: details 限制并发数量
+
+```python
+import time
+import random
+import threading
+
+# 最多允许 3 个并发请求
+sem = threading.BoundedSemaphore(3)
+
+
+def send_request(req_id):
+    with sem:  # acquire() -> release() 自动管理
+        print(f"[{req_id}] 请求开始")
+
+        # 模拟网络延迟
+        time.sleep(random.uniform(1, 3))
+
+        print(f"[{req_id}] 请求完成")
+
+
+# 模拟 10 个请求
+threads = []
+for i in range(10):
+    t = threading.Thread(target=send_request, args=(i,))
+    t.start()
+    threads.append(t)
+
+for t in threads:
+    t.join()
+
+print("全部请求处理完毕")
+```
+
+:::
+
 <br />
 
 ### 线程同步 - 条件变量 Condition
@@ -3345,7 +3397,9 @@ Condition 内部维护一把锁（默认 RLock），线程在持锁状态下可�
 
 调用 `wait()` 时，线程会释放锁并进入等待状态；
 
-当被其他线程唤醒时，会重新获取锁并继续执行。
+当被其他线程唤醒时，会重新获取锁并继续执行；
+
+唤醒哪个线程是不可控的（可以认为是随机的）。
 
 <br />
 
@@ -3357,7 +3411,7 @@ Condition 内部维护一把锁（默认 RLock），线程在持锁状态下可�
 
 :::
 
-::: details Condition实例方法
+::: details Condition 实例方法
 
 | 方法                              | 说明                                                         |
 | --------------------------------- | ------------------------------------------------------------ |
@@ -3370,7 +3424,7 @@ Condition 内部维护一把锁（默认 RLock），线程在持锁状态下可�
 
 :::
 
-::: details Condition举例：线程 A 打印数字 `1,2,3,...`，线程 B 打印字母 `A,B,C,...`，两个线程必须 **交替打印**
+::: details Condition 举例：线程 A 打印数字 `1,2,3,...`，线程 B 打印字母 `A,B,C,...`，两个线程必须 **交替打印**
 
 ```python
 from threading import Thread, Condition
@@ -3423,36 +3477,65 @@ Done
 
 ### 线程同步总结
 
-线程同步的本质 = 在并发执行中人为建立“秩序”
+| 场景                            | 需要的同步方式                 | 说明                                                  |
+| ------------------------------- | ------------------------------ | ----------------------------------------------------- |
+| 主线程等待子线程完成            | `join()`                       | **生命周期同步**，等待线程结束                        |
+| 多线程修改共享变量              | `Lock / RLock`                 | **互斥访问**，防止数据竞争                            |
+| 限制并发访问数据库 / 网络 / GPU | `Semaphore / BoundedSemaphore` | **资源配额控制**，限制同时访问数量                    |
+| 定时任务 / 启动信号 / 停止信号  | `Event`                        | **状态通知**，广播式唤醒                              |
+| 并行计算分阶段处理              | `Barrier`                      | **阶段对齐**，等待 n 个线程到达同一阶段点，再一起放行 |
+| 生产者 — 消费者（手写队列）     | `Condition`                    | **条件等待 + 精准唤醒**                               |
+| 生产者 — 消费者（标准写法）     | `Queue`                        | **内置完成同步的安全队列**                            |
+| 线程池任务调度                  | `Queue + Event`                | **任务流 + 停止通知**                                 |
+| 多线程读多写少场景              | `RWLock` (第三方实现)          | **读写分离锁**                                        |
+| 多进程并发同步                  | `multiprocessing` 同名同步对象 | **跨进程同步**                                        |
 
-| 场景                   | 需要的同步方式    | 说明           |
-| ---------------------- | ----------------- | -------------- |
-| 主线程等待子线程完成   | join              | 生命周期同步   |
-| 多线程修改共享变量     | Lock              | 防止数据错乱   |
-| 限制并发访问数据库连接 | Semaphore         | 控制最大连接数 |
-| 生产者 → 消费者队列    | Condition / Event | 有数据才消费   |
-| 并行计算分阶段处理     | Barrier           | 阶段集合       |
-| 定时任务唤醒工作线程   | Event             | 信号触发       |
+
 
 <br />
 
-### 线程池 - ThreadPoolExecutor
+### 任务调度框架
 
-ThreadPoolExecutor构造参数
+::: tip 含义
+
+`concurrent.futures` = Python 的标准线程池 / 进程池任务调度框架
+
+**它帮你解决：**
+
+- 线程创建与回收
+- 任务队列
+- 结果收集
+- 异常传递
+- 超时管理
+
+**核心对象**
+
+| 名称                | 作用                |
+| ------------------- | ------------------- |
+| Executor            | 执行器（池管理者）  |
+| ThreadPoolExecutor  | 线程池              |
+| ProcessPoolExecutor | 进程池              |
+| Future              | 任务句柄 + 结果容器 |
+
+:::
+
+::: details ThreadPoolExecutor 实例方法
+
+ThreadPoolExecutor 构造参数
 
 | 参数               | 说明                                       |
 | ------------------ | ------------------------------------------ |
 | max_workers        | 指定线程池的最大线程数，默认为CPU核数的5倍 |
 | thread_name_prefix | 指定线程池中线程的名称前缀                 |
 
-ThreadPoolExecutor实例方法
+ThreadPoolExecutor 实例方法
 
 | 方法                        | 说明                                                         |
 | --------------------------- | ------------------------------------------------------------ |
 | submit(fn, *args, **kwargs) | 提交任务，线程池会分配一个线程迟总任务，返回一个Future实例，如果池已经满了，还可以继续提交 |
 | shutdown(wait=True)         | 清理池，池中的线程/进程全部杀掉，同时不再接受新提交的任务，<br />如果继续提交会报错`RuntimeError: cannot schedule new futures after shutdown` |
 
-Future实例方法
+Future 实例方法
 
 | 方法                    | 说明                                                         |
 | ----------------------- | ------------------------------------------------------------ |
@@ -3463,7 +3546,9 @@ Future实例方法
 | result(timeout=None)    | 取返回的结果，timeout为None,一直等待返回，超时抛出concurrent.futures.TimeoutError异常 |
 | exception(timeout=None) | 取返回的异常，timeout为None,一直等待返回,超时抛出concurrent.futures.TimeoutError异常 |
 
-线程池简单演示
+:::
+
+::: details 线程池演示
 
 ```python
 #!/usr/bin/env python
@@ -3513,6 +3598,8 @@ with ThreadPoolExecutor(max_workers=5, thread_name_prefix="Thread-Add") as execu
     for result in results:
         logging.warning("add result: {}".format(result))
 ```
+
+:::
 
 <br />
 
