@@ -3537,7 +3537,7 @@ Done
 
 `concurrent.futures` = Python 的标准线程池 / 进程池任务调度框架
 
-**它帮你解决：**线程创建与回收/任务队列/结果收集/异常传递/超时管理
+**它帮你解决：** 线程创建与回收/任务队列/结果收集/异常传递/超时管理
 
 **核心对象**
 
@@ -3555,12 +3555,16 @@ Done
 | max_workers        | 指定线程池的最大线程数，默认为CPU核数的5倍 |
 | thread_name_prefix | 指定线程池中线程的名称前缀                 |
 
+<br />
+
 **ThreadPoolExecutor 实例方法**
 
 | 方法                        | 说明                                                         |
 | --------------------------- | ------------------------------------------------------------ |
 | submit(fn, *args, **kwargs) | 提交任务，线程池会分配一个线程迟总任务，返回一个Future实例<br />如果池已经满了，submit函数并不会阻塞，而是会将任务放到队列中，<br />查看源码发现使用的是queue.SimpleQueue()，简单队列，先进先出，队列大小没有限制 |
 | shutdown(wait=True)         | 清理池，池中的线程/进程全部杀掉，同时不再接受新提交的任务，<br />如果继续提交会报错`RuntimeError: cannot schedule new futures after shutdown` |
+
+<br />
 
 **Future 实例方法**
 
