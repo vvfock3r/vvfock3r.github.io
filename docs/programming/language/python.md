@@ -3265,6 +3265,58 @@ logging.warning("做一些其他的事...")
 
 <br />
 
+### 线程同步 - 信号量 Semaphore
+
+::: tip Semaphore类
+
+信号量本质上就是一个"可用资源配额计数器"，常用于限制并发数量，threading.Semaphore(3) 代表：
+
+* 初始值 = 系统允许同时使用该资源的最大配额为3
+* acquire(blocking=True, timeout=None) = 领取一个配额，计数器-1，若没有足够配额（>=1）则默认进入等待状态
+* release() = 归还一个配额，计数器+1，.release() 可以直接调用，即使你从没 acquire()
+
+普通 Semaphore 允许多次 release，允许 超出初始值，BoundedSemaphore 会直接抛异常，防止错误释放
+
+:::
+
+::: details 限制并发数量
+
+```python
+import time
+import random
+import threading
+
+# 最多允许 3 个并发请求
+sem = threading.BoundedSemaphore(3)
+
+
+def send_request(req_id):
+    with sem:  # acquire() -> release() 自动管理
+        print(f"[{req_id}] 请求开始")
+
+        # 模拟网络延迟
+        time.sleep(random.uniform(1, 3))
+
+        print(f"[{req_id}] 请求完成")
+
+
+# 模拟 10 个请求
+threads = []
+for i in range(10):
+    t = threading.Thread(target=send_request, args=(i,))
+    t.start()
+    threads.append(t)
+
+for t in threads:
+    t.join()
+
+print("全部请求处理完毕")
+```
+
+:::
+
+<br />
+
 ### 线程同步 - 阶段屏障 Barrier
 
 ::: tip Barrier 类
@@ -3344,58 +3396,6 @@ def worker(i):
 # 启动线程
 for i in range(N):
     Thread(target=worker, args=(i,)).start()
-```
-
-:::
-
-<br />
-
-### 线程同步 - 信号量 Semaphore
-
-::: tip Semaphore类
-
-信号量本质上就是一个"可用资源配额计数器"，常用于限制并发数量，threading.Semaphore(3) 代表：
-
-* 初始值 = 系统允许同时使用该资源的最大配额为3
-* acquire(blocking=True, timeout=None) = 领取一个配额，计数器-1，若没有足够配额（>=1）则默认进入等待状态
-* release() = 归还一个配额，计数器+1，.release() 可以直接调用，即使你从没 acquire()
-
-普通 Semaphore 允许多次 release，允许 超出初始值，BoundedSemaphore 会直接抛异常，防止错误释放
-
-:::
-
-::: details 限制并发数量
-
-```python
-import time
-import random
-import threading
-
-# 最多允许 3 个并发请求
-sem = threading.BoundedSemaphore(3)
-
-
-def send_request(req_id):
-    with sem:  # acquire() -> release() 自动管理
-        print(f"[{req_id}] 请求开始")
-
-        # 模拟网络延迟
-        time.sleep(random.uniform(1, 3))
-
-        print(f"[{req_id}] 请求完成")
-
-
-# 模拟 10 个请求
-threads = []
-for i in range(10):
-    t = threading.Thread(target=send_request, args=(i,))
-    t.start()
-    threads.append(t)
-
-for t in threads:
-    t.join()
-
-print("全部请求处理完毕")
 ```
 
 :::
@@ -3529,11 +3529,9 @@ Done
 | 多线程读多写少场景              | `RWLock` (第三方实现)          | **读写分离锁**                                        |
 | 多进程并发同步                  | `multiprocessing` 同名同步对象 | **跨进程同步**                                        |
 
-
-
 <br />
 
-### 任务调度框架
+### 线程和进程池
 
 ::: tip 含义
 
@@ -3550,21 +3548,21 @@ Done
 
 ::: details ThreadPoolExecutor 实例方法
 
-ThreadPoolExecutor 构造参数
+**ThreadPoolExecutor 构造参数**
 
 | 参数               | 说明                                       |
 | ------------------ | ------------------------------------------ |
 | max_workers        | 指定线程池的最大线程数，默认为CPU核数的5倍 |
 | thread_name_prefix | 指定线程池中线程的名称前缀                 |
 
-ThreadPoolExecutor 实例方法
+**ThreadPoolExecutor 实例方法**
 
 | 方法                        | 说明                                                         |
 | --------------------------- | ------------------------------------------------------------ |
-| submit(fn, *args, **kwargs) | 提交任务，线程池会分配一个线程迟总任务，返回一个Future实例，如果池已经满了，还可以继续提交 |
+| submit(fn, *args, **kwargs) | 提交任务，线程池会分配一个线程迟总任务，返回一个Future实例<br />如果池已经满了，submit函数并不会阻塞，而是会将任务放到队列中，<br />查看源码发现使用的是queue.SimpleQueue()，简单队列，先进先出，队列大小没有限制 |
 | shutdown(wait=True)         | 清理池，池中的线程/进程全部杀掉，同时不再接受新提交的任务，<br />如果继续提交会报错`RuntimeError: cannot schedule new futures after shutdown` |
 
-Future 实例方法
+**Future 实例方法**
 
 | 方法                    | 说明                                                         |
 | ----------------------- | ------------------------------------------------------------ |
@@ -3572,8 +3570,70 @@ Future 实例方法
 | cancelled()             | 如果复用被成功的取消，那么返回True                           |
 | running()               | 如果正在运行且不能被取消，那么返回True                       |
 | cancel()                | 尝试取消调用，如果已经执行且不能取消返回False，否则返回True  |
-| result(timeout=None)    | 取返回的结果，timeout为None,一直等待返回，超时抛出concurrent.futures.TimeoutError异常 |
-| exception(timeout=None) | 取返回的异常，timeout为None,一直等待返回,超时抛出concurrent.futures.TimeoutError异常 |
+| result(timeout=None)    | 阻塞执行，取返回的结果，timeout为None,一直等待返回，超时抛出concurrent.futures.TimeoutError异常<br />如果线程里的函数抛出了异常，`future.result()` 会在主线程里重新抛出同样的异常 |
+| add_done_callback(fn)   | 添加回调函数，无论任务成功还是异常，**只要 Future 进入 done 状态**，回调就会被调用一次 |
+| exception(timeout=None) | 阻塞执行，取返回的异常，timeout为None,一直等待返回,超时抛出concurrent.futures.TimeoutError异常 |
+
+:::
+
+::: details add_done_callback 回调函数
+
+**基本概念：**
+
+* 只要 Future 进入 done 状态，这个回调都会被调用一次
+
+* 如果注册多个回调，按注册顺序依次执行
+
+**特性**
+
+* 回调函数参数固定是 future 本身
+* 如果submit提交的任务异常，回调仍然执行
+* 如果submit提交的任务取消，回调仍然执行
+* 回调执行在线程池的工作线程中，所以回调函数尽量快速执行，不要阻塞太久
+
+:::
+
+::: details 什么时候该用 exception()
+
+1）add_done_callback 回调函数里
+
+```python
+def on_done(f):
+    if f.exception():
+        log_error(f.exception())
+```
+
+2）监控 / watchdog 线程
+
+```python
+for f in futures:
+    if f.done() and f.exception():
+        restart_task(f)
+```
+
+3）GUI 主线程轮询后台任务
+
+```python
+if future.done():
+    err = future.exception()
+    if err:
+        show_error_dialog(err)
+```
+
+4）统计任务失败率 / 批量汇总报告
+
+```python
+failed = sum(1 for f in futures if f.exception())
+```
+
+5）超时轮询型检查
+
+```python
+try:
+    e = future.exception(timeout=0.05)
+except TimeoutError:
+    pass   # 任务还在运行
+```
 
 :::
 
@@ -3588,51 +3648,57 @@ import logging
 from concurrent.futures import ThreadPoolExecutor
 
 # 初始化日志
-FORMAT = '%(asctime)-15s\t [%(threadName)s, %(thread)d] %(message)s'
-logging.basicConfig(format=FORMAT)
+FORMAT = '%(asctime)-15s\t [%(threadName)-13s] %(message)s'
+logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
 def add(x: int, y: int):
     logging.warning("Function add run")
 
-    time.sleep(2)  # 模拟函数龟速运行
-    if x == 2:  # 模拟意外报错
+    # 模拟执行耗时
+    time.sleep(2)
+
+    # 模拟意外报错
+    if x == 2:
         raise Exception("Error: Parameter x in add function is not allowed to be 2")
 
-    ret = x + y  # 正确计算结果
+    # 正确计算结果
+    ret = x + y
 
     logging.warning("Function add finished")
     return ret
 
 
+def on_done(f):
+    logging.error("回调函数: " + str(f.exception()))
+
+
 with ThreadPoolExecutor(max_workers=5, thread_name_prefix="Thread-Add") as executor:
-    # 提交多个任务,并将任务收集起来
-    # 当任务数 > 工作线程时，还可以继续提交任务，submit函数并不会阻塞，而是会将任务放到队列中
-    # 查看源码发现使用的是queue.SimpleQueue()，简单队列，先进先出，队列大小没有限制
-    tasks = []
-    for i in range(5):
-        future = executor.submit(add, i, i)
-        tasks.append(future)
-    # logging.warning("全部任务已提交")
+    # 提交任务
+    futures = [executor.submit(add, i, i) for i in range(6)]
 
-    # 获取每个任务执行结果，并将结果收集起来
+    # 添加回调函数
+    for f in futures:
+        f.add_done_callback(on_done)
+
+    # 收集结果
     results = []
-    for j in tasks:
-        if j.exception() is None:  # 线程未崩溃(报错)
-            results.append(j.result())
-        else:
-            results.append(j.exception())  # 线程崩溃信息
+    for f in futures:
+        try:
+            results.append(f.result())
+        except Exception as e:
+            results.append(e)
 
-    # 依次输出每个任务的结果
-    for result in results:
-        logging.warning("add result: {}".format(result))
+    # 统一处理
+    for r in results:
+        logging.warning(f"add result: {r}")
 ```
 
 :::
 
-::: details 进程池演示
+<br />
 
-:::
+### Queue - 线程安全阻塞队列
 
 <br />
 
