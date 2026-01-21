@@ -3702,7 +3702,203 @@ with ThreadPoolExecutor(max_workers=5, thread_name_prefix="Thread-Add") as execu
 
 <br />
 
-### Queue - 线程安全阻塞队列
+### queue - 线程安全阻塞队列
+
+::: tip queue模块介绍
+
+`queue` 是 Python 标准库里的**线程安全队列模块**，主要用于**多线程之间安全地传递数据**，常见于**生产者-消费者模型**
+
+**核心对象**
+
+| 对象                  | 类型       | 取出顺序               | 典型用途                |
+| --------------------- | ---------- | ---------------------- | ----------------------- |
+| `queue.Queue`         | FIFO 队列  | 先进先出               | 生产者-消费者、任务分发 |
+| `queue.LifoQueue`     | LIFO 队列  | 后进先出               | 线程安全栈、回溯任务    |
+| `queue.PriorityQueue` | 优先级队列 | 按 priority 最小值先出 | 调度系统、重要任务优先  |
+
+:::
+
+::: details Queue类说明
+
+**初始化参数**
+
+```python
+def __init__(self, maxsize=0):
+```
+
+* maxsize，队列最大容量，`0` 或负数代表 **无限队列**
+
+<br />
+
+**实例方法**
+
+| 方法                                  | 作用                                                         | 是否阻塞                |
+| ------------------------------------- | ------------------------------------------------------------ | ----------------------- |
+| `put(item, block=True, timeout=None)` | 放入元素                                                     | 满了阻塞                |
+| `get(block=True, timeout=None)`       | 取出元素                                                     | 空了阻塞                |
+| `put_nowait(item)`                    | 非阻塞放入                                                   | 等价 `put(block=False)` |
+| `get_nowait()`                        | 非阻塞取出                                                   | 等价 `get(block=False)` |
+| `task_done()`                         | 标记一个任务已完成，<br />它配合 `q.join()` 实现任务完成等待机制 | —                       |
+| `join()`                              | 等待所有任务完成                                             | 阻塞                    |
+| `qsize()`                             | 当前元素数量（近似值）                                       | —                       |
+| `empty()`                             | 是否为空                                                     | —                       |
+| `full()`                              | 是否已满                                                     | —                       |
+| `shutdown()`                          | 关闭队列并唤醒所有阻塞线程                                   | 不阻塞                  |
+| `is_shutdown`                         | 判断队列是否已关闭                                           | 不阻塞                  |
+
+<br />
+
+**异常类**
+
+| 异常             | 触发场景                 |
+| ---------------- | ------------------------ |
+| `queue.Full`     | `put` 超时或非阻塞队列满 |
+| `queue.Empty`    | `get` 超时或非阻塞队列空 |
+| `queue.ShutDown` | 队列关闭后继续 put/get   |
+
+<br />
+
+**当设置容量后**
+
+| 操作               | 行为                 |
+| ------------------ | -------------------- |
+| `put()` 且队列满   | 阻塞等待直到有空位   |
+| `put(block=False)` | 立刻抛 `queue.Full`  |
+| `get()` 且队列空   | 阻塞等待直到有元素   |
+| `get(block=False)` | 立刻抛 `queue.Empty` |
+
+:::
+
+::: details 生产者-消费者模型
+
+```python
+import time
+import random
+import threading
+from queue import Queue
+
+q = Queue(maxsize=10)
+
+
+def producer(pid):
+    for i in range(5):
+        item = f"P{pid}-task{i}"
+        q.put(item)
+        print(f"[Producer {pid}] {item}")
+        time.sleep(random.uniform(0.1, 0.4))
+
+
+def consumer(cid):
+    while True:
+        item = q.get()
+        print(f"    [Consumer {cid}] {item}")
+        time.sleep(random.uniform(0.2, 0.6))
+        q.task_done()
+
+
+# 启动 3 个消费者, 在本例子中，消费者线程是无限循环 + 阻塞等待，它永远不会自己结束, 所以设置 daemon = True, 随主线程退出
+for i in range(3):
+    threading.Thread(target=consumer, args=(i,), daemon=True).start()
+
+# 启动 2 个生产者
+producers = []
+for pid in range(2):
+    t = threading.Thread(target=producer, args=(pid,))
+    t.start()
+    producers.append(t)
+
+# 等待所有生产者结束
+for t in producers:
+    t.join()
+
+# 等待队列清空
+q.join()
+print("All tasks finished")
+```
+
+:::
+
+::: details `qsize()` / `empty()` / `full()` 在多线程中都不能作为可靠同步判断依据
+
+**哪些方法不可靠**
+
+| 方法      | 问题                         |
+| --------- | ---------------------------- |
+| `qsize()` | 返回的是**近似值**           |
+| `empty()` | 可能刚判断完就被别的线程放入 |
+| `full()`  | 可能刚判断完就被别的线程取走 |
+
+原因很简单：
+
+> **检查状态 ≠ 加锁后的真实状态**
+>  在你判断和下一行操作之间，别的线程可能已经改变队列。
+
+<br />
+
+❌ **错误方式**
+
+```python
+if not q.empty():
+    item = q.get()   # 这里仍可能阻塞！
+```
+
+✅ **正确方式**
+
+直接依赖阻塞语义：
+
+```python
+item = q.get()   # 自动等待直到安全取到
+```
+
+或者：
+
+```python
+try:
+    item = q.get_nowait()
+except queue.Empty:
+    pass
+```
+
+<br />
+
+**那 qsize() 什么时候有用？**
+
+✔ 仅用于 **监控 / 日志 / UI 显示**
+ ✘ 不用于线程同步逻辑判断
+
+比如打印进度：
+
+```python
+print("Queue length:", q.qsize())
+```
+
+即使不精确也没关系。
+
+:::
+
+::: details `PriorityQueue` 优先级队列
+
+PriorityQueue 是按优先级顺序出队的线程安全队列，内部基于 `heapq`（最小堆），但对外 API 与普通 `Queue` 完全一致
+
+优先级在 put 时指定，而不是初始化时指定，数值越小 → 越先出队，比如
+
+```python
+from queue import PriorityQueue
+
+# 优先级队列
+q = PriorityQueue(maxsize=0)
+
+# 优先级设置方式
+# 	q.put((priority, item))
+# 		priority 数值越小 → 越先出队
+# 		item 为真正任务数据
+q.put((1, "Hello World!"))
+
+# 注意事项
+# 当 priority 相等时，会比较第二个元素（item），如果item是不可比较的(比如字典), 就会报错
+```
+
+:::
 
 <br />
 
